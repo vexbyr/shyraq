@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour
     public TMP_Text starText;              // счётчик звёзд в HUD
     public string nextScene = "Level2";    // куда ведут ворота
     public SpriteRenderer sky;             // картинка неба; ночью она затемнена цветом, в конце светлеет
+    public GameObject starsInSky;          // уровень с боссом: звёзды на небе (выключены до победы)
+    public string winScene = "Win";
 
     int starsTotal;
     int starsCollected;
@@ -23,8 +25,10 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        // Ворота на каждом уровне свои: находим их по тегу Exit (в сцене одни ворота)
-        if (gate == null) gate = GameObject.FindGameObjectWithTag("Exit").GetComponent<Gate>();
+        // Ворота на каждом уровне свои: находим их по тегу Exit (в сцене одни ворота).
+        // На уровне с боссом ворот нет — тогда gate остаётся пустым.
+        GameObject exit = GameObject.FindGameObjectWithTag("Exit");
+        if (gate == null && exit != null) gate = exit.GetComponent<Gate>();
 
         // Сколько звёзд на уровне = сколько объектов с тегом Coin
         starsTotal = GameObject.FindGameObjectsWithTag("Coin").Length;
@@ -36,11 +40,25 @@ public class LevelManager : MonoBehaviour
         starsCollected++;
         UpdateStarText();
 
-        if (starsCollected >= starsTotal)
+        if (starsCollected >= starsTotal && gate != null)
         {
             gate.Open();                   // все звёзды собраны — ворота открываются
             StartCoroutine(BrightenSky());
         }
+    }
+
+    // Босс побеждён: небо светлеет, звёзды возвращаются на небо, потом сцена Win
+    public void BossDefeated()
+    {
+        StartCoroutine(Finale());
+    }
+
+    IEnumerator Finale()
+    {
+        if (starsInSky != null) starsInSky.SetActive(true);   // звёзды снова на небе
+        yield return StartCoroutine(BrightenSky());            // ждём, пока небо посветлеет (2 сек)
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(winScene);
     }
 
     // Корутина: за 2 секунды небо плавно светлеет (цвет спрайта → белый = картинка без затемнения)

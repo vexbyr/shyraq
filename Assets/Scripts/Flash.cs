@@ -26,6 +26,22 @@ public class Flash : MonoBehaviour
             return;
         }
 
+        // Попала в босса: проявлен — урон и исчезает; в тени — отскакивает назад без урона
+        Boss boss = other.GetComponent<Boss>();
+        if (boss != null)
+        {
+            if (boss.TakeHit(damage))
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                Rigidbody2D rb = GetComponent<Rigidbody2D>();
+                rb.linearVelocity = -rb.linearVelocity;   // минус = летит обратно
+            }
+            return;
+        }
+
         // Ударилась о землю или стену — исчезает
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
