@@ -37,6 +37,10 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+# ===== Референсы для генерации арта (игре не нужны) =====
+/[Aa]ssets/[Aa]rt/[Rr]eference/
+/[Aa]ssets/[Aa]rt/[Rr]eference.meta
+
 # ===== Система =====
 .DS_Store
 Thumbs.db
