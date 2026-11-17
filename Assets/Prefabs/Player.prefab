@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 15
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: c576ceed543725f42ab5f406fbffb80b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d2a5316a35f6eb646aacdb1fe99ce258, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -260,6 +260,7 @@ GameObject:
   - component: {fileID: 905063206108689919}
   - component: {fileID: 8747102831599682310}
   - component: {fileID: 1502266803640098139}
+  - component: {fileID: 6285262005891856413}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -333,7 +334,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: ede2badbdd1c5ee4abda4059674b8d50, type: 3}
+  m_Sprite: {fileID: 4618564493888299621, guid: 282ed9fc128ca9d41a8ff96f259b5921, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -508,6 +509,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  heartFull: {fileID: 21300000, guid: 8fd3c9ac2e5642d9bb14c3cdb342d2ac, type: 3}
+  heartEmpty: {fileID: 21300000, guid: 32d499578d184527a305e702b1d32cc9, type: 3}
 --- !u!114 &1502266803640098139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,3 +524,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPickups
   oilPerBottle: 30
+--- !u!95 &6285262005891856413
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9187346236902983370}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a94ece264c5a7fe48ad0b04c6413d339, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

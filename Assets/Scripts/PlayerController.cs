@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rb;
     SpriteRenderer sr;
+    Animator anim;
     float moveX;                          // -1 влево, 0 стоим, 1 вправо
     int jumpsLeft;
     bool isGrounded;
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     // Стик / A-D / стрелки
@@ -62,6 +64,10 @@ public class PlayerController : MonoBehaviour
         // Поворот лицом в сторону движения: спрайт нарисован вправо, влево отражаем flipX
         if (moveX > 0) facingRight = true;
         if (moveX < 0) facingRight = false;
+
+        // Сообщаем Animator, что происходит: он сам выберет нужную анимацию
+        anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));   // Abs: скорость без знака (влево тоже > 0)
+        anim.SetBool("Grounded", isGrounded);
         sr.flipX = !facingRight;
     }
 

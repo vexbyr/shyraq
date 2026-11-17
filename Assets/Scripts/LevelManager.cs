@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour
     public Gate gate;                      // ворота этого уровня
     public TMP_Text starText;              // счётчик звёзд в HUD
     public string nextScene = "Level2";    // куда ведут ворота
-    public Color skyWhenDone = new Color(0.13f, 0.17f, 0.35f);   // небо светлеет, когда звёзды вернулись
+    public SpriteRenderer sky;             // картинка неба; ночью она затемнена цветом, в конце светлеет
 
     int starsTotal;
     int starsCollected;
@@ -43,17 +43,16 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    // Корутина: за 2 секунды плавно меняем цвет фона камеры
+    // Корутина: за 2 секунды небо плавно светлеет (цвет спрайта → белый = картинка без затемнения)
     IEnumerator BrightenSky()
     {
-        Camera cam = Camera.main;
-        Color startColor = cam.backgroundColor;
+        Color startColor = sky.color;
         for (float t = 0f; t < 1f; t += Time.deltaTime / 2f)
         {
-            cam.backgroundColor = Color.Lerp(startColor, skyWhenDone, t);
+            sky.color = Color.Lerp(startColor, Color.white, t);
             yield return null;             // подождать один кадр
         }
-        cam.backgroundColor = skyWhenDone;
+        sky.color = Color.white;
     }
 
     void UpdateStarText()

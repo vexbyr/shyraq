@@ -84,8 +84,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 5d746b960aacc8047ac2a048fec9aadb, type: 3}
-  m_Color: {r: 0.6, g: 0.3, b: 0.9, a: 1}
+  m_Sprite: {fileID: 21300000, guid: bb5eaa0107b945359589b2b04d44d2bb, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -170,8 +170,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e459088734e3e47b496f802d308e8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spirit
+  direction: {x: 1, y: 0}
   distance: 4
   speed: 2
   hp: 1
-  normalColor: {r: 0.6, g: 0.3, b: 0.9, a: 1}
-  frozenColor: {r: 0.8, g: 0.9, b: 1, a: 1}
+  normalSprite: {fileID: 21300000, guid: bb5eaa0107b945359589b2b04d44d2bb, type: 3}
+  frozenSprite: {fileID: 21300000, guid: de43a9260d2746a89d36cb4e44b70c7b, type: 3}

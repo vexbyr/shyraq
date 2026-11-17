@@ -8,8 +8,8 @@ public class Spirit : Lightable
     public float distance = 4f;        // на сколько единиц уходит от старта
     public float speed = 2f;           // единиц в секунду
     public int hp = 1;                 // сколько Жарқылов выдерживает
-    public Color normalColor = new Color(0.6f, 0.3f, 0.9f);
-    public Color frozenColor = new Color(0.8f, 0.9f, 1f);
+    public Sprite normalSprite;        // обычный дух
+    public Sprite frozenSprite;        // замёрзший (в свете)
 
     Rigidbody2D rb;
     SpriteRenderer sr;
@@ -35,7 +35,7 @@ public class Spirit : Lightable
 
     void Update()
     {
-        sr.color = IsLit() ? frozenColor : normalColor;
+        sr.sprite = IsLit() ? frozenSprite : normalSprite;   // ? : — «если в свете, то замёрзший, иначе обычный»
     }
 
     // Пока Ай касается духа — урон (неуязвимость после удара делает PlayerHealth)

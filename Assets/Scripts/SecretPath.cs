@@ -8,8 +8,8 @@ public class SecretPath : Lightable
 {
     public BoxCollider2D solid;
     public float stayTime = 1.5f;      // сколько секунд тропа держится после того, как луч ушёл
-    public Color hiddenColor = new Color(0.2f, 0.3f, 0.8f, 0.12f);
-    public Color shownColor = new Color(0.25f, 0.4f, 1f, 1f);
+    public Sprite dimSprite;           // тропа в темноте (еле видна)
+    public Sprite litSprite;           // тропа в свете
 
     SpriteRenderer sr;
     BoxCollider2D trigger;
@@ -34,6 +34,6 @@ public class SecretPath : Lightable
 
         bool visible = timer > 0f;
         solid.enabled = visible;           // твёрдая только пока таймер > 0
-        sr.color = visible ? shownColor : hiddenColor;
+        sr.sprite = visible ? litSprite : dimSprite;
     }
 }

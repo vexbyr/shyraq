@@ -10,16 +10,20 @@ public class PlayerHealth : MonoBehaviour
     public float invincibleTime = 1.5f;   // секунды неуязвимости после удара
     public float fallY = -10f;            // упала ниже — смерть
     public Image[] hearts;                // сердца в HUD
+    public Sprite heartFull;              // целое сердце
+    public Sprite heartEmpty;             // пустое сердце
 
     int hp;
     bool invincible;
     SpriteRenderer sr;
     Rigidbody2D rb;
+    Animator anim;
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         hp = maxHP;
         UpdateHearts();
     }
@@ -43,6 +47,7 @@ public class PlayerHealth : MonoBehaviour
         }
 
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 8f);   // подпрыгивает от удара
+        anim.SetTrigger("Hurt");                                     // кадр «больно» (Trigger срабатывает один раз)
         StartCoroutine(Blink());
     }
 
@@ -59,12 +64,12 @@ public class PlayerHealth : MonoBehaviour
         invincible = false;
     }
 
-    // Сердце i видно, если i меньше текущего HP
+    // Сердце i целое, если i меньше текущего HP, иначе пустое
     void UpdateHearts()
     {
         for (int i = 0; i < hearts.Length; i++)
         {
-            hearts[i].enabled = i < hp;
+            hearts[i].sprite = i < hp ? heartFull : heartEmpty;
         }
     }
 

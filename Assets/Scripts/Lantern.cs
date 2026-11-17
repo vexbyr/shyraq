@@ -21,12 +21,14 @@ public class Lantern : MonoBehaviour
     [HideInInspector] public float oil;
 
     PlayerController player;
+    Animator anim;
     Vector2 aim;                     // направление стика
     bool lightHeld;                  // держим ли кнопку LIGHT
 
     void Awake()
     {
         player = GetComponent<PlayerController>();
+        anim = GetComponent<Animator>();
         oil = startOil;
         beam.SetActive(false);
     }
@@ -64,6 +66,7 @@ public class Lantern : MonoBehaviour
         // 3. Луч горит, пока держим кнопку и есть масло
         bool beamOn = lightHeld && oil > 0f;
         beam.SetActive(beamOn);
+        anim.SetBool("Aiming", beamOn);  // поза «фонарь поднят», пока горит луч
         if (beamOn)
         {
             oil -= beamCost * Time.deltaTime;
