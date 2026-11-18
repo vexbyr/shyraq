@@ -318,3 +318,28 @@
 Не проверено: настоящий луч с кнопки LIGHT и выстрел с кнопки FIRE (вместо них — прямые
         вызовы Lit() и создание Flash); появление духов по таймеру фазы 2 (вызвано
         напрямую); как малый дух выглядит рядом с Ай в живой игре.
+
+----------------------------------------------------------------
+2026-11-18 · Сессия 17 · Этап 7: Main Menu, HUD, Pause, SafeArea (ветка feature/ui-menu-hud-pause)
+Просил: этап 7 перед A11 (A11 строит выбор уровня и настройки на меню).
+Сделал ИИ: скрипты SafeArea.cs (якоря панели = Screen.safeArea), PauseMenu.cs (Pause/Resume/
+        Restart/Menu, Time.timeScale, PlayerInput.DeactivateInput на паузе), MenuButtons.cs
+        (Play/Quit/ToMenu). Core.prefab: HUD внутри панели SafeArea — сердца 64 px, полоска
+        масла в рамке OilBar_frame (x3), звёзды (текст 48 px), пауза 128 px справа вверху,
+        экранный стик (OnScreenStick, <Gamepad>/leftStick) слева внизу, кнопки JUMP/FIRE/LIGHT
+        192 px (OnScreenButton: buttonSouth/West/North) справа внизу; окно паузы (затемнение,
+        Panel_Pause 9-slice, PAUSE 72 px, кнопки 160 px с подписями 40 px); EventSystem с
+        InputSystemUIInputModule. Сцена MainMenu (фон, логотип Шырақ, Play, Quit), кнопка Menu
+        на Win, MainMenu первая в Build Settings. Canvas Scaler 1920x1080, Match = 1.
+Поправили: рамка окна паузы была растянута (pixelsPerUnitMultiplier 0,25 → 1).
+        Unity один раз «зависла» на компиляции (~10 мин), ожила сама.
+Проверил ИИ (через UnityMCP, снимки окна Game 811x540): экранная JUMP — Ай прыгает;
+        LIGHT — луч горит, пока нажата, гаснет при отпускании; FIRE — Жарқыл вылетел;
+        стик вправо — Ай идёт (скорость 6) и останавливается; Pause — timeScale 0, окно,
+        управление выключено; Resume — всё обратно; Restart — уровень заново;
+        Menu из паузы — MainMenu, timeScale 1; Play — Level1; Quit — «Quit» в Console;
+        Menu на Win — MainMenu. Console: 0 ошибок, 0 предупреждений.
+        Раскладка под 16:9 / 20:9 с вырезом / 4:3 проверена расчётом (ширина Canvas при
+        Match = 1: 1920 / 2400 / 1440, нижний ряд занимает 816), не в Device Simulator.
+Не проверено: Device Simulator (16:9, телефон с вырезом, планшет 4:3) и настоящие касания —
+        это и скриншоты для сдачи делает Алмасбек. Человек этап 7 пока не проверял.
