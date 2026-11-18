@@ -2,6 +2,9 @@
 
 2D-платформер для мобильных (landscape) на Unity 6. Девочка **Ай** с фонарём деда идёт через ночную казахскую степь, чтобы вернуть на небо звёзды, которые сорвали семь разбойников **Жеті қарақшы**. Сюжет основан на легенде о Темірқазық (Полярной звезде) и небесных конях Ақбозат и Көкбозат.
 
+- **Жанр:** 2D-платформер с механикой света.
+- **Платформа:** мобильные устройства (Android / iOS), только альбомная ориентация. В редакторе можно играть с клавиатуры или геймпада.
+
 Курс Game Development Fundamentals (Narxoz). Автор: Алмасбек.
 
 ## Как играть
@@ -13,8 +16,6 @@
 - У Ай 3 HP, после урона она мигает. Двойной прыжок.
 - Уровни: Main Menu → Level 1 «Дала» (степь) → Level 2 «Сай» (ущелье и мазар) → Level 3 «Темірқазық» (босс — вожак Жеті қарақшы) → Win.
 - Босс прячется в тени: сначала сними тень лучом, потом бей Жарқылом. Во второй фазе он зовёт малых духов.
-
-Подробно об идее: [`KOK_concept_locked.md`](KOK_concept_locked.md).
 
 ## Управление
 | Действие | Мобильный (кнопки на экране) | Клавиатура (тест) | Геймпад |
@@ -29,23 +30,33 @@
 
 ## Как открыть проект
 1. Установить Unity **6000.6.9f1** (Unity 6) через Unity Hub.
-2. Склонировать репозиторий: `git clone https://github.com/vexbyr/kok-shyrak.git`
+2. Склонировать репозиторий: `git clone https://github.com/vexbyr/shyraq.git`
 3. Unity Hub → Add → Add project from disk → выбрать папку проекта.
 4. Открыть сцену `Assets/Scenes/MainMenu.unity` (она первая в Build Settings) и нажать Play.
 
-Шаблон проекта — Universal 2D (URP). Для проверки мобильного экрана: Game view → разрешение landscape, например 1920x1080.
+Шаблон проекта — Universal 2D (URP 2D). Для проверки мобильного экрана: Game view → разрешение landscape, например 1920x1080, или Device Simulator.
 
 ## Assets and licenses
-**Арт.** Весь арт сделан для этого проекта, подробный журнал по каждому файлу: [`ART_LOG.md`](ART_LOG.md).
-- Спрайты Ай (idle, ходьба, прыжок, падение, урон, поза с фонарём) и босса (idle, атака, урон) сгенерированы в [PixelLab](https://pixellab.ai) и доработаны скриптами Python + Pillow (только сдвиг, нарезка, сборка листа и перекраска; пиксели не перерисовывались). PixelLab: пробный тариф, использование по [Terms of Service](https://pixellab.ai/termsofservice).
-- Остальной арт (тайлы, фоны, декор, звёзды, масло, ворота, духи, луч, Жарқыл, эффекты, UI, логотип, иконка) нарисован своим кодом на Python + Pillow, без генеративных моделей.
+**Арт.** Весь арт сделан для этого проекта: спрайты героини и босса сгенерированы в [PixelLab](https://pixellab.ai) и доработаны скриптами Python + Pillow, остальное нарисовано своим кодом на Python + Pillow. PixelLab: пробный тариф, использование по [Terms of Service](https://pixellab.ai/termsofservice).
+
+| Что | Файлы | Источник | Доработка |
+|---|---|---|---|
+| Ай: idle, ходьба, прыжок, падение, урон, поза с фонарём | `Assets/Art/Hero/Ai_*`, `Ai_sheet.png` | PixelLab (Create Image Pro, animate_image_pixminimax, edit_image_pixen) | Pillow: только сдвиг, нарезка, сборка листа; пиксели не перерисовывались |
+| Босс: idle, атака, урон | `Assets/Art/Boss/Boss_idle_*`, `Boss_attack_*`, `Boss_hurt_0` | PixelLab (Create Image Pro, edit_image_pixen, animate_image_pixminimax) | Pillow: только выравнивание |
+| Босс: тень и вторая фаза | `Assets/Art/Boss/Boss_shadow`, `Boss_phase2` | Перекраска `Boss_idle_0` скриптом Pillow | Изменён только цвет |
+| Иконка приложения | `Assets/Art/UI/AppIcon_512` | Свой код Python + Pillow; фигура Ай — кадр `Ai_aim_0` (PixelLab) | — |
+| Тайлы всех уровней, фоны, декор (юрта, балбал, кулпытас, мазар, кол Темірқазық, кони) | `Assets/Art/Tiles`, `Backgrounds`, `Props` | Свой код Python + Pillow, без генеративных моделей | — |
+| Звёзды, масло, ворота, духи, луч, Жарқыл, эффекты | `Assets/Art/Props`, `Enemies`, `Light`, `FX` | Свой код Python + Pillow, без генеративных моделей | — |
+| UI: кнопки, стик, полоски масла и HP босса, панель паузы, логотип, свой пиксельный шрифт 5x7 | `Assets/Art/UI` | Свой код Python + Pillow, без генеративных моделей | — |
+| Greybox-спрайты | `Assets/Greybox/` | Созданы в проекте (см. `AI_LOG.txt`) | — |
+| `circle.png`, `square.png` | `Assets/Art/` | **TODO: указать источник** | — |
+
 - Для эскизов Ай в PixelLab использовался референс `Assets/Art/Reference/Ai_reference.png` (в репозиторий не входит, папка в `.gitignore`). **TODO: указать источник референса.**
-- Greybox-спрайты в `Assets/Greybox/` созданы в проекте (см. `AI_LOG.txt`).
-- `Assets/Art/circle.png`, `Assets/Art/square.png` — **TODO: указать источник.**
+- Папка Assets/TextMesh Pro импортирована из Unity (Import TMP Essentials), шейдеры оттуда не мои.
 
-**Шрифт.** LiberationSans из пакета TextMesh Pro Essentials, лицензия SIL OFL 1.1 (`Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt`).
+**Шрифт.** LiberationSans из TextMesh Pro Essentials, лицензия SIL OFL 1.1 (`Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt`).
 
-**Музыка и звуки.** Пока нет (будут на этапе A12, источники добавлю сюда).
+**Музыка и звуки.** Пока нет.
 
-## Использование AI
-Проект делается с помощью Claude Code (разрешено преподавателем). Что делал ИИ и что проверялось — в [`AI_LOG.txt`](AI_LOG.txt).
+## Процесс разработки с ИИ-ассистентом
+Проект делается с помощью ИИ-ассистента Claude Code (использование разрешено преподавателем). Ассистент писал код и собирал сцены по этапам, которые я ставил и принимал. Каждая сессия записана в [`AI_LOG.txt`](AI_LOG.txt): что я просил, что сделал ИИ, что проверено и что поправлено.
