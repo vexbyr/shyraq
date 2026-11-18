@@ -441,3 +441,68 @@
         HP 3 → 2, пустое сердце, подскок и мигание. Level 3 — стоя на колючке HP 3 → 2.
         Console: 0 ошибок, 0 предупреждений.
 Проверено руками: нет.
+
+----------------------------------------------------------------
+2026-11-18 · Сессия 23 · Фоны экранов на весь экран (Aspect Ratio Fitter)
+Просил: фоны MainMenu_bg, Win_bg (и другие экраны, если есть) должны закрывать весь экран на
+        любом соотношении сторон, без чёрных полос; через Aspect Ratio Fitter, режим Envelope
+        Parent; кнопки и текст — внутри SafeArea. Проверить в Device Simulator на iOS Notch
+        Device и Tablet Small.
+Сделал ИИ: в MainMenu и Win фон был SpriteRenderer в мире ровно 16:9 (20 x 11,25 ед.), на
+        экранах шире 16:9 по бокам была видна заливка камеры. Заменил его на UI Image
+        «Background» первым ребёнком Canvas (вне SafeArea, рисуется позади всего): якоря и
+        pivot по центру, Raycast Target выключен, Aspect Ratio Fitter = Envelope Parent,
+        Aspect Ratio 1,778 (640/360, как у картинки). Надпись WIN (Text_Win) тоже была
+        спрайтом в мире — перенёс её UI Image внутрь SafeArea (якорь сверху по центру, на том
+        же месте). Кода нет, только сцены. В Level 1–3 фонов-картинок в UI нет (HUD, PausePanel
+        и так растянут на весь экран), мировые фоны уровней не трогал.
+Проверил ИИ (через UnityMCP, Device Simulator, Play, landscape): iOS Notch Device 2532x1170 —
+        Background от 0 до 2532 по ширине (сверху/снизу обрезано по 127 px), SafeArea
+        141..2391 x 63..1170 (вырез слева учтён), логотип, Play/Quit, WIN, Menu и весь HUD
+        Level 1 внутри SafeArea. Tablet Small 2048x1536 — Background по высоте ровно, по
+        бокам обрезано по 341 px, полос нет; кнопки и HUD внутри. Сняты кадры в Temp/Captures.
+        Console: ошибок нет; 4 предупреждения «PlayerLoop called recursively» вызвала сама
+        проверка (рендер камеры из MCP во время Play), к игре не относятся.
+Заметил: в Player Settings Default Orientation = Auto Rotation и разрешены портретные
+        ориентации, а игра landscape — симулятор стартует в портрете. Не менял (вне задачи).
+Проверено руками: нет.
+
+----------------------------------------------------------------
+2026-11-18 · Сессия 24 · Только горизонтальная ориентация
+Просил: запретить портрет в Player Settings, оставить только Landscape Left и Landscape Right.
+Сделал ИИ: Player Settings → Resolution and Presentation: Default Orientation = Auto Rotation,
+        Portrait и Portrait Upside Down выключены, Landscape Left и Landscape Right включены.
+        В ProjectSettings.asset поменялись 2 строки.
+Проверил ИИ (через UnityMCP, Device Simulator, iOS Notch Device, устройство повёрнуто
+        вертикально): игра всё равно в LandscapeLeft, экран 2532x1170. Console: ошибок нет.
+Проверено руками: нет.
+
+----------------------------------------------------------------
+2026-11-18 · Сессия 25 · Экраны на любом устройстве. Шаг 1: SafeArea
+Просил: меню, HUD и пауза правильно на любом устройстве; по шагам. Шаг 1 — SafeArea
+        запоминает и размер экрана, пересчёт при смене зоны ИЛИ размера.
+Причина (нашли в Device Simulator): в первом кадре Screen.safeArea уже от нового устройства,
+        а Screen.width/height ещё от прошлого. SafeArea делила одно на другое и получала
+        неверные якоря, например (0; 0)–(0,43; 0,52) на iOS Classic после Punch Hole Center или
+        (0,04; 0)–(0,86; 1,13) на Punch Hole Right. Update проверял только safeArea, поэтому
+        ошибка оставалась навсегда.
+Сделал ИИ: SafeArea.cs — поля lastWidth, lastHeight; в Update пересчёт, если изменилась
+        safe area или ширина/высота экрана; Apply запоминает все три.
+Проверил ИИ (через UnityMCP, Device Simulator): iOS Classic сразу после Punch Hole Center —
+        якоря (0; 0)–(1; 1), размер экрана 1334x750 совпадает; Punch Hole Center — (0,029; 0)–
+        (1; 1), отступ 89 px под камеру. Компиляция без ошибок.
+        Заметил: предупреждения «PlayerLoop called recursively» давал мой вызов
+        EditorApplication.Step() из MCP (по одному на вызов), а не игра. Дальше без него.
+Проверено руками: нет.
+
+2026-11-18 · Сессия 25 · Шаг 2: меню и экран Win привязаны к центру SafeArea
+Сделал ИИ: MainMenu — Logo, PlayButton, QuitButton; Win — Text_Win, MenuButton: якоря и
+        pivot (0,5; 0,5). Позиции пересчитаны так, чтобы на 16:9 (SafeArea 1920x1080) центр
+        каждого стоял там же, где раньше: Logo (0; 278), Play (-150; -296), Quit (150; -296),
+        WIN (0; 247), Menu (0; -362). Теперь расстояние между логотипом и кнопками всегда
+        одно (278 ед. в меню), а не зависит от высоты SafeArea. Подписи кнопок не трогал.
+Проверил ИИ (через UnityMCP, Device Simulator, Play): iOS Classic (сразу после Punch Hole
+        Center) — меню: логотип 435..701 px над кнопками 55..242, всё внутри SafeArea, фон
+        закрывает экран. iOS Notch — Win: WIN и Menu внутри SafeArea, подпись Menu кончается
+        ровно на нижней границе зоны (63 px). Полная таблица — в шаге 5.
+Проверено руками: нет.
