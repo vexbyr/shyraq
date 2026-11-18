@@ -1,0 +1,8 @@
+*.shader linguist-vendored
+*.hlsl linguist-vendored
+*.cginc linguist-vendored
+*.shadergraph linguist-vendored
+*.shadersubgraph linguist-vendored
+*.cs text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
