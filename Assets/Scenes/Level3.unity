@@ -807,6 +807,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OilBottle
       objectReference: {fileID: 0}
+    - target: {fileID: 8228643795335631534, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
+      propertyPath: respawns
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -930,6 +934,10 @@ PrefabInstance:
     - target: {fileID: 5197731945975376040, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
       propertyPath: m_Name
       value: OilBottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8228643795335631534, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
+      propertyPath: respawns
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2466,6 +2474,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OilBottle
       objectReference: {fileID: 0}
+    - target: {fileID: 8228643795335631534, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
+      propertyPath: respawns
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3424,6 +3436,10 @@ PrefabInstance:
     - target: {fileID: 5197731945975376040, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
       propertyPath: m_Name
       value: OilBottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8228643795335631534, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
+      propertyPath: respawns
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

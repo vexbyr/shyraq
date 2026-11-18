@@ -3,23 +3,29 @@ using UnityEngine;
 
 // Вожак Жеті қарақшы. Наследник Lightable: луч вызывает Lit().
 // Без автомата состояний (это A10): только hp, номер фазы (int), таймеры и корутины.
-// На объекте: SpriteRenderer + BoxCollider2D (Is Trigger) — его ловят луч и Жарқыл.
+// На объекте: SpriteRenderer + BoxCollider2D (Is Trigger) — его ловят луч и Жарқыл,
+// Rigidbody2D (Kinematic) — чтобы ходить, как дух.
 // Дочерний объект LassoZone: BoxCollider2D (Is Trigger) + DamageZone, выключен, пока нет броска.
 public class Boss : Lightable
 {
     [Header("Здоровье и фазы")]
-    public int maxHp = 10;
-    public float revealTime = 2f;          // сколько секунд босс остаётся проявленным после луча
+    public int maxHp = 14;
+    public float revealTime = 1.2f;        // сколько секунд босс остаётся проявленным после луча
+
+    [Header("Патруль в тени (как у духа)")]
+    public float patrolDistance = 8f;      // на сколько единиц уходит влево от старта
+    public float patrolSpeed = 1.5f;       // единиц в секунду
 
     [Header("Аркан")]
     public GameObject lassoZone;           // зона удара перед боссом
-    public float attackDelay = 3f;         // фаза 1: бросок раз в 3 сек
-    public float attackDelayPhase2 = 1.8f; // фаза 2: чаще
+    public float attackDelay = 2.2f;       // фаза 1: бросок раз в 2,2 сек
+    public float attackDelayPhase2 = 2.2f; // фаза 2: сейчас как в фазе 1 (можно сделать чаще)
 
     [Header("Малые духи (фаза 2)")]
     public GameObject smallSpiritPrefab;
     public Transform[] spawnPoints;        // откуда появляются духи
-    public float summonDelay = 8f;
+    public float summonDelay = 7f;
+    public int summonCount = 2;            // сколько духов за раз
 
     [Header("Спрайты")]
     public Sprite shadowSprite;            // в тени — неуязвим
@@ -38,10 +44,16 @@ public class Boss : Lightable
     bool attacking;
     Sprite attackFrame;                    // какой кадр броска показывать сейчас
     SpriteRenderer sr;
+    Rigidbody2D rb;
+    Vector2 pointA, pointB;                // концы патруля
+    float patrolTimer;                     // идёт только в тени
 
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+        pointA = transform.position;
+        pointB = pointA + Vector2.left * patrolDistance;
         hp = maxHp;
         attackTimer = attackDelay;
         summonTimer = summonDelay;
@@ -75,6 +87,14 @@ public class Boss : Lightable
 
         hurtTimer -= Time.deltaTime;
         UpdateSprite();
+    }
+
+    // Патруль: в тени ходит туда-сюда, проявлен — стоит (его «время» не идёт, как у духа)
+    void FixedUpdate()
+    {
+        if (!IsRevealed()) patrolTimer += Time.fixedDeltaTime;
+        float t = Mathf.PingPong(patrolTimer * patrolSpeed / patrolDistance, 1f);
+        rb.MovePosition(Vector2.Lerp(pointA, pointB, t));
     }
 
     // Проявлен ли босс сейчас (Жарқыл спрашивает перед ударом)
@@ -116,13 +136,12 @@ public class Boss : Lightable
         attacking = false;
     }
 
-    // 1 или 2 малых духа в случайных точках из списка
+    // summonCount малых духов, по очереди в точках из списка
     void SummonSpirits()
     {
-        int count = Random.Range(1, 3);    // Random.Range с int: верхняя граница не входит → 1 или 2
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < summonCount; i++)
         {
-            Transform point = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            Transform point = spawnPoints[i % spawnPoints.Length];   // % — остаток: 0, 1, 0, 1… если точек меньше, чем духов
             Instantiate(smallSpiritPrefab, point.position, Quaternion.identity);
         }
     }

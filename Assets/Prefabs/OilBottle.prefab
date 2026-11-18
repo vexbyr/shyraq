@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3607809920289262086}
   - component: {fileID: 3742427030283596275}
   - component: {fileID: 8633406281095665987}
+  - component: {fileID: 8228643795335631534}
   m_Layer: 0
   m_Name: OilBottle
   m_TagString: Oil
@@ -139,3 +140,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5, y: 0.75}
   m_EdgeRadius: 0
+--- !u!114 &8228643795335631534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5197731945975376040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcac7f65037fd1246bcbc5d82193f7e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OilBottle
+  amount: 30
+  respawns: 0
+  respawnTime: 20

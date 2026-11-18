@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 617360478711313069}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: 0, z: 0}
+  m_LocalPosition: {x: -4.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 4, y: 1.5}
+  m_Size: {x: 5.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -133,12 +133,12 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 4, y: 1.5}
+    newSize: {x: 5.5, y: 1.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4, y: 1.5}
+  m_Size: {x: 5.5, y: 1.5}
   m_EdgeRadius: 0
 --- !u!114 &6605093865626100676
 MonoBehaviour:
@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 3038111511397292606}
   - component: {fileID: 5246168841229326562}
   - component: {fileID: 7183022657366950637}
+  - component: {fileID: 2856556475147795769}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -306,17 +307,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba189c5507acf842bfc6745913351c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss
-  maxHp: 10
-  revealTime: 2
+  maxHp: 14
+  revealTime: 1.2
+  patrolDistance: 8
+  patrolSpeed: 1.5
   lassoZone: {fileID: 617360478711313069}
-  attackDelay: 3
-  attackDelayPhase2: 1.8
+  attackDelay: 2.2
+  attackDelayPhase2: 2.2
   smallSpiritPrefab: {fileID: 7137077556756971932, guid: b18a47587e1b73b418695df624d753aa, type: 3}
   spawnPoints: []
-  summonDelay: 8
+  summonDelay: 7
+  summonCount: 2
   shadowSprite: {fileID: 21300000, guid: d264a5a5badc6a448a8293c21a96ab94, type: 3}
   idleSprite: {fileID: 21300000, guid: 14e5ad2e4b3388c47ba0d00a0b0f43b2, type: 3}
   phase2Sprite: {fileID: 21300000, guid: 2877cd7505a0b454898adbf05769b2d6, type: 3}
   attackSprite0: {fileID: 21300000, guid: 77e4a4b5f182d5b48b77fa6cf3715b84, type: 3}
   attackSprite1: {fileID: 21300000, guid: 28e75d7c82769b84d82e28f179068da1, type: 3}
   hurtSprite: {fileID: 21300000, guid: 1716ab72bf44be84daaa5f54bb969cfa, type: 3}
+--- !u!50 &2856556475147795769
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3695413182672613891}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

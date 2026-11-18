@@ -3,8 +3,6 @@ using UnityEngine;
 // Ай подбирает предметы и заходит в ворота. Всё различаем по тегам.
 public class PlayerPickups : MonoBehaviour
 {
-    public float oilPerBottle = 30f;
-
     Lantern lantern;
 
     void Awake()
@@ -19,14 +17,21 @@ public class PlayerPickups : MonoBehaviour
             LevelManager.instance.AddStar();
             Destroy(other.gameObject);
         }
-        else if (other.CompareTag("Oil"))          // бутылочка масла
-        {
-            lantern.AddOil(oilPerBottle);
-            Destroy(other.gameObject);
-        }
         else if (other.CompareTag("Exit"))         // проход ворот
         {
             LevelManager.instance.ReachExit();
+        }
+    }
+
+    // Масло — в Stay, а не в Enter: если Ай стоит на бутылке с полным фонарём,
+    // бутылка останется и подберётся, как только масло начнёт тратиться
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Oil") && lantern.oil < lantern.maxOil)
+        {
+            OilBottle bottle = other.GetComponent<OilBottle>();
+            lantern.AddOil(bottle.amount);
+            bottle.PickUp();
         }
     }
 }

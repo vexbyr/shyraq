@@ -8,6 +8,7 @@ public class Spirit : Lightable
     public float distance = 4f;        // на сколько единиц уходит от старта
     public float speed = 2f;           // единиц в секунду
     public int hp = 1;                 // сколько Жарқылов выдерживает
+    public GameObject drop;            // что выронить после смерти (малый дух — бутылочку), пусто — ничего
     public Sprite normalSprite;        // обычный дух
     public Sprite frozenSprite;        // замёрзший (в свете)
 
@@ -52,6 +53,10 @@ public class Spirit : Lightable
     public void TakeHit(int damage)
     {
         hp -= damage;
-        if (hp <= 0) Destroy(gameObject);
+        if (hp <= 0)
+        {
+            if (drop != null) Instantiate(drop, transform.position, Quaternion.identity);   // бутылочка на месте духа
+            Destroy(gameObject);
+        }
     }
 }
