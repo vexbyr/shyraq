@@ -695,7 +695,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5293795110840252890, guid: 84153a321babb584d960cc3899286251, type: 3}
       propertyPath: maxX
-      value: 72
+      value: 91
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293795110840252890, guid: 84153a321babb584d960cc3899286251, type: 3}
+      propertyPath: minX
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 8929198509688674157, guid: 84153a321babb584d960cc3899286251, type: 3}
       propertyPath: m_Sprite
@@ -1308,7 +1312,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 3875527129
   m_fontColor: {r: 0.85, g: 0.85, b: 1, a: 0.9}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1321,7 +1325,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -2126,7 +2130,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 3875527129
   m_fontColor: {r: 0.85, g: 0.85, b: 1, a: 0.9}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2139,7 +2143,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -2307,7 +2311,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 3875527129
   m_fontColor: {r: 0.85, g: 0.85, b: 1, a: 0.9}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2320,7 +2324,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
