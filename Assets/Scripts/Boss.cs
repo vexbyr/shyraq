@@ -11,6 +11,8 @@ public class Boss : Lightable
     [Header("Здоровье и фазы")]
     public int maxHp = 14;
     public float revealTime = 1.2f;        // сколько секунд босс остаётся проявленным после луча
+    [SerializeField] float phase2HpFraction = 0.5f;   // hp меньше этой доли от maxHp — фаза 2 (0,5 = половина)
+    [SerializeField] float hurtFlashTime = 0.2f;      // сколько секунд показываем кадр урона
 
     [Header("Патруль в тени (как у духа)")]
     public float patrolDistance = 8f;      // на сколько единиц уходит влево от старта
@@ -20,6 +22,8 @@ public class Boss : Lightable
     public GameObject lassoZone;           // зона удара перед боссом
     public float attackDelay = 2.2f;       // фаза 1: бросок раз в 2,2 сек
     public float attackDelayPhase2 = 2.2f; // фаза 2: сейчас как в фазе 1 (можно сделать чаще)
+    [SerializeField] float lassoWindUpTime = 0.6f;    // замах перед броском (видно кадр attackSprite0)
+    [SerializeField] float lassoActiveTime = 0.5f;    // сколько секунд зона удара включена
 
     [Header("Малые духи (фаза 2)")]
     public GameObject smallSpiritPrefab;
@@ -109,9 +113,9 @@ public class Boss : Lightable
         if (!IsRevealed()) return false;   // в тени неуязвим — снаряд отскочит
 
         hp -= damage;
-        hurtTimer = 0.2f;                  // кадр урона на 0,2 сек
+        hurtTimer = hurtFlashTime;         // кадр урона
 
-        if (phase == 1 && hp < maxHp / 2f) phase = 2;   // меньше половины — фаза 2
+        if (phase == 1 && hp < maxHp * phase2HpFraction) phase = 2;   // меньше доли (по умолчанию половины) — фаза 2
 
         if (hp <= 0)
         {
@@ -121,16 +125,16 @@ public class Boss : Lightable
         return true;
     }
 
-    // Корутина броска: замах 0,3 сек, потом зона урона включена 0,5 сек
+    // Корутина броска: замах lassoWindUpTime, потом зона урона включена lassoActiveTime
     IEnumerator ThrowLasso()
     {
         attacking = true;
         attackFrame = attackSprite0;
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(lassoWindUpTime);
 
         attackFrame = attackSprite1;
         lassoZone.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(lassoActiveTime);
 
         lassoZone.SetActive(false);
         attacking = false;
