@@ -17,11 +17,11 @@ public class Flash : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Попала в духа — ранит его и исчезает
-        Spirit spirit = other.GetComponent<Spirit>();
-        if (spirit != null)
+        // Попала во врага (дух или любой наследник Enemy) — ранит его и исчезает
+        Enemy enemy = other.GetComponent<Enemy>();
+        if (enemy != null)
         {
-            spirit.TakeHit(damage);
+            enemy.TakeHit(damage);
             Destroy(gameObject);
             return;
         }
