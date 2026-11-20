@@ -56,11 +56,15 @@ public class Boss : Lightable
     Rigidbody2D rb;
     Vector2 pointA, pointB;                // концы патруля
     float patrolTimer;                     // идёт только в тени
+    Transform player;                      // Ай — к ней поворачивается аркан
+    float lassoLength;                     // длина зоны аркана (считается в Start)
+    int lassoSide = -1;                    // куда бросок: -1 влево, 1 вправо (выбирается в начале замаха)
 
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.FindWithTag("Player").transform;
         pointA = transform.position;
         pointB = pointA + Vector2.left * patrolDistance;
         hp = maxHp;
@@ -73,15 +77,21 @@ public class Boss : Lightable
     // Длина аркана считается от длины луча Ай: аркан бьёт чуть ближе, чем достаёт её свет
     void SetupLassoZone()
     {
-        GameObject player = GameObject.FindWithTag("Player");
         BoxCollider2D beam = player.GetComponentInChildren<LightBeam>(true).GetComponent<BoxCollider2D>();
-        float length = beam.size.x * lassoBeamFraction;      // size.x коллайдера луча — его длина
+        lassoLength = beam.size.x * lassoBeamFraction;       // size.x коллайдера луча — его длина
 
         BoxCollider2D zone = lassoZone.GetComponent<BoxCollider2D>();
-        zone.size = new Vector2(length, zone.size.y);
+        zone.size = new Vector2(lassoLength, zone.size.y);
         lassoZone.GetComponent<SpriteRenderer>().size = zone.size;          // красная подсветка того же размера
-        lassoRope.size = new Vector2(length, lassoRope.size.y);             // верёвка на всю длину
-        lassoZone.transform.localPosition = new Vector3(-(lassoInnerEdge + length / 2f), 0f, 0f);   // слева от босса
+        lassoRope.size = new Vector2(lassoLength, lassoRope.size.y);        // верёвка на всю длину
+        PlaceLassoZone();
+    }
+
+    // Ставим зону на сторону lassoSide. Подсветка и верёвка — на самой зоне, переезжают вместе с ней
+    void PlaceLassoZone()
+    {
+        float centerX = lassoSide * (lassoInnerEdge + lassoLength / 2f);   // -1 — слева, 1 — справа
+        lassoZone.transform.localPosition = new Vector3(centerX, 0f, 0f);
     }
 
     void Update()
@@ -149,6 +159,9 @@ public class Boss : Lightable
     IEnumerator ThrowLasso()
     {
         attacking = true;
+        // Направление выбираем один раз — знак разницы X между Ай и боссом. До конца удара оно не меняется
+        lassoSide = (int)Mathf.Sign(player.position.x - transform.position.x);
+        PlaceLassoZone();
         attackFrame = attackSprite0;
         yield return new WaitForSeconds(lassoWindUpTime);
 
@@ -173,6 +186,8 @@ public class Boss : Lightable
     // Какую картинку показать: урон > бросок > тень > проявлен (фаза 1 или 2)
     void UpdateSprite()
     {
+        sr.flipX = attacking && lassoSide > 0;   // кадры броска нарисованы влево, вправо — отражаем
+
         if (hurtTimer > 0f) sr.sprite = hurtSprite;
         else if (attacking) sr.sprite = attackFrame;
         else if (!IsRevealed()) sr.sprite = shadowSprite;
