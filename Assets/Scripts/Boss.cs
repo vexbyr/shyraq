@@ -26,7 +26,6 @@ public class Boss : Lightable
     [SerializeField] float lassoActiveTime = 0.5f;    // сколько секунд зона удара включена
     [SerializeField] float lassoInnerEdge = 1.5f;     // ближний край зоны: на столько единиц от центра босса
     [SerializeField] float lassoBeamFraction = 0.85f; // длина зоны = эта доля от длины луча Ай (0,8–0,9)
-    [SerializeField] SpriteRenderer lassoRope;        // линия верёвки на всю длину зоны (дочерний объект LassoZone)
 
     [Header("Малые духи (фаза 2)")]
     public GameObject smallSpiritPrefab;
@@ -83,11 +82,10 @@ public class Boss : Lightable
         BoxCollider2D zone = lassoZone.GetComponent<BoxCollider2D>();
         zone.size = new Vector2(lassoLength, zone.size.y);
         lassoZone.GetComponent<SpriteRenderer>().size = zone.size;          // красная подсветка того же размера
-        lassoRope.size = new Vector2(lassoLength, lassoRope.size.y);        // верёвка на всю длину
         PlaceLassoZone();
     }
 
-    // Ставим зону на сторону lassoSide. Подсветка и верёвка — на самой зоне, переезжают вместе с ней
+    // Ставим зону на сторону lassoSide. Красная подсветка — на самой зоне, переезжает вместе с ней
     void PlaceLassoZone()
     {
         float centerX = lassoSide * (lassoInnerEdge + lassoLength / 2f);   // -1 — слева, 1 — справа
