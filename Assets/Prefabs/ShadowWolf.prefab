@@ -190,7 +190,7 @@ MonoBehaviour:
   patrolSpeed: 2
   sightRange: 7
   eyeHeight: 0.5
-  chaseSpeed: 4
+  chaseSpeed: 7.2
   biteRange: 1.5
   groundLayer:
     serializedVersion: 2

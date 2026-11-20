@@ -23,7 +23,7 @@ public class ShadowWolf : Enemy
     [Header("Зрение и погоня")]
     [SerializeField] float sightRange = 7f;            // дальше не видит
     [SerializeField] float eyeHeight = 0.5f;           // откуда «смотрит» (над ногами)
-    [SerializeField] float chaseSpeed = 4f;
+    [SerializeField] float chaseSpeed = 7.2f;          // примерно в 1,2 раза быстрее бега Ай (moveSpeed 6)
     [SerializeField] float biteRange = 1.5f;           // с какого расстояния начинает замах
     [SerializeField] LayerMask groundLayer;            // слой Ground: стены закрывают обзор
 
