@@ -24,6 +24,9 @@ public class Boss : Lightable
     public float attackDelayPhase2 = 2.2f; // фаза 2: сейчас как в фазе 1 (можно сделать чаще)
     [SerializeField] float lassoWindUpTime = 0.6f;    // замах перед броском (видно кадр attackSprite0)
     [SerializeField] float lassoActiveTime = 0.5f;    // сколько секунд зона удара включена
+    [SerializeField] float lassoInnerEdge = 1.5f;     // ближний край зоны: на столько единиц от центра босса
+    [SerializeField] float lassoBeamFraction = 0.85f; // длина зоны = эта доля от длины луча Ай (0,8–0,9)
+    [SerializeField] SpriteRenderer lassoRope;        // линия верёвки на всю длину зоны (дочерний объект LassoZone)
 
     [Header("Малые духи (фаза 2)")]
     public GameObject smallSpiritPrefab;
@@ -63,7 +66,22 @@ public class Boss : Lightable
         hp = maxHp;
         attackTimer = attackDelay;
         summonTimer = summonDelay;
+        SetupLassoZone();
         lassoZone.SetActive(false);
+    }
+
+    // Длина аркана считается от длины луча Ай: аркан бьёт чуть ближе, чем достаёт её свет
+    void SetupLassoZone()
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+        BoxCollider2D beam = player.GetComponentInChildren<LightBeam>(true).GetComponent<BoxCollider2D>();
+        float length = beam.size.x * lassoBeamFraction;      // size.x коллайдера луча — его длина
+
+        BoxCollider2D zone = lassoZone.GetComponent<BoxCollider2D>();
+        zone.size = new Vector2(length, zone.size.y);
+        lassoZone.GetComponent<SpriteRenderer>().size = zone.size;          // красная подсветка того же размера
+        lassoRope.size = new Vector2(length, lassoRope.size.y);             // верёвка на всю длину
+        lassoZone.transform.localPosition = new Vector3(-(lassoInnerEdge + length / 2f), 0f, 0f);   // слева от босса
     }
 
     void Update()
