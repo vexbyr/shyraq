@@ -4,7 +4,8 @@ using UnityEngine;
 // Автомат состояний (enum State), переходы:
 //   Patrol  → Chase    : увидел Ай (Raycast до неё не упёрся в стену)
 //   Chase   → Patrol   : потерял Ай из виду
-//   Chase   → WindUp   : Ай ближе biteRange — замах (видно: волк меняет цвет/спрайт и стоит)
+//   Chase   → WindUp   : Ай ближе biteRange и волк в кадре камеры — замах (видно: волк меняет цвет/спрайт и стоит)
+//   WindUp  → Chase    : волк ушёл за край экрана — замах сброшен (из-за экрана не нападает)
 //   WindUp  → Bite     : прошло windUpTime — рывок вперёд, кусает только сейчас
 //   Bite    → Cooldown : прошло biteTime — стоит и отдыхает
 //   Cooldown→ Chase/Patrol : прошло cooldownTime
@@ -55,12 +56,14 @@ public class ShadowWolf : Enemy
     Sprite normalSprite;         // спрайт из префаба
     Transform player;
     Collider2D playerCollider;   // в центр её коллайдера и смотрим
+    Camera cam;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         normalSprite = sr.sprite;
+        cam = Camera.main;
 
         GameObject playerObject = GameObject.FindWithTag("Player");
         if (playerObject != null)
@@ -100,13 +103,14 @@ public class ShadowWolf : Enemy
                 }
                 float dx = player.position.x - transform.position.x;
                 facingRight = dx > 0f;                              // поворачивается к Ай
-                if (Mathf.Abs(dx) <= biteRange) ChangeState(State.WindUp);
+                if (Mathf.Abs(dx) <= biteRange && IsOnScreen()) ChangeState(State.WindUp);   // из-за экрана не нападает
                 else Move(chaseSpeed);                              // у края или стены просто стоит
                 break;
 
             case State.WindUp:
                 // Стоит и не поворачивается: направление укуса уже выбрано — от него можно уйти
-                if (timer <= 0f) ChangeState(State.Bite);
+                if (!IsOnScreen()) ChangeState(State.Chase);          // ушёл за экран — не кусает
+                else if (timer <= 0f) ChangeState(State.Bite);
                 break;
 
             case State.Bite:
@@ -175,6 +179,13 @@ public class ShadowWolf : Enemy
         // Raycast 3: луч от глаз к Ай только по слою Ground. Попал во что-то — значит, стена мешает
         RaycastHit2D hit = Physics2D.Raycast(eye, toPlayer.normalized, toPlayer.magnitude, groundLayer);
         return hit.collider == null;
+    }
+
+    // В кадре ли камеры. Viewport: левый нижний угол экрана = (0,0), правый верхний = (1,1)
+    bool IsOnScreen()
+    {
+        Vector3 p = cam.WorldToViewportPoint(transform.position);
+        return p.x > 0f && p.x < 1f && p.y > 0f && p.y < 1f;
     }
 
     // Кусает только во время рывка — честно: перед этим всегда есть замах
