@@ -190,7 +190,7 @@ MonoBehaviour:
     m_Bits: 256
   windUpTime: 0.8
   chargeSpeed: 10
-  chargeMaxTime: 1.2
+  chargeMaxTime: 1.8
   stunTime: 1.5
   chargeDamage: 1
   wallCheckDistance: 1
