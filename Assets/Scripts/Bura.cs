@@ -2,14 +2,15 @@ using UnityEngine;
 
 // Қара бура — дух чёрного верблюда. Стоит, роет копытом и бросается в разбег по прямой.
 // Автомат состояний (enum State), переходы:
-//   Idle    → WindUp  : видит Ай (близко, на его высоте, нет стены, сам в кадре камеры)
-//   WindUp  → Idle    : Ай пропала из виду — подготовка сброшена
+//   Idle    → WindUp  : видит Ай (близко, не выше maxHeightDifference, нет стены, сам в кадре камеры)
+//   WindUp  → Idle    : Ай ушла за стену, далеко или за экран (прыжок замах НЕ сбрасывает)
 //   WindUp  → Charge  : прошло windUpTime (всё это время он «роет копытом»: цвет/спрайт)
 //   Charge  → Stunned : Raycast нашёл стену или обрыв впереди, или прошло chargeMaxTime
 //   Stunned → Idle    : прошло stunTime (это и есть перезарядка)
 //   любое   → Frozen  : в луче фонаря (подготовка и разбег сброшены)
 //   Frozen  → Idle    : луч ушёл
-// Направление разбега запоминается в начале WindUp и потом не меняется — от него можно уйти.
+// Во время WindUp Бура поворачивается к Ай, направление разбега фиксируется в конце замаха
+// и в разбеге уже не меняется — от него можно уйти или перепрыгнуть.
 // На объекте: SpriteRenderer, Rigidbody2D (Kinematic), BoxCollider2D (Is Trigger).
 public class Bura : Enemy
 {
@@ -17,7 +18,7 @@ public class Bura : Enemy
 
     [Header("Зрение")]
     [SerializeField] float sightRange = 9f;            // дальше не видит
-    [SerializeField] float maxHeightDifference = 1.5f; // Ай выше/ниже этого — не на его дороге, не бежит
+    [SerializeField] float maxHeightDifference = 3f;   // Ай выше/ниже этого — не начинает замах (3 — видит и в прыжке)
     [SerializeField] float eyeHeight = 0.7f;           // откуда «смотрит» (над ногами)
     [SerializeField] LayerMask groundLayer;            // слой Ground: стены закрывают обзор
 
@@ -78,16 +79,17 @@ public class Bura : Enemy
                 break;
 
             case State.Idle:
-                if (CanSeePlayer())
-                {
-                    facingRight = playerCollider.bounds.center.x > transform.position.x;   // направление запомнено
-                    ChangeState(State.WindUp);
-                }
+                if (CanSeePlayer()) ChangeState(State.WindUp);
                 break;
 
             case State.WindUp:
-                if (!CanSeePlayer()) ChangeState(State.Idle);           // ушла за стену / за экран
-                else if (timer <= 0f) ChangeState(State.Charge);
+                // Высоту здесь не проверяем: подпрыгнувшая Ай замах не сбрасывает, сбрасывает только стена / даль / экран
+                if (!HasLineOfSight()) ChangeState(State.Idle);
+                else
+                {
+                    facingRight = PlayerIsRight();                      // смотрит на Ай, пока роет копытом
+                    if (timer <= 0f) ChangeState(State.Charge);         // в конце замаха направление зафиксировано
+                }
                 break;
 
             case State.Charge:
@@ -125,8 +127,21 @@ public class Bura : Enemy
         return !wallAhead && groundAhead;
     }
 
-    // Видит ли Ай: Бура в кадре, Ай близко, примерно на его высоте и между ними нет стены
+    bool PlayerIsRight()
+    {
+        return playerCollider.bounds.center.x > transform.position.x;
+    }
+
+    // Начать замах: Ай видна и не слишком высоко над / под Бурой
     bool CanSeePlayer()
+    {
+        if (!HasLineOfSight()) return false;
+        float heightDifference = playerCollider.bounds.center.y - (transform.position.y + eyeHeight);
+        return Mathf.Abs(heightDifference) <= maxHeightDifference;
+    }
+
+    // Прямая видимость: Бура в кадре, Ай близко и между ними нет стены (высота не важна)
+    bool HasLineOfSight()
     {
         if (playerCollider == null) return false;
         if (!IsOnScreen()) return false;                    // из-за края экрана не нападает
@@ -134,7 +149,6 @@ public class Bura : Enemy
         Vector2 eye = (Vector2)transform.position + Vector2.up * eyeHeight;
         Vector2 toPlayer = (Vector2)playerCollider.bounds.center - eye;
         if (toPlayer.magnitude > sightRange) return false;
-        if (Mathf.Abs(toPlayer.y) > maxHeightDifference) return false;
 
         // Raycast только по слою Ground: попал во что-то — стена мешает
         RaycastHit2D hit = Physics2D.Raycast(eye, toPlayer.normalized, toPlayer.magnitude, groundLayer);

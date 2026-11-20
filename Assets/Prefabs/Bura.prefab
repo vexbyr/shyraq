@@ -183,7 +183,7 @@ MonoBehaviour:
   hp: 3
   drop: {fileID: 0}
   sightRange: 9
-  maxHeightDifference: 1.5
+  maxHeightDifference: 3
   eyeHeight: 0.7
   groundLayer:
     serializedVersion: 2
