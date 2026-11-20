@@ -21,6 +21,7 @@ public class Bura : Enemy
     [SerializeField] float maxHeightDifference = 3f;   // Ай выше/ниже этого — не начинает замах (3 — видит и в прыжке)
     [SerializeField] float eyeHeight = 0.7f;           // откуда «смотрит» (над ногами)
     [SerializeField] LayerMask groundLayer;            // слой Ground: стены закрывают обзор
+    [SerializeField] float screenMargin = 0f;          // отступ от края кадра (доля экрана, 0 = сам край): ближе к краю — «вне кадра»
 
     [Header("Разбег")]
     [SerializeField] float windUpTime = 0.8f;          // подготовка, секунды
@@ -168,7 +169,7 @@ public class Bura : Enemy
     bool IsOnScreen()
     {
         Vector3 p = cam.WorldToViewportPoint(transform.position);
-        return p.x > 0f && p.x < 1f && p.y > 0f && p.y < 1f;
+        return p.x > screenMargin && p.x < 1f - screenMargin && p.y > screenMargin && p.y < 1f - screenMargin;
     }
 
     // Ранит только в разбеге — перед этим всегда есть подготовка

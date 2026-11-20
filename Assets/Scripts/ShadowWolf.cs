@@ -20,6 +20,7 @@ public class ShadowWolf : Enemy
     [Header("Патруль")]
     [SerializeField] Transform[] waypoints;            // точки, между которыми ходит (по оси X)
     [SerializeField] float patrolSpeed = 2f;           // единиц в секунду
+    [SerializeField] float waypointReachDistance = 0.1f;   // ближе этого к точке — дошёл, идёт к следующей
 
     [Header("Зрение и погоня")]
     [SerializeField] float sightRange = 7f;            // дальше не видит
@@ -28,6 +29,7 @@ public class ShadowWolf : Enemy
     [SerializeField] float chaseSpeed = 7.2f;          // примерно в 1,2 раза быстрее бега Ай (moveSpeed 6)
     [SerializeField] float biteRange = 1.5f;           // с какого расстояния начинает замах
     [SerializeField] LayerMask groundLayer;            // слой Ground: стены закрывают обзор
+    [SerializeField] float screenMargin = 0f;          // отступ от края кадра (доля экрана, 0 = сам край): ближе к краю — «вне кадра»
 
     [Header("Укус")]
     [SerializeField] float windUpTime = 0.5f;          // подготовка, секунды
@@ -39,6 +41,8 @@ public class ShadowWolf : Enemy
     [Header("Проверки стены и края")]
     [SerializeField] float wallCheckDistance = 0.6f;   // стена ближе — дальше не идёт
     [SerializeField] float edgeCheckOffset = 0.6f;     // на сколько вперёд ищем землю под лапами
+    [SerializeField] float groundCheckHeight = 0.1f;   // с какой высоты над лапами луч ищет землю
+    [SerializeField] float groundCheckDepth = 0.5f;    // какой длины этот луч вниз
 
     [Header("Вид (спрайты можно оставить пустыми)")]
     [SerializeField] Sprite windUpSprite;
@@ -140,7 +144,7 @@ public class ShadowWolf : Enemy
         if (pointsX.Length == 0) return;                    // точек нет — стоит на месте
 
         float dx = pointsX[pointIndex] - transform.position.x;
-        if (Mathf.Abs(dx) < 0.1f)
+        if (Mathf.Abs(dx) < waypointReachDistance)
         {
             pointIndex = (pointIndex + 1) % pointsX.Length; // % — по кругу: 0, 1, 0, 1…
             return;
@@ -158,7 +162,7 @@ public class ShadowWolf : Enemy
         // Raycast 1: стена прямо перед мордой?
         bool wallAhead = Physics2D.Raycast(feet + Vector2.up * eyeHeight, forward, wallCheckDistance, groundLayer);
         // Raycast 2: есть ли земля чуть впереди под лапами?
-        bool groundAhead = Physics2D.Raycast(feet + forward * edgeCheckOffset + Vector2.up * 0.1f, Vector2.down, 0.5f, groundLayer);
+        bool groundAhead = Physics2D.Raycast(feet + forward * edgeCheckOffset + Vector2.up * groundCheckHeight, Vector2.down, groundCheckDepth, groundLayer);
 
         if (wallAhead || !groundAhead) return false;
 
@@ -188,7 +192,7 @@ public class ShadowWolf : Enemy
     bool IsOnScreen()
     {
         Vector3 p = cam.WorldToViewportPoint(transform.position);
-        return p.x > 0f && p.x < 1f && p.y > 0f && p.y < 1f;
+        return p.x > screenMargin && p.x < 1f - screenMargin && p.y > screenMargin && p.y < 1f - screenMargin;
     }
 
     // Кусает только во время рывка — честно: перед этим всегда есть замах

@@ -18,6 +18,7 @@ public class Albasty : Enemy
     [Header("Зрение")]
     [SerializeField] float sightRange = 8f;            // дальше не видит
     [SerializeField] LayerMask groundLayer;            // слой Ground: стены закрывают обзор
+    [SerializeField] float screenMargin = 0f;          // отступ от края кадра (доля экрана, 0 = сам край): ближе к краю — «вне кадра»
 
     [Header("Выстрел")]
     [SerializeField] float aimTime = 0.65f;            // подготовка, секунды
@@ -118,7 +119,7 @@ public class Albasty : Enemy
     bool IsOnScreen()
     {
         Vector3 p = cam.WorldToViewportPoint(transform.position);
-        return p.x > 0f && p.x < 1f && p.y > 0f && p.y < 1f;
+        return p.x > screenMargin && p.x < 1f - screenMargin && p.y > screenMargin && p.y < 1f - screenMargin;
     }
 
     // Выстрел: направление выбирается один раз, в момент выстрела. Снаряд не самонаводится —
