@@ -23,6 +23,7 @@ public class ShadowWolf : Enemy
 
     [Header("Зрение и погоня")]
     [SerializeField] float sightRange = 7f;            // дальше не видит
+    [SerializeField] float viewAngle = 160f;           // угол обзора вперёд в градусах (по 80° вверх и вниз от морды), за спиной не видит
     [SerializeField] float eyeHeight = 0.5f;           // откуда «смотрит» (над ногами)
     [SerializeField] float chaseSpeed = 7.2f;          // примерно в 1,2 раза быстрее бега Ай (moveSpeed 6)
     [SerializeField] float biteRange = 1.5f;           // с какого расстояния начинает замах
@@ -165,7 +166,7 @@ public class ShadowWolf : Enemy
         return true;
     }
 
-    // Видит ли волк Ай: близко, (в патруле — только впереди) и между ними нет стены
+    // Видит ли волк Ай: близко, (в патруле — только в угле обзора впереди) и между ними нет стены
     bool CanSeePlayer()
     {
         if (player == null) return false;
@@ -174,7 +175,9 @@ public class ShadowWolf : Enemy
         Vector2 toPlayer = (Vector2)playerCollider.bounds.center - eye;
 
         if (toPlayer.magnitude > sightRange) return false;
-        if (state == State.Patrol && (toPlayer.x > 0f) != facingRight) return false;   // спиной не видит
+        // В патруле видит только в угле обзора перед мордой. В погоне волк сам поворачивается к Ай, угол не нужен
+        Vector2 forward = facingRight ? Vector2.right : Vector2.left;
+        if (state == State.Patrol && Vector2.Angle(forward, toPlayer) > viewAngle / 2f) return false;
 
         // Raycast 3: луч от глаз к Ай только по слою Ground. Попал во что-то — значит, стена мешает
         RaycastHit2D hit = Physics2D.Raycast(eye, toPlayer.normalized, toPlayer.magnitude, groundLayer);
