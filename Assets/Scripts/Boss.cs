@@ -26,6 +26,7 @@ public class Boss : Lightable
     [SerializeField] float lassoActiveTime = 0.5f;    // сколько секунд зона удара включена
     [SerializeField] float lassoInnerEdge = 1.5f;     // ближний край зоны: на столько единиц от центра босса
     [SerializeField] float lassoBeamFraction = 0.85f; // длина зоны = эта доля от длины луча Ай (0,8–0,9)
+    [SerializeField] float screenMargin = 0f;         // отступ от края кадра (доля экрана): вне кадра не бросает и не зовёт духов
 
     [Header("Малые духи (фаза 2)")]
     public GameObject smallSpiritPrefab;
@@ -58,12 +59,14 @@ public class Boss : Lightable
     Transform player;                      // Ай — к ней поворачивается аркан
     float lassoLength;                     // длина зоны аркана (считается в Start)
     int lassoSide = -1;                    // куда бросок: -1 влево, 1 вправо (выбирается в начале замаха)
+    Camera cam;
 
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindWithTag("Player").transform;
+        cam = Camera.main;
         pointA = transform.position;
         pointB = pointA + Vector2.left * patrolDistance;
         hp = maxHp;
@@ -98,19 +101,19 @@ public class Boss : Lightable
         if (IsLit()) revealTimer = revealTime;
         else revealTimer -= Time.deltaTime;
 
-        // 2. Таймер аркана: дошёл до нуля — бросаем и заводим заново
+        // 2. Таймер аркана: дошёл до нуля — бросаем и заводим заново. Вне кадра не бросает (ждёт, пока появится)
         attackTimer -= Time.deltaTime;
-        if (attackTimer <= 0f && !attacking)
+        if (attackTimer <= 0f && !attacking && IsOnScreen())
         {
             StartCoroutine(ThrowLasso());
             attackTimer = (phase == 1) ? attackDelay : attackDelayPhase2;
         }
 
-        // 3. Фаза 2: раз в summonDelay секунд зовём духов
+        // 3. Фаза 2: раз в summonDelay секунд зовём духов. Вне кадра не зовёт (ждёт, пока появится)
         if (phase == 2)
         {
             summonTimer -= Time.deltaTime;
-            if (summonTimer <= 0f)
+            if (summonTimer <= 0f && IsOnScreen())
             {
                 SummonSpirits();
                 summonTimer = summonDelay;
@@ -127,6 +130,13 @@ public class Boss : Lightable
         if (!IsRevealed()) patrolTimer += Time.fixedDeltaTime;
         float t = Mathf.PingPong(patrolTimer * patrolSpeed / patrolDistance, 1f);
         rb.MovePosition(Vector2.Lerp(pointA, pointB, t));
+    }
+
+    // В кадре ли камеры (как у Албасты и Буры). Viewport: левый нижний угол экрана = (0,0), правый верхний = (1,1)
+    bool IsOnScreen()
+    {
+        Vector3 p = cam.WorldToViewportPoint(transform.position);
+        return p.x > screenMargin && p.x < 1f - screenMargin && p.y > screenMargin && p.y < 1f - screenMargin;
     }
 
     // Проявлен ли босс сейчас (Жарқыл спрашивает перед ударом)
