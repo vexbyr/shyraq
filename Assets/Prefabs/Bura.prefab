@@ -84,8 +84,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: bb5eaa0107b945359589b2b04d44d2bb, type: 3}
-  m_Color: {r: 0.35, g: 0.3, b: 0.45, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 18e11853f703bf2d8c8985a013423113, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -156,17 +156,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.7}
+  m_Offset: {x: 0, y: 0.8}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1.5, y: 1.5}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 1.5, y: 1.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4, y: 1.4}
+  m_Size: {x: 1.7, y: 1.6}
   m_EdgeRadius: 0
 --- !u!114 &6521067330537931193
 MonoBehaviour:
@@ -196,10 +196,10 @@ MonoBehaviour:
   wallCheckDistance: 1
   edgeCheckOffset: 1
   groundCheckDepth: 0.5
-  windUpSprite: {fileID: 0}
-  chargeSprite: {fileID: 0}
-  stunnedSprite: {fileID: 0}
-  frozenSprite: {fileID: 0}
-  windUpColor: {r: 1, g: 0.85, b: 0.3, a: 1}
-  stunnedColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
-  frozenColor: {r: 0.6, g: 0.8, b: 1, a: 1}
+  windUpSprite: {fileID: 21300000, guid: 461fce2fd4a9c7285005b45959084ffd, type: 3}
+  chargeSprite: {fileID: 21300000, guid: 78572f309b4df25fe8ccb16edbf44907, type: 3}
+  stunnedSprite: {fileID: 21300000, guid: 1f06bfbd687d67ae6f41944f21ac7ee7, type: 3}
+  frozenSprite: {fileID: 21300000, guid: 1969bea3c2dc488af7576806efd2e0f7, type: 3}
+  windUpColor: {r: 1, g: 1, b: 1, a: 1}
+  stunnedColor: {r: 1, g: 1, b: 1, a: 1}
+  frozenColor: {r: 1, g: 1, b: 1, a: 1}

@@ -31,8 +31,8 @@ public class Albasty : Enemy
     [Header("Вид (спрайты можно оставить пустыми)")]
     [SerializeField] Sprite aimSprite;
     [SerializeField] Sprite frozenSprite;
-    [SerializeField] Color aimColor = new Color(1f, 0.9f, 0.4f);     // жёлтое свечение — «целится»
-    [SerializeField] Color frozenColor = new Color(0.6f, 0.8f, 1f);  // голубой — замёрзла
+    [SerializeField] Color aimColor = Color.white;     // белый: свечение уже нарисовано в спрайте aim
+    [SerializeField] Color frozenColor = Color.white;  // белый: спрайт frozen уже голубой
 
     State state = State.Idle;
     float timer;                 // сколько ещё длится Aim / Cooldown

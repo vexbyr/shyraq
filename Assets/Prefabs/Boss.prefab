@@ -283,7 +283,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 1.75}
+  m_Offset: {x: 0, y: 1.9}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -293,7 +293,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.5, y: 3.5}
+  m_Size: {x: 2.5, y: 3.8}
   m_EdgeRadius: 0
 --- !u!114 &7183022657366950637
 MonoBehaviour:
@@ -309,17 +309,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Boss
   maxHp: 14
   revealTime: 1.2
+  phase2HpFraction: 0.5
+  hurtFlashTime: 0.2
   patrolDistance: 8
   patrolSpeed: 1.5
   lassoZone: {fileID: 617360478711313069}
   attackDelay: 2.2
   attackDelayPhase2: 2.2
+  lassoWindUpTime: 0.6
+  lassoActiveTime: 0.5
   smallSpiritPrefab: {fileID: 7137077556756971932, guid: b18a47587e1b73b418695df624d753aa, type: 3}
   spawnPoints: []
   summonDelay: 7
   summonCount: 2
   shadowSprite: {fileID: 21300000, guid: d264a5a5badc6a448a8293c21a96ab94, type: 3}
   idleSprite: {fileID: 21300000, guid: 14e5ad2e4b3388c47ba0d00a0b0f43b2, type: 3}
+  idleSprite1: {fileID: 21300000, guid: 867c0604e57e57645a77aa592ae09cce, type: 3}
+  idleFrameTime: 0.5
   phase2Sprite: {fileID: 21300000, guid: 2877cd7505a0b454898adbf05769b2d6, type: 3}
   attackSprite0: {fileID: 21300000, guid: 77e4a4b5f182d5b48b77fa6cf3715b84, type: 3}
   attackSprite1: {fileID: 21300000, guid: 28e75d7c82769b84d82e28f179068da1, type: 3}

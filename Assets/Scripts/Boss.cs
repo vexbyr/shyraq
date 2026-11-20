@@ -33,7 +33,9 @@ public class Boss : Lightable
 
     [Header("Спрайты")]
     public Sprite shadowSprite;            // в тени — неуязвим
-    public Sprite idleSprite;              // проявлен, фаза 1
+    public Sprite idleSprite;              // проявлен, фаза 1 (кадр 0)
+    [SerializeField] Sprite idleSprite1;   // проявлен, фаза 1 (кадр 1), можно оставить пустым
+    [SerializeField] float idleFrameTime = 0.5f;   // сколько секунд показываем один кадр покоя
     public Sprite phase2Sprite;            // проявлен, фаза 2 (красный)
     public Sprite attackSprite0;           // замах
     public Sprite attackSprite1;           // бросок
@@ -157,6 +159,14 @@ public class Boss : Lightable
         else if (attacking) sr.sprite = attackFrame;
         else if (!IsRevealed()) sr.sprite = shadowSprite;
         else if (phase == 2) sr.sprite = phase2Sprite;
-        else sr.sprite = idleSprite;
+        else sr.sprite = IdleFrame();
+    }
+
+    // Покой из двух кадров: чётный отрезок времени — кадр 0, нечётный — кадр 1
+    Sprite IdleFrame()
+    {
+        if (idleSprite1 == null) return idleSprite;
+        int frame = (int)(Time.time / idleFrameTime) % 2;
+        return (frame == 0) ? idleSprite : idleSprite1;
     }
 }

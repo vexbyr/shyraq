@@ -42,8 +42,8 @@ public class ShadowWolf : Enemy
     [SerializeField] Sprite windUpSprite;
     [SerializeField] Sprite biteSprite;
     [SerializeField] Sprite frozenSprite;
-    [SerializeField] Color windUpColor = new Color(1f, 0.85f, 0.3f);   // жёлтая вспышка — «сейчас укусит»
-    [SerializeField] Color frozenColor = new Color(0.6f, 0.8f, 1f);    // голубой — замёрз
+    [SerializeField] Color windUpColor = Color.white;   // белый: подготовка видна по спрайту windup
+    [SerializeField] Color frozenColor = Color.white;  // белый: спрайт frozen уже голубой
 
     State state = State.Patrol;
     float timer;                 // сколько ещё длится WindUp / Bite / Cooldown

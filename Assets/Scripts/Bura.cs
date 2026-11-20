@@ -38,9 +38,9 @@ public class Bura : Enemy
     [SerializeField] Sprite chargeSprite;
     [SerializeField] Sprite stunnedSprite;
     [SerializeField] Sprite frozenSprite;
-    [SerializeField] Color windUpColor = new Color(1f, 0.85f, 0.3f);   // жёлтый — «сейчас побежит»
-    [SerializeField] Color stunnedColor = new Color(0.6f, 0.6f, 0.6f); // серый — оглушён
-    [SerializeField] Color frozenColor = new Color(0.6f, 0.8f, 1f);    // голубой — замёрз
+    [SerializeField] Color windUpColor = Color.white;   // белый: подготовка видна по спрайту windup
+    [SerializeField] Color stunnedColor = Color.white; // белый: оглушение видно по спрайту stunned
+    [SerializeField] Color frozenColor = Color.white;  // белый: спрайт frozen уже голубой
 
     State state = State.Idle;
     float timer;                 // сколько ещё длится WindUp / Charge / Stunned

@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: bb5eaa0107b945359589b2b04d44d2bb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aeed36b1cc888b03a8a368713a67eaef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -194,10 +194,10 @@ MonoBehaviour:
   projectileSpeed: 6
   projectileLifetime: 2.5
   projectileDamage: 1
-  aimSprite: {fileID: 0}
-  frozenSprite: {fileID: 0}
-  aimColor: {r: 1, g: 0.9, b: 0.4, a: 1}
-  frozenColor: {r: 0.6, g: 0.8, b: 1, a: 1}
+  aimSprite: {fileID: 21300000, guid: f0c9fb0735930bb6ee08a89e1bab2147, type: 3}
+  frozenSprite: {fileID: 21300000, guid: 59f79309c7461851d363673f1cbfde7e, type: 3}
+  aimColor: {r: 1, g: 1, b: 1, a: 1}
+  frozenColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &7139429324842957473
 GameObject:
   m_ObjectHideFlags: 0
