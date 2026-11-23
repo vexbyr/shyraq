@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-// Один на сцену: считает звёзды, открывает ворота, грузит следующий уровень.
+// Один на сцену: считает звёзды, открывает ворота, в конце уровня сохраняет результат и показывает итоги.
 // Сколько звёзд нужно и какой уровень следующий — из LevelData (GameSession.CurrentLevel, ставит LevelLoader).
 public class LevelManager : MonoBehaviour
 {
@@ -15,9 +15,11 @@ public class LevelManager : MonoBehaviour
     public GameObject starsInSky;          // уровень с боссом: звёзды на небе (выключены до победы)
     public string winScene = "Win";
     [SerializeField] ScoreSettings scoreSettings;   // как считать очки в конце уровня
+    [SerializeField] LevelResults results;          // экран «уровень пройден»
 
     int starsTotal;
     int starsCollected;
+    bool finished;                         // уровень уже пройден — ворота второй раз не срабатывают
 
     void Awake()
     {
@@ -51,7 +53,8 @@ public class LevelManager : MonoBehaviour
     // Босс побеждён: небо светлеет, звёзды возвращаются на небо, потом сцена Win
     public void BossDefeated()
     {
-        SaveResult();
+        float time = Time.timeSinceLevelLoad;
+        SaveResult(time, CalculateScore(time));
         StartCoroutine(Finale());
     }
 
@@ -83,12 +86,9 @@ public class LevelManager : MonoBehaviour
     // Уровень пройден: считаем очки, обновляем рекорд, открываем следующий уровень и сразу пишем файл.
     // Время — сколько прошло с загрузки сцены (пауза его не считает: Time.timeScale = 0).
     // Возвращает true, если очки — новый рекорд
-    bool SaveResult()
+    bool SaveResult(float time, int score)
     {
         LevelData level = GameSession.CurrentLevel;
-        float time = Time.timeSinceLevelLoad;
-        int score = scoreSettings.CalculateScore(starsCollected, time, level.parTimeSeconds);
-
         SaveData save = SaveSystem.Current;
         bool newBest = save.AddResult(level.levelNumber, starsCollected, score, time);
         if (level.nextLevel != null) save.Unlock(level.nextLevel.levelNumber);
@@ -96,16 +96,21 @@ public class LevelManager : MonoBehaviour
         return newBest;
     }
 
-    // Player зашёл в проход ворот
+    // Очки за этот проход (формула и числа — в ассете Score_Settings)
+    int CalculateScore(float time)
+    {
+        return scoreSettings.CalculateScore(starsCollected, time, GameSession.CurrentLevel.parTimeSeconds);
+    }
+
+    // Player зашёл в проход ворот: сохраняем результат и показываем экран итогов
     public void ReachExit()
     {
-        if (!gate.isOpen) return;
-        SaveResult();
+        if (!gate.isOpen || finished) return;
+        finished = true;
 
-        // Следующий уровень из LevelData: запоминаем его в GameSession и грузим его сцену
-        LevelData next = GameSession.CurrentLevel.nextLevel;
-        if (next == null) return;          // последний уровень заканчивается победой над боссом, не воротами
-        GameSession.CurrentLevel = next;
-        SceneManager.LoadScene(next.sceneName);
+        float time = Time.timeSinceLevelLoad;
+        int score = CalculateScore(time);
+        bool newBest = SaveResult(time, score);
+        results.Show(starsCollected, starsTotal, time, score, newBest);
     }
 }
