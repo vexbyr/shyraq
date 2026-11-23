@@ -1,14 +1,13 @@
 using UnityEngine;
 
 // Дух: ходит туда-сюда (PingPong + Lerp), в свете замирает и не кусается.
-// Наследник Lightable. На объекте: Rigidbody2D (Kinematic) + CircleCollider2D (Is Trigger).
-public class Spirit : Lightable
+// Наследник Enemy (а тот — Lightable): hp, drop и TakeHit берёт из Enemy.
+// На объекте: Rigidbody2D (Kinematic) + CircleCollider2D (Is Trigger).
+public class Spirit : Enemy
 {
     public Vector2 direction = Vector2.right;   // куда идёт патруль: (1,0) вправо, (0,1) вверх — летающий дух
     public float distance = 4f;        // на сколько единиц уходит от старта
     public float speed = 2f;           // единиц в секунду
-    public int hp = 1;                 // сколько Жарқылов выдерживает
-    public GameObject drop;            // что выронить после смерти (малый дух — бутылочку), пусто — ничего
     public Sprite normalSprite;        // обычный дух
     public Sprite frozenSprite;        // замёрзший (в свете)
 
@@ -46,17 +45,6 @@ public class Spirit : Lightable
         if (other.CompareTag("Player"))
         {
             other.GetComponent<PlayerHealth>().TakeDamage(1);
-        }
-    }
-
-    // Попал Жарқыл
-    public void TakeHit(int damage)
-    {
-        hp -= damage;
-        if (hp <= 0)
-        {
-            if (drop != null) Instantiate(drop, transform.position, Quaternion.identity);   // бутылочка на месте духа
-            Destroy(gameObject);
         }
     }
 }

@@ -37,21 +37,30 @@
 Шаблон проекта — Universal 2D (URP 2D). Для проверки мобильного экрана: Game view → разрешение landscape, например 1920x1080, или Device Simulator.
 
 ## Assets and licenses
-**Арт.** Весь арт сделан для этого проекта: спрайты героини и босса сгенерированы в [PixelLab](https://pixellab.ai) и доработаны скриптами Python + Pillow, остальное нарисовано своим кодом на Python + Pillow. PixelLab: пробный тариф, использование по [Terms of Service](https://pixellab.ai/termsofservice).
+**Арт.** Весь арт сделан для этого проекта: спрайты героини, босса, врагов A10 и духов сгенерированы в [PixelLab](https://pixellab.ai) и доработаны скриптами Python + Pillow, остальное нарисовано своим кодом на Python + Pillow. PixelLab: пробный тариф, использование по [Terms of Service](https://pixellab.ai/termsofservice).
 
 | Что | Файлы | Источник | Доработка |
 |---|---|---|---|
 | Ай: idle, ходьба, прыжок, падение, урон, поза с фонарём | `Assets/Art/Hero/Ai_*`, `Ai_sheet.png` | PixelLab (Create Image Pro, animate_image_pixminimax, edit_image_pixen) | Pillow: только сдвиг, нарезка, сборка листа; пиксели не перерисовывались |
-| Босс: idle, атака, урон | `Assets/Art/Boss/Boss_idle_*`, `Boss_attack_*`, `Boss_hurt_0` | PixelLab (Create Image Pro, edit_image_pixen, animate_image_pixminimax) | Pillow: только выравнивание |
-| Босс: тень и вторая фаза | `Assets/Art/Boss/Boss_shadow`, `Boss_phase2` | Перекраска `Boss_idle_0` скриптом Pillow | Изменён только цвет |
+| Босс: idle, замах, бросок аркана | `Assets/Art/Boss/Boss_idle_0..1`, `Boss_attack_0..1` | PixelLab: дизайн — create_image_pixen, кадры — animate_image_pixminimax (один клип, 8 кадров) | Pillow: перекраска палитры, контур как у Ай, сдвиг ступнями вниз, 1 px ауры замаха |
+| Босс: урон, тень, вторая фаза | `Assets/Art/Boss/Boss_hurt_0`, `Boss_shadow`, `Boss_phase2` | Перекраска `Boss_idle_0` скриптом Pillow | Урон и тень — только цвет; фаза 2 — красные глаза и звёзды, осколки-звёзды вокруг (Pillow) |
+| Көлеңке-қасқыр: обычный, замах, укус, заморожен | `Assets/Art/Enemies/ShadowWolf_*` | PixelLab: дизайн — create_image_pixen, замах и укус — animate_image_pixminimax | Pillow: перекраска, контур как у Ай, аура замаха, сдвиг; заморозка — перекраска обычного кадра |
+| Албасты: обычная, прицел, заморожена | `Assets/Art/Enemies/Albasty_*` | PixelLab: дизайн — create_image_pixen, прицел — animate_image_pixminimax | Pillow: перекраска глаз и свечения, аура прицела; заморозка — перекраска обычного кадра |
+| Қара бура: обычный, подготовка, разбег, оглушён, заморожен | `Assets/Art/Enemies/Bura_*` | PixelLab: дизайн — create_image_pixen, подготовка и разбег — animate_image_pixminimax | Pillow: перекраска глаза, аура, полосы скорости; оглушён и заморожен — Pillow поверх обычного кадра |
+| Снаряд Албасты (2 кадра) | `Assets/Art/Enemies/AlbastyProjectile_0..1` | Свой код Python + Pillow, без генеративных моделей | — |
+| Духи: обычный, малый, заморожены | `Assets/Art/Enemies/Spirit_normal`, `Spirit_frozen`, `Spirit_small`, `Spirit_small_frozen` | PixelLab: дух — create_image_pixen, малый дух — edit_image_pixen (перерисован в 32x32) | Pillow: полупрозрачный низ, багровая палитра малого духа, заморозка — перекраска |
 | Иконка приложения | `Assets/Art/UI/AppIcon_512` | Свой код Python + Pillow; фигура Ай — кадр `Ai_aim_0` (PixelLab) | — |
 | Тайлы всех уровней, фоны, декор (юрта, балбал, кулпытас, мазар, кол Темірқазық, кони) | `Assets/Art/Tiles`, `Backgrounds`, `Props` | Свой код Python + Pillow, без генеративных моделей | — |
-| Звёзды, масло, ворота, духи, луч, Жарқыл, эффекты | `Assets/Art/Props`, `Enemies`, `Light`, `FX` | Свой код Python + Pillow, без генеративных моделей | — |
+| Звёзды, масло, ворота, луч, Жарқыл, эффекты | `Assets/Art/Props`, `Light`, `FX` | Свой код Python + Pillow, без генеративных моделей | — |
 | UI: кнопки, стик, полоски масла и HP босса, панель паузы, логотип, свой пиксельный шрифт 5x7 | `Assets/Art/UI` | Свой код Python + Pillow, без генеративных моделей | — |
-| Greybox-спрайты | `Assets/Greybox/` | Созданы в проекте (см. `AI_LOG.txt`) | — |
-| `circle.png`, `square.png` | `Assets/Art/` | **TODO: указать источник** | — |
+| Общий стилевой проход врагов, духов и босса | `Assets/Art/Enemies`, `Assets/Art/Boss` | Скрипт Pillow | Контур как у Ай, одна палитра на персонажа (median cut, без дизеринга) |
+| Лодка Level2 | `Assets/Art/Props/Boat` | Свой код Python + Pillow, без генеративных моделей (PixelLab не использовался) | — |
+| Вода реки Level2 (2 кадра) | `Assets/Art/Tiles/River_Water`, `River_Water_1` | Свой код Python + Pillow, без генеративных моделей | Второй кадр — тот же рисунок, сдвинутый по кругу на 16 px |
+| Шипы | `Assets/Art/Props/Thorn` | Свой код Python + Pillow, без генеративных моделей | Трава из палитры `Ground_top` |
+| Greybox: физический материал `NoFriction` (на Ай) и старые спрайты-заглушки | `Assets/Greybox/` | Созданы в проекте (см. `AI_LOG.txt`) | Заглушки в игре больше не используются (кроме `Square` — красная подсветка зоны аркана босса); папка оставлена из-за физического материала |
+| `circle.png`, `square.png` | `Assets/Art/` | Из шаблона Unity (Universal 2D), мной не менялись | — |
 
-- Для эскизов Ай в PixelLab использовался референс `Assets/Art/Reference/Ai_reference.png` (в репозиторий не входит, папка в `.gitignore`). **TODO: указать источник референса.**
+- Для эскизов Ай в PixelLab использовался референс `Assets/Art/Reference/Ai_reference.png` (в репозиторий не входит, папка в `.gitignore`). Референс сгенерирован в Gemini c ChatGPT и использован только как ориентир при создании эскизов, в игре его нет.
 - Папка Assets/TextMesh Pro импортирована из Unity (Import TMP Essentials), шейдеры оттуда не мои.
 
 **Шрифт.** LiberationSans из TextMesh Pro Essentials, лицензия SIL OFL 1.1 (`Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt`).

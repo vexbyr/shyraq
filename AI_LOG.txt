@@ -1,121 +1,31 @@
-Шырақ (Shyraq) · AI_LOG
-Курс Game Development Fundamentals (Narxoz), Assignment 8–9.
+Задание 10 — Three Enemy Types (19.11–21.11.2026)
 
-Используемые ИИ:
-- Сlaude (модель Claude Opus 5.5) - помогвл с ответами.
-- Claude Code (агент, модель Claude Opus 5.5) — арт в Assets/Art/.
+Что я просил у ИИ
+- Три типа врагов с разным поведением на общем базовом классе Enemy: Көлеңке-қасқыр (патруль, погоня, замах, укус), Албасты (прицел, выстрел, пауза), Қара бура (замах, разбег по прямой, оглушение). Замах 0,3–0,8 с, пауза после атаки, Raycast до игрока (стены блокируют), проверка «в кадре» перед атакой, все числа в serialized-полях.
+- Уровень 2 со всеми тремя врагами.
+- Арт врагов, босса, лодки, воды и шипов (PixelLab и Python+Pillow), подключение спрайтов к состояниям.
+- Правки после плейтеста: зрение Буры в прыжке, скорость волка, длина разбега Буры, собственный стик TouchStick, бросок аркана босса в обе стороны.
 
-1. AI Tools Used
+Что сделал ИИ
+- Скрипты Enemy, ShadowWolf, Albasty, AlbastyProjectile, Bura, FrameAnimation, TouchStick, правки Boss.
+- Префабы врагов, Level2, подключение спрайтов, сборка APK.
+- Рисунки врагов, босса, лодки, воды, шипов.
 
-During the development of this project, I used AI tools to assist with different parts of game development, including asset creation, programming, troubleshooting, and improving the overall project.
+Проверено руками (мной, глазами в Unity и на телефоне)
+- Level 1, 2 и 3 пройдены в Play: волк, Албасты, Бура (замах виден, перепрыгивание, оглушение), босс (аркан слева и справа, вторая фаза), лодка с Ай, вода из двух кадров, шипы.
+- Джойстик в Unity проверил сам: на телефоне андроид.
+- Плейтест на Android-телефоне: два человека на старой сборке (20.11), один на новой (21.11, около 04:00).
 
-Claude Code (Claude Opus 5.5) was the primary AI assistant. I connected Claude Code to PixelLab, an additional AI tool used for generating pixel-art graphics and game assets.
+Проверено только скриптом агента (я сам не повторял)
+- Часть сценариев Буры (прыжок во время замаха, высоты) и волка/Албасты в прыжке.
+- Проверки «вне кадра» у всех врагов и босса.
+- Одновременные касания стика (симуляция в Play).
+- Урон от шипов в Level 2 и 3.
 
-2. Pixel Art and Asset Creation
-
-Connected Claude Code with PixelLab to help with the creation of visual assets.
-
-Used AI assistance to generate pixel-art graphics for the game.
-
-Worked on creating and improving character sprites and other graphical elements.
-
-Requested help with maintaining a consistent visual style across the game's assets.
-
-Used the Assets/Art/ directory to organize the project's graphical resources.
-
-Used AI assistance to improve the appearance and suitability of assets for a 2D pixel-art game.
-
-3. Programming and Development Assistance
-
-Claude Code was used as a development assistant throughout the project.
-
-Asked Claude Code for help with implementing and modifying game functionality.
-
-Used AI assistance to understand existing scripts and their purpose.
-
-Requested explanations of programming logic that I did not fully understand.
-
-Used suggestions from Claude Code to troubleshoot problems during development.
-
-Asked for help when certain game mechanics or project features did not work as expected.
-
-Used AI to better understand the relationship between different game components and scripts.
-
-4. Error Troubleshooting and Debugging
-
-One of the main ways I used AI was for troubleshooting errors.
-
-When I encountered errors that I could not understand or solve independently, I took screenshots of the errors and sent them directly to Claude Code through the regular chat interface.
-
-The process included:
-
-Encountering an error while working in Unity or during project development.
-
-Taking a screenshot of the error message or problematic screen.
-
-Sending the screenshot to Claude Code through the chat.
-
-Asking the AI to explain what caused the error.
-
-Receiving possible solutions and step-by-step instructions.
-
-Applying the suggested fixes and checking whether the problem was resolved.
-
-I used this approach because some error messages contained technical information that was difficult for me to understand without additional explanation.
-
-5. Learning and Technical Explanations
-
-I also used Claude Code as a learning resource.
-
-Asked for explanations of unfamiliar technical terms.
-
-Requested step-by-step instructions when I did not understand how to perform certain operations.
-
-Asked questions about errors and their possible causes.
-
-Used AI explanations to understand why a particular solution was necessary instead of simply copying instructions.
-
-Consulted AI when I was unsure how to continue working on a specific part of the project.
-
-6. Project Organization
-
-AI assistance was also used to help maintain the project's structure.
-
-Organized graphical resources inside Assets/Art/.
-
-Used suggestions to keep project resources organized.
-
-Worked with Claude Code to identify relevant project files when troubleshooting.
-
-Used AI recommendations to make the development workflow more structured.
-
-7. Human Contribution and AI Usage
-
-AI tools were used as supporting development tools, not as complete replacements for my own work.
-
-My responsibilities included:
-
-Making decisions about the game's design and visual direction.
-
-Choosing which generated assets to use.
-
-Testing suggested solutions.
-
-Checking whether changes worked correctly.
-
-Deciding which AI recommendations were appropriate for the project.
-
-Managing the overall development process.
-
-Claude Code and PixelLab helped speed up development, generate graphical resources, explain technical problems, and reduce the time spent troubleshooting.
-
-8. Final Summary
-
-Throughout the project, AI assistance was used in several areas: pixel-art asset creation, integration with PixelLab, programming support, error troubleshooting, technical explanations, and project organization.
-
-The most frequently used tool was Claude Code (Claude Opus 5.5), which served as the main development assistant. PixelLab was used as an additional tool for working with pixel-art assets.
-
-AI assistance was especially useful when I encountered unfamiliar errors. I could send screenshots directly to Claude Code, receive explanations, and follow suggested steps to solve the problems.
-
-All AI-generated suggestions and assets were reviewed and selected during the development process.
+Где ИИ ошибся и что поправлено
+- Зрение Буры: в прыжке допуск по высоте 1,5 сбрасывал замах. Исправлено, допуск 3.
+- Аркан босса был длиннее нарисованной верёвки, и босс бил только влево (справа Ай была в безопасности). Исправлено: зона 85% от длины луча (3,4), направление выбирается в начале замаха.
+- Первые рисунки врагов были в разных контурах и палитрах. Сделан общий стилевой проход. Первые дизайны духа и босса я отклонил.
+- Агент написал DECISIONS.md сам (по моему промпту). Я переписал файл.
+- Причину зависания джойстика агент не воспроизвёл. Свой TouchStick написан по выводам из кода, не доказан воспроизведением.
 
