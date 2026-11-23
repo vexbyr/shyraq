@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76407e8972b65aa43b873fefe9a6bb6c, type: 3}
+  m_Name: Boss_Stats
+  m_EditorClassIdentifier: Assembly-CSharp::BossStats
+  maxHP: 14
+  damage: 1
+  moveSpeed: 1.5
+  visionRange: 0
+  windUpTime: 0.6
+  cooldownTime: 2.2
+  screenMargin: 0
+  revealTime: 1.2
+  phase2HpFraction: 0.5
+  patrolDistance: 8
+  cooldownTimePhase2: 2.2
+  lassoActiveTime: 0.5
+  lassoInnerEdge: 1.5
+  lassoBeamFraction: 0.85
+  summonDelay: 7
+  summonCount: 2

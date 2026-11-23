@@ -170,9 +170,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e459088734e3e47b496f802d308e8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spirit
+  drop: {fileID: 0}
+  stats: {fileID: 11400000, guid: f5d6beca211c1374780c3e744d30ec9c, type: 2}
   direction: {x: 1, y: 0}
   distance: 4
-  speed: 2
-  hp: 1
   normalSprite: {fileID: 21300000, guid: bb5eaa0107b945359589b2b04d44d2bb, type: 3}
   frozenSprite: {fileID: 21300000, guid: de43a9260d2746a89d36cb4e44b70c7b, type: 3}

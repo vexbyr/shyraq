@@ -430,9 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c5feb64bb41724b98ac7fc305d1e13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 6
-  jumpForce: 12
-  maxJumps: 2
+  stats: {fileID: 11400000, guid: 271b041815fd1904785beacc8255607d, type: 2}
   groundCheck: {fileID: 945745553618590956}
   groundCheckRadius: 0.15
   groundLayer:
@@ -485,10 +483,8 @@ MonoBehaviour:
   beam: {fileID: 2656382858017543526}
   flashPrefab: {fileID: 6740912259189952210, guid: 9b5f5f67b530a864d83a398e653c6027, type: 3}
   oilBar: {fileID: 0}
-  maxOil: 100
+  stats: {fileID: 11400000, guid: 271b041815fd1904785beacc8255607d, type: 2}
   startOil: 100
-  beamCost: 10
-  flashCost: 15
   oil: 0
 --- !u!114 &8747102831599682310
 MonoBehaviour:
@@ -502,8 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f7d7ec6a1d59e438c0bab7add4c8c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHP: 3
-  invincibleTime: 1.5
+  stats: {fileID: 11400000, guid: 271b041815fd1904785beacc8255607d, type: 2}
   fallY: -10
   hearts:
   - {fileID: 0}
@@ -523,7 +518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d086928e845c647bed1cff4f44df04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPickups
-  oilPerBottle: 30
 --- !u!95 &6285262005891856413
 Animator:
   serializedVersion: 7

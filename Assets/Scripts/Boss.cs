@@ -3,48 +3,32 @@ using UnityEngine;
 
 // Вожак Жеті қарақшы. Наследник Lightable: луч вызывает Lit().
 // Без автомата состояний (это A10): только hp, номер фазы (int), таймеры и корутины.
+// Все числа баланса — в ассете Boss_Stats (BossStats), читаем их в момент использования.
 // На объекте: SpriteRenderer + BoxCollider2D (Is Trigger) — его ловят луч и Жарқыл,
 // Rigidbody2D (Kinematic) — чтобы ходить, как дух.
 // Дочерний объект LassoZone: BoxCollider2D (Is Trigger) + DamageZone, выключен, пока нет броска.
 public class Boss : Lightable
 {
-    [Header("Здоровье и фазы")]
-    public int maxHp = 14;
-    public float revealTime = 1.2f;        // сколько секунд босс остаётся проявленным после луча
-    [SerializeField] float phase2HpFraction = 0.5f;   // hp меньше этой доли от maxHp — фаза 2 (0,5 = половина)
-    [SerializeField] float hurtFlashTime = 0.2f;      // сколько секунд показываем кадр урона
+    [Header("Баланс (HP, фазы, аркан, духи)")]
+    [SerializeField] BossStats stats;
 
-    [Header("Патруль в тени (как у духа)")]
-    public float patrolDistance = 8f;      // на сколько единиц уходит влево от старта
-    public float patrolSpeed = 1.5f;       // единиц в секунду
-
-    [Header("Аркан")]
+    [Header("Ссылки")]
     public GameObject lassoZone;           // зона удара перед боссом
-    public float attackDelay = 2.2f;       // фаза 1: бросок раз в 2,2 сек
-    public float attackDelayPhase2 = 2.2f; // фаза 2: сейчас как в фазе 1 (можно сделать чаще)
-    [SerializeField] float lassoWindUpTime = 0.6f;    // замах перед броском (видно кадр attackSprite0)
-    [SerializeField] float lassoActiveTime = 0.5f;    // сколько секунд зона удара включена
-    [SerializeField] float lassoInnerEdge = 1.5f;     // ближний край зоны: на столько единиц от центра босса
-    [SerializeField] float lassoBeamFraction = 0.85f; // длина зоны = эта доля от длины луча Ай (0,8–0,9)
-    [SerializeField] float screenMargin = 0f;         // отступ от края кадра (доля экрана): вне кадра не бросает и не зовёт духов
-
-    [Header("Малые духи (фаза 2)")]
     public GameObject smallSpiritPrefab;
     public Transform[] spawnPoints;        // откуда появляются духи
-    public float summonDelay = 7f;
-    public int summonCount = 2;            // сколько духов за раз
 
     [Header("Спрайты")]
     public Sprite shadowSprite;            // в тени — неуязвим
     public Sprite idleSprite;              // проявлен, фаза 1 (кадр 0)
     [SerializeField] Sprite idleSprite1;   // проявлен, фаза 1 (кадр 1), можно оставить пустым
-    [SerializeField] float idleFrameTime = 0.5f;   // сколько секунд показываем один кадр покоя
+    [SerializeField] float idleFrameTime = 0.5f;   // сколько секунд показываем один кадр покоя (вид, не баланс)
+    [SerializeField] float hurtFlashTime = 0.2f;   // сколько секунд показываем кадр урона (вид, не баланс)
     public Sprite phase2Sprite;            // проявлен, фаза 2 (красный)
     public Sprite attackSprite0;           // замах
     public Sprite attackSprite1;           // бросок
     public Sprite hurtSprite;              // получил урон
 
-    int hp;
+    int hp;                                // текущее здоровье (только во время игры)
     int phase = 1;
     float revealTimer;                     // > 0 — босс проявлен
     float attackTimer;
@@ -54,51 +38,55 @@ public class Boss : Lightable
     Sprite attackFrame;                    // какой кадр броска показывать сейчас
     SpriteRenderer sr;
     Rigidbody2D rb;
-    Vector2 pointA, pointB;                // концы патруля
+    Vector2 pointA;                        // правый конец патруля (старт)
     float patrolTimer;                     // идёт только в тени
     Transform player;                      // Ай — к ней поворачивается аркан
-    float lassoLength;                     // длина зоны аркана (считается в Start)
+    BoxCollider2D beamCollider;            // луч Ай: от его длины считается длина аркана
     int lassoSide = -1;                    // куда бросок: -1 влево, 1 вправо (выбирается в начале замаха)
     Camera cam;
+
+    void Awake()
+    {
+        if (stats == null)
+        {
+            Debug.LogError(name + ": не назначен ассет баланса (Boss Stats)", this);
+            enabled = false;
+        }
+    }
 
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindWithTag("Player").transform;
+        beamCollider = player.GetComponentInChildren<LightBeam>(true).GetComponent<BoxCollider2D>();
         cam = Camera.main;
         pointA = transform.position;
-        pointB = pointA + Vector2.left * patrolDistance;
-        hp = maxHp;
-        attackTimer = attackDelay;
-        summonTimer = summonDelay;
-        SetupLassoZone();
+        hp = stats.maxHP;
+        attackTimer = stats.cooldownTime;
+        summonTimer = stats.summonDelay;
+        PlaceLassoZone();
         lassoZone.SetActive(false);
     }
 
-    // Длина аркана считается от длины луча Ай: аркан бьёт чуть ближе, чем достаёт её свет
-    void SetupLassoZone()
+    // Ставим зону аркана на сторону lassoSide. Длина = доля от длины луча Ай (size.x коллайдера луча).
+    // Красная подсветка — на самой зоне, того же размера, переезжает вместе с ней
+    void PlaceLassoZone()
     {
-        BoxCollider2D beam = player.GetComponentInChildren<LightBeam>(true).GetComponent<BoxCollider2D>();
-        lassoLength = beam.size.x * lassoBeamFraction;       // size.x коллайдера луча — его длина
+        float lassoLength = beamCollider.size.x * stats.lassoBeamFraction;
 
         BoxCollider2D zone = lassoZone.GetComponent<BoxCollider2D>();
         zone.size = new Vector2(lassoLength, zone.size.y);
-        lassoZone.GetComponent<SpriteRenderer>().size = zone.size;          // красная подсветка того же размера
-        PlaceLassoZone();
-    }
+        lassoZone.GetComponent<SpriteRenderer>().size = zone.size;
 
-    // Ставим зону на сторону lassoSide. Красная подсветка — на самой зоне, переезжает вместе с ней
-    void PlaceLassoZone()
-    {
-        float centerX = lassoSide * (lassoInnerEdge + lassoLength / 2f);   // -1 — слева, 1 — справа
+        float centerX = lassoSide * (stats.lassoInnerEdge + lassoLength / 2f);   // -1 — слева, 1 — справа
         lassoZone.transform.localPosition = new Vector3(centerX, 0f, 0f);
     }
 
     void Update()
     {
         // 1. Свет: луч проявляет босса, и он держится ещё revealTime секунд (как тайная тропа)
-        if (IsLit()) revealTimer = revealTime;
+        if (IsLit()) revealTimer = stats.revealTime;
         else revealTimer -= Time.deltaTime;
 
         // 2. Таймер аркана: дошёл до нуля — бросаем и заводим заново. Вне кадра не бросает (ждёт, пока появится)
@@ -106,7 +94,7 @@ public class Boss : Lightable
         if (attackTimer <= 0f && !attacking && IsOnScreen())
         {
             StartCoroutine(ThrowLasso());
-            attackTimer = (phase == 1) ? attackDelay : attackDelayPhase2;
+            attackTimer = (phase == 1) ? stats.cooldownTime : stats.cooldownTimePhase2;
         }
 
         // 3. Фаза 2: раз в summonDelay секунд зовём духов. Вне кадра не зовёт (ждёт, пока появится)
@@ -116,7 +104,7 @@ public class Boss : Lightable
             if (summonTimer <= 0f && IsOnScreen())
             {
                 SummonSpirits();
-                summonTimer = summonDelay;
+                summonTimer = stats.summonDelay;
             }
         }
 
@@ -128,7 +116,8 @@ public class Boss : Lightable
     void FixedUpdate()
     {
         if (!IsRevealed()) patrolTimer += Time.fixedDeltaTime;
-        float t = Mathf.PingPong(patrolTimer * patrolSpeed / patrolDistance, 1f);
+        Vector2 pointB = pointA + Vector2.left * stats.patrolDistance;
+        float t = Mathf.PingPong(patrolTimer * stats.moveSpeed / stats.patrolDistance, 1f);
         rb.MovePosition(Vector2.Lerp(pointA, pointB, t));
     }
 
@@ -136,7 +125,8 @@ public class Boss : Lightable
     bool IsOnScreen()
     {
         Vector3 p = cam.WorldToViewportPoint(transform.position);
-        return p.x > screenMargin && p.x < 1f - screenMargin && p.y > screenMargin && p.y < 1f - screenMargin;
+        float m = stats.screenMargin;
+        return p.x > m && p.x < 1f - m && p.y > m && p.y < 1f - m;
     }
 
     // Проявлен ли босс сейчас (Жарқыл спрашивает перед ударом)
@@ -153,7 +143,7 @@ public class Boss : Lightable
         hp -= damage;
         hurtTimer = hurtFlashTime;         // кадр урона
 
-        if (phase == 1 && hp < maxHp * phase2HpFraction) phase = 2;   // меньше доли (по умолчанию половины) — фаза 2
+        if (phase == 1 && hp < stats.maxHP * stats.phase2HpFraction) phase = 2;   // меньше доли (по умолчанию половины) — фаза 2
 
         if (hp <= 0)
         {
@@ -163,7 +153,7 @@ public class Boss : Lightable
         return true;
     }
 
-    // Корутина броска: замах lassoWindUpTime, потом зона урона включена lassoActiveTime
+    // Корутина броска: замах windUpTime, потом зона урона включена lassoActiveTime
     IEnumerator ThrowLasso()
     {
         attacking = true;
@@ -171,11 +161,11 @@ public class Boss : Lightable
         lassoSide = (int)Mathf.Sign(player.position.x - transform.position.x);
         PlaceLassoZone();
         attackFrame = attackSprite0;
-        yield return new WaitForSeconds(lassoWindUpTime);
+        yield return new WaitForSeconds(stats.windUpTime);
 
         attackFrame = attackSprite1;
         lassoZone.SetActive(true);
-        yield return new WaitForSeconds(lassoActiveTime);
+        yield return new WaitForSeconds(stats.lassoActiveTime);
 
         lassoZone.SetActive(false);
         attacking = false;
@@ -184,7 +174,7 @@ public class Boss : Lightable
     // summonCount малых духов, по очереди в точках из списка
     void SummonSpirits()
     {
-        for (int i = 0; i < summonCount; i++)
+        for (int i = 0; i < stats.summonCount; i++)
         {
             Transform point = spawnPoints[i % spawnPoints.Length];   // % — остаток: 0, 1, 0, 1… если точек меньше, чем духов
             Instantiate(smallSpiritPrefab, point.position, Quaternion.identity);

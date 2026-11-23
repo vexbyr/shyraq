@@ -4,7 +4,7 @@ using UnityEngine;
 // Автомат состояний (enum State), переходы:
 //   Idle     → Aim      : видит Ай (близко, нет стены, сама в кадре камеры)
 //   Aim      → Idle     : Ай пропала из виду — прицел сброшен
-//   Aim      → Shoot    : прошло aimTime (всё это время Албасты светится — видно, что сейчас выстрелит)
+//   Aim      → Shoot    : прошло windUpTime (числа — в ассете Albasty_Stats) (всё это время Албасты светится — видно, что сейчас выстрелит)
 //   Shoot    → Cooldown : снаряд создан (в Shoot она бывает ровно один кадр)
 //   Cooldown → Idle     : прошло cooldownTime
 //   любое    → Frozen   : в луче фонаря (прицел сброшен, не стреляет)
@@ -15,19 +15,13 @@ public class Albasty : Enemy
 {
     enum State { Idle, Aim, Shoot, Cooldown, Frozen }
 
-    [Header("Зрение")]
-    [SerializeField] float sightRange = 8f;            // дальше не видит
-    [SerializeField] LayerMask groundLayer;            // слой Ground: стены закрывают обзор
-    [SerializeField] float screenMargin = 0f;          // отступ от края кадра (доля экрана, 0 = сам край): ближе к краю — «вне кадра»
+    [Header("Баланс (зрение, прицел, перезарядка, снаряд)")]
+    [SerializeField] AlbastyStats stats;
 
-    [Header("Выстрел")]
-    [SerializeField] float aimTime = 0.65f;            // подготовка, секунды
-    [SerializeField] float cooldownTime = 1.5f;        // перезарядка после выстрела
+    [Header("Ссылки")]
+    [SerializeField] LayerMask groundLayer;            // слой Ground: стены закрывают обзор
     [SerializeField] Transform firePoint;              // точка выстрела
     [SerializeField] AlbastyProjectile projectilePrefab;
-    [SerializeField] float projectileSpeed = 6f;       // единиц в секунду
-    [SerializeField] float projectileLifetime = 2.5f;  // секунд, потом исчезает сам
-    [SerializeField] int projectileDamage = 1;
 
     [Header("Вид (спрайты можно оставить пустыми)")]
     [SerializeField] Sprite aimSprite;
@@ -43,6 +37,8 @@ public class Albasty : Enemy
     Color normalColor;           // цвет из префаба
     Camera cam;
     Collider2D playerCollider;   // целимся в центр коллайдера Ай
+
+    protected override EnemyStats Stats() { return stats; }
 
     void Start()
     {
@@ -94,8 +90,8 @@ public class Albasty : Enemy
     void ChangeState(State newState)
     {
         state = newState;
-        if (newState == State.Aim) timer = aimTime;
-        if (newState == State.Cooldown) timer = cooldownTime;
+        if (newState == State.Aim) timer = stats.windUpTime;
+        if (newState == State.Cooldown) timer = stats.cooldownTime;
     }
 
     // Видит ли Ай: Албасты в кадре, Ай близко и между ними нет стены
@@ -106,7 +102,7 @@ public class Albasty : Enemy
 
         Vector2 eye = firePoint.position;
         Vector2 toPlayer = (Vector2)playerCollider.bounds.center - eye;
-        if (toPlayer.magnitude > sightRange) return false;
+        if (toPlayer.magnitude > stats.visionRange) return false;
 
         facingRight = toPlayer.x > 0f;                      // поворачивается к Ай
 
@@ -119,7 +115,8 @@ public class Albasty : Enemy
     bool IsOnScreen()
     {
         Vector3 p = cam.WorldToViewportPoint(transform.position);
-        return p.x > screenMargin && p.x < 1f - screenMargin && p.y > screenMargin && p.y < 1f - screenMargin;
+        float m = stats.screenMargin;
+        return p.x > m && p.x < 1f - m && p.y > m && p.y < 1f - m;
     }
 
     // Выстрел: направление выбирается один раз, в момент выстрела. Снаряд не самонаводится —
@@ -128,7 +125,7 @@ public class Albasty : Enemy
     {
         Vector2 direction = ((Vector2)playerCollider.bounds.center - (Vector2)firePoint.position).normalized;
         AlbastyProjectile projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-        projectile.Launch(direction, projectileSpeed, projectileLifetime, projectileDamage);
+        projectile.Launch(direction, stats.projectileSpeed, stats.projectileLifetime, stats.damage);
     }
 
     // Внешний вид по состоянию
@@ -148,8 +145,8 @@ public class Albasty : Enemy
     // В редакторе (выделена): жёлтый круг — дальность зрения
     void OnDrawGizmosSelected()
     {
-        if (firePoint == null) return;
+        if (firePoint == null || stats == null) return;
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(firePoint.position, sightRange);
+        Gizmos.DrawWireSphere(firePoint.position, stats.visionRange);
     }
 }

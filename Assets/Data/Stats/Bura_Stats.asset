@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d568666bc0acdd54280e218e1d923262, type: 3}
+  m_Name: Bura_Stats
+  m_EditorClassIdentifier: Assembly-CSharp::BuraStats
+  maxHP: 3
+  damage: 1
+  moveSpeed: 0
+  visionRange: 9
+  windUpTime: 0.8
+  cooldownTime: 1.5
+  screenMargin: 0
+  maxHeightDifference: 3
+  chargeSpeed: 10
+  chargeMaxTime: 1.8

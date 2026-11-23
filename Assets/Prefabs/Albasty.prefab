@@ -181,19 +181,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67b5307451d04f49a127dac3114aaa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Albasty
-  hp: 1
   drop: {fileID: 0}
-  sightRange: 8
+  stats: {fileID: 11400000, guid: a20937a74e920514f9a38c8a060df2b2, type: 2}
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  aimTime: 0.65
-  cooldownTime: 1.5
   firePoint: {fileID: 6725929458117102304}
   projectilePrefab: {fileID: 4422660171659537408, guid: 48d03062a0f52a449a8ab4018607288c, type: 3}
-  projectileSpeed: 6
-  projectileLifetime: 2.5
-  projectileDamage: 1
   aimSprite: {fileID: 21300000, guid: f0c9fb0735930bb6ee08a89e1bab2147, type: 3}
   frozenSprite: {fileID: 21300000, guid: 59f79309c7461851d363673f1cbfde7e, type: 3}
   aimColor: {r: 1, g: 1, b: 1, a: 1}

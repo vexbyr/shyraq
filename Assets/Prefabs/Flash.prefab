@@ -170,6 +170,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97138f156ca65354f92e2828db6f92e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Flash
-  speed: 14
-  lifeTime: 1.5
-  damage: 1
+  stats: {fileID: 11400000, guid: 271b041815fd1904785beacc8255607d, type: 2}

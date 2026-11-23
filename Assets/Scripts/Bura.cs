@@ -6,7 +6,7 @@ using UnityEngine;
 //   WindUp  → Idle    : Ай ушла за стену или Бура ушёл за экран (дальность и прыжок замах НЕ сбрасывают)
 //   WindUp  → Charge  : прошло windUpTime (всё это время он «роет копытом»: цвет/спрайт)
 //   Charge  → Stunned : Raycast нашёл стену или обрыв впереди, или прошло chargeMaxTime
-//   Stunned → Idle    : прошло stunTime (это и есть перезарядка)
+//   Stunned → Idle    : прошло cooldownTime (оглушение = перезарядка; числа — в ассете Bura_Stats)
 //   любое   → Frozen  : в луче фонаря (подготовка и разбег сброшены)
 //   Frozen  → Idle    : луч ушёл
 // Во время WindUp Бура поворачивается к Ай, направление разбега фиксируется в конце замаха
@@ -16,21 +16,12 @@ public class Bura : Enemy
 {
     enum State { Idle, WindUp, Charge, Stunned, Frozen }
 
-    [Header("Зрение")]
-    [SerializeField] float sightRange = 9f;            // дальше не видит
-    [SerializeField] float maxHeightDifference = 3f;   // Ай выше/ниже этого — не начинает замах (3 — видит и в прыжке)
+    [Header("Баланс (зрение, замах, разбег, оглушение)")]
+    [SerializeField] BuraStats stats;
+
+    [Header("Тело (размеры спрайта, не баланс)")]
     [SerializeField] float eyeHeight = 0.7f;           // откуда «смотрит» (над ногами)
     [SerializeField] LayerMask groundLayer;            // слой Ground: стены закрывают обзор
-    [SerializeField] float screenMargin = 0f;          // отступ от края кадра (доля экрана, 0 = сам край): ближе к краю — «вне кадра»
-
-    [Header("Разбег")]
-    [SerializeField] float windUpTime = 0.8f;          // подготовка, секунды
-    [SerializeField] float chargeSpeed = 10f;          // единиц в секунду
-    [SerializeField] float chargeMaxTime = 1.8f;       // дольше не бежит (1,8 × 10 = до 18 единиц)
-    [SerializeField] float stunTime = 1.5f;            // оглушён после разбега (перезарядка)
-    [SerializeField] int chargeDamage = 1;
-
-    [Header("Проверки стены и края")]
     [SerializeField] float wallCheckDistance = 1f;     // стена ближе — удар, оглушён
     [SerializeField] float edgeCheckOffset = 1f;       // на сколько вперёд ищем землю под ногами
     [SerializeField] float groundCheckDepth = 0.5f;    // как глубоко вниз ищем землю
@@ -53,6 +44,8 @@ public class Bura : Enemy
     Color normalColor;           // цвет из префаба
     Camera cam;
     Collider2D playerCollider;   // смотрим в центр коллайдера Ай
+
+    protected override EnemyStats Stats() { return stats; }
 
     void Start()
     {
@@ -95,7 +88,7 @@ public class Bura : Enemy
 
             case State.Charge:
                 if (!CanMoveForward() || timer <= 0f) ChangeState(State.Stunned);
-                else rb.MovePosition(rb.position + Forward() * chargeSpeed * Time.fixedDeltaTime);
+                else rb.MovePosition(rb.position + Forward() * stats.chargeSpeed * Time.fixedDeltaTime);
                 break;
 
             case State.Stunned:
@@ -108,9 +101,9 @@ public class Bura : Enemy
     void ChangeState(State newState)
     {
         state = newState;
-        if (newState == State.WindUp) timer = windUpTime;
-        if (newState == State.Charge) timer = chargeMaxTime;
-        if (newState == State.Stunned) timer = stunTime;
+        if (newState == State.WindUp) timer = stats.windUpTime;
+        if (newState == State.Charge) timer = stats.chargeMaxTime;
+        if (newState == State.Stunned) timer = stats.cooldownTime;            // оглушение = перезарядка
     }
 
     Vector2 Forward()
@@ -138,8 +131,8 @@ public class Bura : Enemy
     {
         if (!ClearView()) return false;
         Vector2 toPlayer = ToPlayer();
-        if (toPlayer.magnitude > sightRange) return false;
-        return Mathf.Abs(toPlayer.y) <= maxHeightDifference;
+        if (toPlayer.magnitude > stats.visionRange) return false;
+        return Mathf.Abs(toPlayer.y) <= stats.maxHeightDifference;
     }
 
     // Ничто не мешает: Бура в кадре и между его глазами и Ай нет стены (дальность и высота не важны)
@@ -169,16 +162,17 @@ public class Bura : Enemy
     bool IsOnScreen()
     {
         Vector3 p = cam.WorldToViewportPoint(transform.position);
-        return p.x > screenMargin && p.x < 1f - screenMargin && p.y > screenMargin && p.y < 1f - screenMargin;
+        float m = stats.screenMargin;
+        return p.x > m && p.x < 1f - m && p.y > m && p.y < 1f - m;
     }
 
     // Ранит только в разбеге — перед этим всегда есть подготовка
     void OnTriggerStay2D(Collider2D other)
     {
-        if (state != State.Charge) return;
+        if (!enabled || state != State.Charge) return;
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerHealth>().TakeDamage(chargeDamage);
+            other.GetComponent<PlayerHealth>().TakeDamage(stats.damage);
         }
     }
 
@@ -201,7 +195,8 @@ public class Bura : Enemy
     // В редакторе (выделен): жёлтый круг — дальность зрения
     void OnDrawGizmosSelected()
     {
+        if (stats == null) return;
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position + Vector3.up * eyeHeight, sightRange);
+        Gizmos.DrawWireSphere(transform.position + Vector3.up * eyeHeight, stats.visionRange);
     }
 }

@@ -6,8 +6,8 @@ using UnityEngine;
 // Дочерний объект Solid: BoxCollider2D на слое Ground (по нему ходят).
 public class SecretPath : Lightable
 {
+    [SerializeField] ItemValues itemValues;   // secretPathStayTime — сколько секунд тропа держится после луча
     public BoxCollider2D solid;
-    public float stayTime = 1.5f;      // сколько секунд тропа держится после того, как луч ушёл
     public Sprite dimSprite;           // тропа в темноте (еле видна)
     public Sprite litSprite;           // тропа в свете
 
@@ -17,6 +17,12 @@ public class SecretPath : Lightable
 
     void Awake()
     {
+        if (itemValues == null)
+        {
+            Debug.LogError(name + ": не назначен ассет Item Values", this);
+            enabled = false;
+            return;
+        }
         sr = GetComponent<SpriteRenderer>();
         trigger = GetComponent<BoxCollider2D>();
 
@@ -29,7 +35,7 @@ public class SecretPath : Lightable
 
     void Update()
     {
-        if (IsLit()) timer = stayTime;     // светим — таймер снова полный
+        if (IsLit()) timer = itemValues.secretPathStayTime;     // светим — таймер снова полный
         else timer -= Time.deltaTime;      // не светим — таймер тикает вниз
 
         bool visible = timer > 0f;

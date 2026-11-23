@@ -180,19 +180,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4058a7431b3ea48a7229b915472cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bura
-  hp: 3
   drop: {fileID: 0}
-  sightRange: 9
-  maxHeightDifference: 3
+  stats: {fileID: 11400000, guid: c319fb5288511d6499a27fd19d8ae6b4, type: 2}
   eyeHeight: 0.7
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  windUpTime: 0.8
-  chargeSpeed: 10
-  chargeMaxTime: 1.8
-  stunTime: 1.5
-  chargeDamage: 1
   wallCheckDistance: 1
   edgeCheckOffset: 1
   groundCheckDepth: 0.5

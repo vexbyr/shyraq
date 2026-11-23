@@ -1,12 +1,28 @@
 using UnityEngine;
 
 // Бутылочка масла (тег Oil). Подбирает её PlayerPickups.
-// Обычная исчезает навсегда, «возрождаемая» (арена босса) прячется и через respawnTime появляется снова.
+// Обычная исчезает навсегда, «возрождаемая» (арена босса) прячется и через oilRespawnTime появляется снова.
+// Сколько масла даёт и через сколько возрождается — в ассете Item_Values.
 public class OilBottle : MonoBehaviour
 {
-    public float amount = 30f;           // сколько масла даёт
-    public bool respawns = false;        // возрождается ли
-    public float respawnTime = 20f;      // через сколько секунд
+    [SerializeField] ItemValues itemValues;
+    [SerializeField] bool isSpiritDrop = false;   // выпала из малого духа — даёт меньше масла
+    public bool respawns = false;                 // возрождается ли (арена босса)
+
+    void Awake()
+    {
+        if (itemValues == null)
+        {
+            Debug.LogError(name + ": не назначен ассет Item Values", this);
+            enabled = false;
+        }
+    }
+
+    // Сколько масла даёт эта бутылочка
+    public float Amount()
+    {
+        return isSpiritDrop ? itemValues.oilDropAmount : itemValues.oilBottleAmount;
+    }
 
     public void PickUp()
     {
@@ -15,7 +31,7 @@ public class OilBottle : MonoBehaviour
             // Не удаляем объект, а прячем: выключаем картинку и коллайдер
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
-            Invoke("Respawn", respawnTime);   // через respawnTime секунд Unity вызовет Respawn()
+            Invoke("Respawn", itemValues.oilRespawnTime);   // через oilRespawnTime секунд Unity вызовет Respawn()
         }
         else
         {
