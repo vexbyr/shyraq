@@ -1,29 +1,35 @@
-# DECISIONS — Шырақ (Shyraq)
+**2026-11-19**  
+I worked on adding three enemies to the game: Wolf, Albasty, and Bura. During implementation, I noticed that some enemy behaviors and attack mechanics did not work as expected. I reviewed the generated code, corrected the incorrect behavior, and adjusted the enemy mechanics to fit the gameplay.
 
-Короткий журнал решений: что решили, почему и что пришлось чинить. 3–5 строк в неделю.
+**2026-11-20**  
+I noticed that the boss's lasso attack hitbox was much longer than the rope shown on the screen. This made the attack unfair because the player could get hit even when standing outside the visible rope. I reduced the hitbox length from 3.5 to 0.5.
 
-## Неделя 16–22 ноября 2026 — Assignment 10 (три типа врагов)
+**2026-11-20 — Playtest 1 (old build)**  
+I tested the game with players and recorded the number of attempts needed to complete each level.
 
-- **База `Enemy : Lightable`.** hp, drop и `TakeHit` вынесены в общий класс. Жарқыл (`Flash.cs`) делает одну проверку `GetComponent<Enemy>()` и ранит любого врага, а луч через `IsLit()` замораживает всех одинаково. `Spirit` стал наследником `Enemy`, значения в префабах сохранились (поля с теми же именами).
-- **Автомат состояний — `enum State` + `switch` в одном скрипте у каждого врага.** Без отдельных классов на каждое состояние: переходы видны в одном месте, каждую строку можно объяснить на защите. Frozen (луч) проверяется первым и сбрасывает подготовку.
-- **Три врага:** Көлеңке-қасқыр `ShadowWolf` (Patrol → Chase → WindUp 0,5 с → Bite 0,25 с → Cooldown 1 с), Албасты `Albasty` (Idle → Aim 0,65 с → Shoot → Cooldown 1,5 с), Қара бура — дух чёрного верблюда `Bura` (Idle → WindUp 0,8 с → Charge до 1,2 с → Stunned 1,5 с). Все подготовки в рамках 0,3–0,8 с и видимы (смена цвета; слоты для спрайтов есть).
-- **Зрение — Raycast только по слою Ground** от врага к центру коллайдера Ай: попал в стену — не видит. Так лучи не цепляются за триггеры (луч, Жарқыл, духи), а скрытая тайная тропа с выключенным коллайдером обзор не закрывает.
-- **«Не атаковать из-за экрана»:** проверка `Camera.WorldToViewportPoint` (0..1), а не `Renderer.isVisible` — в редакторе `isVisible` true, если объект видит окно Scene, и тест был бы нечестным. Волк кусает только вблизи, поэтому проверка кадра есть у Албасты и Буры.
-- **Бура реагирует, только если Ай примерно на его высоте** (`maxHeightDifference` 1,5): он бежит только по горизонтали, а на надгробие от него можно запрыгнуть.
-- **Level2 «Сай»:** из 7 духов 3 заменены волками (Ground_2, Ground_5, Ground_6), 1 — Бурой (между надгробиями), добавлена Албасты за `Tomb_2` перед тайными камнями; 3 духа остались как слабые враги. Новых стен не ставил: надгробия высотой 2 и обрыв уже закрывают обзор — проверено скриптом в Play. Звёзды (8) и масло (3) не трогал.
-- **Босс:** тайминги вынесены в поля, замах аркана 0,3 → 0,6 с (0,3 был на нижней границе честной подготовки), остальное поведение и баланс без изменений (фаза 2 по-прежнему при hp < 7 из 14). Проверку «в кадре камеры» боссу не добавлял — по условию поведение босса не менять.
-- **Старый дух (`Spirit`) не переделывал:** урон 1 при касании остался в коде, подготовки нет — это слабый враг вне трёх типов A10.
-- **Android:** Package Name `com.vexbyr.shyraq`, IL2CPP / ARM64, APK собирается в папку `KOK_builds` рядом с проектом (не в репозитории).
+- Level 1: 2 and 3 attempts.
+- Level 2: 5 and 6 attempts.
+- Level 3: 7 and 9 attempts.
 
-### Что агент (Claude Code) сделал не так / что пришлось чинить
-- Создал ветку `feature/enemies` от устаревшего локального `main` (отставал от `origin/main` на 2 коммита) — исправлено fast-forward без потери данных.
-- Сначала MCP for Unity не подключался — компиляцию проверяли компилятором Roslyn из Unity вручную, до установки пакета.
-- В тестах Play Unity без фокуса стоял на 2-м кадре — для тестов включался `Application.runInBackground` (только в Play, в настройки не сохраняется).
-- В тестовых сценариях дважды ошибся счётчик шагов (прицел, сброшенный из-за запаздывания камеры, посчитан как настоящий) — проверки досдавались отдельным прогоном.
-- Сборка APK заодно изменила URP-ассеты, `preloadedAssets` и `UnityConnectSettings` — в коммит попала только строка Package Name, остальное оставлено на решение разработчика.
+I observed that most deaths on Level 2 were caused by Bura and Albasty, while the boss caused difficulties on Level 3. On Level 1, players often fell from platforms and did not understand the light mechanic.
 
-### Плейтест (заполняет разработчик)
-- TODO: тестер — имя: ____ ; устройство: ____
-- TODO: Level2 — число попыток до прохождения: ____ ; где умирал чаще всего: ____
-- TODO: что изменил после плейтеста — параметр: ____ ; было: ____ ; стало: ____ ; почему: ____
-- TODO: что изменил после плейтеста — параметр: ____ ; было: ____ ; стало: ____ ; почему: ____
+**2026-11-21**  
+After testing the boss fight myself, I found another issue with the lasso attack. Players could stand on the right side of the boss and avoid being hit completely. I adjusted the lasso hitbox to cover approximately 85% of the visible light beam (3.4). I also fixed the boss's targeting so that it could throw the lasso toward the player's position on either side.
+
+**2026-11-21 — Gameplay Improvements**  
+Based on the first playtest and my own testing, I made several gameplay adjustments:
+
+- Increased Bura's vertical detection tolerance from 1.5 to 3 so it could detect the player more reliably.
+- Fixed Bura's wind-up animation so that jumping would not cancel its attack.
+- Increased the wolf's chase speed from 4 to 7.2 to make its movement more effective.
+- Increased Bura's maximum charge time from 1.2 to 1.8 seconds.
+- Replaced the original joystick with TouchStick after experiencing freezing issues. I could not consistently reproduce the freezing problem, but decided to change the joystick implementation.
+
+**2026-11-21 — Playtest 2 (new build, approximately 04:00)**  
+I tested the updated build again with the same tester who had played the previous version.
+
+- Level 1: 1 attempt.
+- Level 2: 3 attempts.
+- Level 3: 2 attempts.
+
+The results showed improvement compared with the first playtest. However, the tester had already played the game before, so familiarity with the levels may also have influenced the results.

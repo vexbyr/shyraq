@@ -58,9 +58,9 @@
 | Вода реки Level2 (2 кадра) | `Assets/Art/Tiles/River_Water`, `River_Water_1` | Свой код Python + Pillow, без генеративных моделей | Второй кадр — тот же рисунок, сдвинутый по кругу на 16 px |
 | Шипы | `Assets/Art/Props/Thorn` | Свой код Python + Pillow, без генеративных моделей | Трава из палитры `Ground_top` |
 | Greybox: физический материал `NoFriction` (на Ай) и старые спрайты-заглушки | `Assets/Greybox/` | Созданы в проекте (см. `AI_LOG.txt`) | Заглушки в игре больше не используются (кроме `Square` — красная подсветка зоны аркана босса); папка оставлена из-за физического материала |
-| `circle.png`, `square.png` | `Assets/Art/` | **TODO: указать источник** | — |
+| `circle.png`, `square.png` | `Assets/Art/` | Из шаблона Unity (Universal 2D), мной не менялись | — |
 
-- Для эскизов Ай в PixelLab использовался референс `Assets/Art/Reference/Ai_reference.png` (в репозиторий не входит, папка в `.gitignore`). **TODO: указать источник референса.**
+- Для эскизов Ай в PixelLab использовался референс `Assets/Art/Reference/Ai_reference.png` (в репозиторий не входит, папка в `.gitignore`). Референс сгенерирован в Gemini c ChatGPT и использован только как ориентир при создании эскизов, в игре его нет.
 - Папка Assets/TextMesh Pro импортирована из Unity (Import TMP Essentials), шейдеры оттуда не мои.
 
 **Шрифт.** LiberationSans из TextMesh Pro Essentials, лицензия SIL OFL 1.1 (`Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt`).
