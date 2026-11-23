@@ -26,6 +26,12 @@ public abstract class Enemy : Lightable
         hp = Stats().maxHP;
     }
 
+    // Свой маршрут патруля от LevelLoader: смещения от точки появления.
+    // По умолчанию ничего не делает — у Албасты и Буры маршрута нет. Волк и дух переопределяют
+    public virtual void SetRoute(Vector2 start, Vector2 end)
+    {
+    }
+
     // Попал Жарқыл (вызывает Flash)
     public void TakeHit(int damage)
     {

@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9284e0a777ff2fc458510a2a0704e029, type: 3}
+  m_Name: Level_02
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  levelNumber: 2
+  displayName: Sai
+  sceneName: Level2
+  nextLevel: {fileID: 11400000, guid: 44a32cbd0c86d7146884c80436160e95, type: 2}
+  starsRequired: 8
+  startOil: 60
+  parTimeSeconds: 150
+  playerSpawn: {x: 0, y: 0}
+  enemies:
+  - prefab: {fileID: 1682978683519717123, guid: 696c9bef6532bca4da552890aaa94493, type: 3}
+    position: {x: 41.8, y: 3}
+    routeStart: {x: 0, y: 0}
+    routeEnd: {x: 0, y: 6}
+  - prefab: {fileID: 1682978683519717123, guid: 696c9bef6532bca4da552890aaa94493, type: 3}
+    position: {x: 53, y: 12}
+    routeStart: {x: 0, y: 0}
+    routeEnd: {x: 7, y: 0}
+  - prefab: {fileID: 1682978683519717123, guid: 696c9bef6532bca4da552890aaa94493, type: 3}
+    position: {x: 83, y: 1.2}
+    routeStart: {x: 0, y: 0}
+    routeEnd: {x: 8, y: 0}
+  - prefab: {fileID: 1871928652901147219, guid: 96d7cc6ac0f97384a96794efcc05720c, type: 3}
+    position: {x: 15, y: 2}
+    routeStart: {x: -4, y: 0}
+    routeEnd: {x: 6, y: 0}
+  - prefab: {fileID: 1871928652901147219, guid: 96d7cc6ac0f97384a96794efcc05720c, type: 3}
+    position: {x: 73, y: 0}
+    routeStart: {x: -5.5, y: 0}
+    routeEnd: {x: 5.5, y: 0}
+  - prefab: {fileID: 1871928652901147219, guid: 96d7cc6ac0f97384a96794efcc05720c, type: 3}
+    position: {x: 125, y: 3}
+    routeStart: {x: -3.5, y: 0}
+    routeEnd: {x: 3.5, y: 0}
+  - prefab: {fileID: 2772944514149948484, guid: 36982c54cd75b364792613866b431364, type: 3}
+    position: {x: 96, y: 0}
+    routeStart: {x: 0, y: 0}
+    routeEnd: {x: 0, y: 0}
+  - prefab: {fileID: 5571962288381508241, guid: 8b830b77a571dce4fb4c67b8c18abe8d, type: 3}
+    position: {x: 107.2, y: 0}
+    routeStart: {x: 0, y: 0}
+    routeEnd: {x: 0, y: 0}
+  pickups:
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 20.5, y: 2}
+  - prefab: {fileID: 5197731945975376040, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
+    position: {x: 38.5, y: 3}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 44.5, y: 6}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 47, y: 12}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 63.5, y: 12}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 81, y: 2}
+  - prefab: {fileID: 5197731945975376040, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
+    position: {x: 86, y: 0}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 101, y: 2}
+  - prefab: {fileID: 5197731945975376040, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
+    position: {x: 106, y: 0}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 116.5, y: 2}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 125.5, y: 6}

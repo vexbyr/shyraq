@@ -4,13 +4,13 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 // Один на сцену: считает звёзды, открывает ворота, грузит следующий уровень.
+// Сколько звёзд нужно и какой уровень следующий — из LevelData (GameSession.CurrentLevel, ставит LevelLoader).
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;   // «сам себя» — чтобы другие скрипты нашли его как LevelManager.instance
 
     public Gate gate;                      // ворота этого уровня
     public TMP_Text starText;              // счётчик звёзд в HUD
-    public string nextScene = "Level2";    // куда ведут ворота
     public SpriteRenderer sky;             // картинка неба; ночью она затемнена цветом, в конце светлеет
     public GameObject starsInSky;          // уровень с боссом: звёзды на небе (выключены до победы)
     public string winScene = "Win";
@@ -30,8 +30,8 @@ public class LevelManager : MonoBehaviour
         GameObject exit = GameObject.FindGameObjectWithTag("Exit");
         if (gate == null && exit != null) gate = exit.GetComponent<Gate>();
 
-        // Сколько звёзд на уровне = сколько объектов с тегом Coin
-        starsTotal = GameObject.FindGameObjectsWithTag("Coin").Length;
+        // Сколько звёзд нужно — цель уровня из LevelData
+        starsTotal = GameSession.CurrentLevel.starsRequired;
         UpdateStarText();
     }
 
@@ -83,14 +83,10 @@ public class LevelManager : MonoBehaviour
     {
         if (!gate.isOpen) return;
 
-        // Сцена есть в Build Settings? Тогда грузим, иначе просто пишем в Console
-        if (Application.CanStreamedLevelBeLoaded(nextScene))
-        {
-            SceneManager.LoadScene(nextScene);
-        }
-        else
-        {
-            Debug.Log("Уровень пройден! Сцены " + nextScene + " пока нет в Build Settings.");
-        }
+        // Следующий уровень из LevelData: запоминаем его в GameSession и грузим его сцену
+        LevelData next = GameSession.CurrentLevel.nextLevel;
+        if (next == null) return;          // последний уровень заканчивается победой над боссом, не воротами
+        GameSession.CurrentLevel = next;
+        SceneManager.LoadScene(next.sceneName);
     }
 }

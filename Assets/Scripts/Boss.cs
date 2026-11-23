@@ -15,7 +15,8 @@ public class Boss : Lightable
     [Header("Ссылки")]
     public GameObject lassoZone;           // зона удара перед боссом
     public GameObject smallSpiritPrefab;
-    public Transform[] spawnPoints;        // откуда появляются духи
+    [Tooltip("Где появляются малые духи: смещения от стартовой точки босса")]
+    [SerializeField] Vector2[] summonOffsets;
 
     [Header("Спрайты")]
     public Sprite shadowSprite;            // в тени — неуязвим
@@ -171,13 +172,13 @@ public class Boss : Lightable
         attacking = false;
     }
 
-    // summonCount малых духов, по очереди в точках из списка
+    // summonCount малых духов, по очереди в точках из списка (точки считаются от старта босса, а не от него сейчас)
     void SummonSpirits()
     {
         for (int i = 0; i < stats.summonCount; i++)
         {
-            Transform point = spawnPoints[i % spawnPoints.Length];   // % — остаток: 0, 1, 0, 1… если точек меньше, чем духов
-            Instantiate(smallSpiritPrefab, point.position, Quaternion.identity);
+            Vector2 offset = summonOffsets[i % summonOffsets.Length];   // % — остаток: 0, 1, 0, 1… если точек меньше, чем духов
+            Instantiate(smallSpiritPrefab, pointA + offset, Quaternion.identity);
         }
     }
 

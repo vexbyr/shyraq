@@ -19,6 +19,14 @@ public class Spirit : Enemy
 
     protected override EnemyStats Stats() { return stats; }
 
+    // Маршрут от LevelLoader (вызывается до Start): путь от start до end относительно точки появления
+    public override void SetRoute(Vector2 start, Vector2 end)
+    {
+        transform.position += (Vector3)start;
+        direction = end - start;
+        distance = direction.magnitude;
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();

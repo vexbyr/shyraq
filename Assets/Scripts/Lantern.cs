@@ -15,9 +15,8 @@ public class Lantern : MonoBehaviour
 
     [Header("Баланс (масло, Жарқыл)")]
     [SerializeField] PlayerStats stats;
-    public float startOil = 100f;    // сколько масла в начале уровня (в «Сае» меньше)
 
-    [HideInInspector] public float oil;
+    [HideInInspector] public float oil;   // наливает LevelLoader из LevelData.startOil
     float nextFlashTime;             // раньше этого времени Жарқыл не выстрелит (пауза flashCooldown)
 
     PlayerController player;
@@ -35,7 +34,6 @@ public class Lantern : MonoBehaviour
             enabled = false;
             return;
         }
-        oil = startOil;
         beam.SetActive(false);
     }
 

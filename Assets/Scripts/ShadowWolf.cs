@@ -53,6 +53,14 @@ public class ShadowWolf : Enemy
 
     protected override EnemyStats Stats() { return stats; }
 
+    // Маршрут от LevelLoader (вызывается до Start): двигаем две точки патруля (дети волка)
+    public override void SetRoute(Vector2 start, Vector2 end)
+    {
+        if (waypoints.Length < 2) return;
+        waypoints[0].localPosition = start;
+        waypoints[1].localPosition = end;
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
