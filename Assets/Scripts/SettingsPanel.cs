@@ -12,10 +12,13 @@ public class SettingsPanel : MonoBehaviour
     [SerializeField] Slider sfxSlider;
     [SerializeField] TMP_Text musicLabel;
     [SerializeField] TMP_Text sfxLabel;
+    // Что спрятать, пока открыты настройки. В главном меню — логотип и кнопки, в паузе — пусто.
+    [SerializeField] GameObject hideWhileOpen;
 
     public void Open()
     {
         gameObject.SetActive(true);
+        if (hideWhileOpen != null) hideWhileOpen.SetActive(false);
         // Показываем сохранённые значения. SetValueWithoutNotify — чтобы не вызвать OnMusicChanged лишний раз
         musicSlider.SetValueWithoutNotify(SaveSystem.Current.musicVolume);
         sfxSlider.SetValueWithoutNotify(SaveSystem.Current.sfxVolume);
@@ -33,6 +36,7 @@ public class SettingsPanel : MonoBehaviour
     {
         SaveSettings();
         gameObject.SetActive(false);
+        if (hideWhileOpen != null) hideWhileOpen.SetActive(true);
     }
 
     // Slider → On Value Changed
