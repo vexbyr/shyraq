@@ -101,7 +101,11 @@ public class Bura : Enemy
     void ChangeState(State newState)
     {
         state = newState;
-        if (newState == State.WindUp) timer = stats.windUpTime;
+        if (newState == State.WindUp)
+        {
+            timer = stats.windUpTime;
+            sfx.Play(windUpClips);       // первый кадр замаха (роет копытом)
+        }
         if (newState == State.Charge) timer = stats.chargeMaxTime;
         if (newState == State.Stunned) timer = stats.cooldownTime;            // оглушение = перезарядка
     }

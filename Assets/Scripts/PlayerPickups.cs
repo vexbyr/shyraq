@@ -3,6 +3,9 @@ using UnityEngine;
 // Ай подбирает предметы и заходит в ворота. Всё различаем по тегам.
 public class PlayerPickups : MonoBehaviour
 {
+    [SerializeField] SfxPlayer sfx;
+    [SerializeField] AudioClip[] starClips;
+
     Lantern lantern;
 
     void Awake()
@@ -15,6 +18,7 @@ public class PlayerPickups : MonoBehaviour
         if (other.CompareTag("Coin"))              // звезда
         {
             LevelManager.instance.AddStar();
+            sfx.Play(starClips);
             Destroy(other.gameObject);
         }
         else if (other.CompareTag("Exit"))         // проход ворот

@@ -131,7 +131,11 @@ public class ShadowWolf : Enemy
     void ChangeState(State newState)
     {
         state = newState;
-        if (newState == State.WindUp) timer = stats.windUpTime;
+        if (newState == State.WindUp)
+        {
+            timer = stats.windUpTime;
+            sfx.Play(windUpClips);       // первый кадр замаха
+        }
         if (newState == State.Bite) timer = stats.biteTime;
         if (newState == State.Cooldown) timer = stats.cooldownTime;
     }

@@ -9,6 +9,10 @@ public abstract class Enemy : Lightable
 {
     [SerializeField] protected GameObject drop;     // что выронить после смерти (малый дух — бутылочку), пусто — ничего
 
+    [Header("Звук замаха (у духа пусто: он не замахивается)")]
+    [SerializeField] protected SfxPlayer sfx;       // на этом же префабе, AudioSource → группа SFX
+    [SerializeField] protected AudioClip[] windUpClips;
+
     protected int hp;                               // текущее здоровье (только во время игры, в ассет не пишем)
 
     // Каждый наследник возвращает свой ассет баланса

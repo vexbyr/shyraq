@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     public float groundCheckRadius = 0.15f;
     public LayerMask groundLayer;         // слой Ground
 
+    [Header("Звук")]
+    [SerializeField] SfxPlayer sfx;
+    [SerializeField] AudioClip[] jumpClips;
+
     [HideInInspector] public bool facingRight = true;   // куда смотрит Ай (читает фонарь)
 
     Rigidbody2D rb;
@@ -47,6 +51,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, stats.jumpForce);
             jumpsLeft--;
+            sfx.Play(jumpClips);
         }
     }
 

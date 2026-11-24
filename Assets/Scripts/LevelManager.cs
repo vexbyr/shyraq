@@ -17,6 +17,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] ScoreSettings scoreSettings;   // как считать очки в конце уровня
     [SerializeField] LevelResults results;          // экран «уровень пройден»
 
+    [Header("Звук")]
+    [SerializeField] SfxPlayer sfx;
+    [SerializeField] AudioClip[] winClips;
+
     int starsTotal;
     int starsCollected;
     bool finished;                         // уровень уже пройден — ворота второй раз не срабатывают
@@ -55,6 +59,7 @@ public class LevelManager : MonoBehaviour
     {
         float time = Time.timeSinceLevelLoad;
         SaveResult(time, CalculateScore(time));
+        sfx.Play(winClips);
         StartCoroutine(Finale());
     }
 
@@ -111,6 +116,7 @@ public class LevelManager : MonoBehaviour
         float time = Time.timeSinceLevelLoad;
         int score = CalculateScore(time);
         bool newBest = SaveResult(time, score);
+        sfx.Play(winClips);
         results.Show(starsCollected, starsTotal, time, score, newBest);
     }
 }
