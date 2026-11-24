@@ -40,7 +40,7 @@ AnimationClip:
       value: {fileID: 21300000, guid: 786f82ed09f7449da88826f92b4448df, type: 3}
     - time: 1.5
       value: {fileID: 21300000, guid: 34bcb2d1bbb14e309db54426bcc3059e, type: 3}
-    - time: 2.1666667
+    - time: 1.6666666
       value: {fileID: 21300000, guid: 34bcb2d1bbb14e309db54426bcc3059e, type: 3}
     attribute: m_Sprite
     path: 
@@ -81,7 +81,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 2.3333335
+    m_StopTime: 1.8333333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -101,7 +101,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 2.1666667
+  - time: 1.6666666
     functionName: RestartLevel
     data: 
     objectReferenceParameter: {fileID: 0}
