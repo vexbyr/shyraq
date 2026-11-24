@@ -431,6 +431,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
   pausePanel: {fileID: 7831822749881567962}
   playerInput: {fileID: 7647854972270222015}
+  normalSnapshot: {fileID: 24500006, guid: ca5b85cbe6f4c424e9f0d74f4ed2983f, type: 2}
+  pausedSnapshot: {fileID: -3009903586473042078, guid: ca5b85cbe6f4c424e9f0d74f4ed2983f, type: 2}
+  snapshotTime: 0.2
 --- !u!114 &7077253651749756382
 MonoBehaviour:
   m_ObjectHideFlags: 0
