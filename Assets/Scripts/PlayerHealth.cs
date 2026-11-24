@@ -5,8 +5,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 // HP, мигание после урона, смерть = перезапуск уровня.
-// Смерть: звук смерти, управление выключено, через 0,4 сек — звук проигрыша, через 2 сек — уровень заново
-// (Invoke ждёт, пока оба звука доиграют, иначе LoadScene их оборвёт).
+// Смерть: управление выключено, звук смерти, анимация Die, через 0,4 сек — звук проигрыша.
+// Уровень начинается заново, когда анимация смерти доиграет: на её последнем кадре стоит
+// Animation Event → RestartLevel (метод на этом же объекте, где Animator).
 // HP, неуязвимость и отскок от удара — в ассете Player_Stats.
 public class PlayerHealth : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerHealth : MonoBehaviour
     public Sprite heartFull;              // целое сердце
     public Sprite heartEmpty;             // пустое сердце
     [SerializeField] PlayerInput playerInput;   // после смерти выключаем управление
+    [SerializeField] Lantern lantern;           // после смерти фонарь гаснет
 
     [Header("Звук")]
     [SerializeField] SfxPlayer sfx;
@@ -23,7 +25,6 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] AudioClip[] deathClips;   // мемный bruh
     [SerializeField] AudioClip[] loseClips;    // грустная фраза домбры
     [SerializeField] float loseSoundDelay = 0.4f;   // через сколько после смерти звучит проигрыш
-    [SerializeField] float restartDelay = 2f;       // через сколько уровень начинается заново
 
     int hp;
     bool invincible;
@@ -98,10 +99,15 @@ public class PlayerHealth : MonoBehaviour
         if (dead) return;                 // Update вызывает Die каждый кадр, пока Ай ниже fallY
         dead = true;
 
-        sfx.Play(deathClips);
         playerInput.DeactivateInput();    // кнопки больше не работают
+        StopAllCoroutines();              // мигание после удара больше не нужно
+        sr.enabled = true;                // а то Ай может остаться невидимой
+        lantern.enabled = false;          // фонарь гаснет: луч выключаем сами, Update фонаря больше не идёт
+        lantern.beam.SetActive(false);
+        anim.SetBool("Aiming", false);    // иначе переход Any State → Aim выбьет Ай из анимации смерти
+        sfx.Play(deathClips);
+        anim.SetTrigger("Die");           // Any State → Die, обратно не выходит
         Invoke("PlayLoseSound", loseSoundDelay);
-        Invoke("RestartLevel", restartDelay);
     }
 
     void PlayLoseSound()
@@ -109,7 +115,8 @@ public class PlayerHealth : MonoBehaviour
         sfx.Play(loseClips);
     }
 
-    void RestartLevel()
+    // Вызывает Animation Event на последнем кадре клипа Ai_Death
+    public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);   // начать уровень заново
     }

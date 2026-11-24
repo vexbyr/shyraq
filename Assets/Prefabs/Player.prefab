@@ -513,6 +513,7 @@ MonoBehaviour:
   heartFull: {fileID: 21300000, guid: 8fd3c9ac2e5642d9bb14c3cdb342d2ac, type: 3}
   heartEmpty: {fileID: 21300000, guid: 32d499578d184527a305e702b1d32cc9, type: 3}
   playerInput: {fileID: 3572312225305282130}
+  lantern: {fileID: 905063206108689919}
   sfx: {fileID: 9105768297818156755}
   hitClips:
   - {fileID: 8300000, guid: 6e7b28d1222732b4fb954432f1d1a864, type: 3}
@@ -522,7 +523,6 @@ MonoBehaviour:
   loseClips:
   - {fileID: 8300000, guid: 4e445f088803807418c3f08ae7563937, type: 3}
   loseSoundDelay: 0.4
-  restartDelay: 2
 --- !u!114 &1502266803640098139
 MonoBehaviour:
   m_ObjectHideFlags: 0
