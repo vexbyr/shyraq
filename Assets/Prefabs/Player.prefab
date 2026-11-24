@@ -523,11 +523,9 @@ MonoBehaviour:
   hitClips:
   - {fileID: 8300000, guid: 6e7b28d1222732b4fb954432f1d1a864, type: 3}
   - {fileID: 8300000, guid: 92553c31de1fba74f8a51d3ff49b8096, type: 3}
-  deathClips:
-  - {fileID: 8300000, guid: 251f0443cbb316f4aa92169ec654183f, type: 3}
+  deathClip: {fileID: 8300000, guid: c6315786bc835d243a0c5507bbbba45e, type: 3}
   loseClips:
   - {fileID: 8300000, guid: 4e445f088803807418c3f08ae7563937, type: 3}
-  loseSoundDelay: 0.4
 --- !u!114 &1502266803640098139
 MonoBehaviour:
   m_ObjectHideFlags: 0

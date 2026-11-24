@@ -15,4 +15,12 @@ public class SfxPlayer : MonoBehaviour
         source.pitch = Random.Range(0.92f, 1.08f);                // чуть ниже или выше обычного
         source.PlayOneShot(clip);                                 // OneShot: звуки не обрывают друг друга
     }
+
+    // Один клип без изменения высоты: звук должен звучать как есть (например, «bruh» при смерти)
+    public void PlayClip(AudioClip clip)
+    {
+        if (clip == null) return;
+        source.pitch = 1f;
+        source.PlayOneShot(clip);
+    }
 }

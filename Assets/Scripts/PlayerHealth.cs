@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 // HP, мигание после урона, смерть = перезапуск уровня.
-// Смерть: управление выключено, звук смерти, анимация Die, через 0,4 сек — звук проигрыша.
+// Смерть: управление выключено, звук смерти («bruh»), анимация Die; когда «bruh» доиграет — звук проигрыша.
 // Уровень начинается заново, когда анимация смерти доиграет: на её последнем кадре стоит
 // Animation Event → RestartLevel (метод на этом же объекте, где Animator).
 // HP, неуязвимость и отскок от удара — в ассете Player_Stats.
@@ -22,9 +22,8 @@ public class PlayerHealth : MonoBehaviour
     [Header("Звук")]
     [SerializeField] SfxPlayer sfx;
     [SerializeField] AudioClip[] hitClips;
-    [SerializeField] AudioClip[] deathClips;   // мемный bruh
+    [SerializeField] AudioClip deathClip;      // мемный bruh (death_bruh), играет без изменения высоты
     [SerializeField] AudioClip[] loseClips;    // грустная фраза домбры
-    [SerializeField] float loseSoundDelay = 0.4f;   // через сколько после смерти звучит проигрыш
 
     int hp;
     bool invincible;
@@ -105,9 +104,9 @@ public class PlayerHealth : MonoBehaviour
         lantern.enabled = false;          // фонарь гаснет: луч выключаем сами, Update фонаря больше не идёт
         lantern.beam.SetActive(false);
         anim.SetBool("Aiming", false);    // иначе переход Any State → Aim выбьет Ай из анимации смерти
-        sfx.Play(deathClips);
+        sfx.PlayClip(deathClip);
         anim.SetTrigger("Die");           // Any State → Die, обратно не выходит
-        Invoke("PlayLoseSound", loseSoundDelay);
+        Invoke("PlayLoseSound", deathClip.length);   // проигрыш — сразу после «bruh»
     }
 
     void PlayLoseSound()
