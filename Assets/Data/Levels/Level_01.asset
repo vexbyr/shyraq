@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9284e0a777ff2fc458510a2a0704e029, type: 3}
+  m_Name: Level_01
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  levelNumber: 1
+  displayName: Dala
+  sceneName: Level1
+  nextLevel: {fileID: 11400000, guid: 76e6b2c84e4112a4993a1d6ee4977e96, type: 2}
+  starsRequired: 6
+  startOil: 100
+  parTimeSeconds: 90
+  playerSpawn: {x: 0, y: 0}
+  enemies:
+  - prefab: {fileID: 1682978683519717123, guid: 696c9bef6532bca4da552890aaa94493, type: 3}
+    position: {x: 80, y: 0}
+    routeStart: {x: 0, y: 0}
+    routeEnd: {x: 6, y: 0}
+  - prefab: {fileID: 1682978683519717123, guid: 696c9bef6532bca4da552890aaa94493, type: 3}
+    position: {x: 95, y: 0}
+    routeStart: {x: 0, y: 0}
+    routeEnd: {x: 7, y: 0}
+  pickups:
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 7, y: 1}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 15.5, y: 3}
+  - prefab: {fileID: 5197731945975376040, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
+    position: {x: 21, y: 0}
+  - prefab: {fileID: 5197731945975376040, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
+    position: {x: 41, y: 0}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 50, y: 0.5}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 67, y: 6}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 89, y: 0}
+  - prefab: {fileID: 5197731945975376040, guid: e72676d76ed0c9e489c24494baf20d83, type: 3}
+    position: {x: 92, y: 0}
+  - prefab: {fileID: 4892940330654588873, guid: 86bf4e94ca1025c468bafd340784465d, type: 3}
+    position: {x: 98, y: 3}

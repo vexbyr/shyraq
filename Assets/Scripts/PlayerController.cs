@@ -5,10 +5,8 @@ using UnityEngine.InputSystem;
 // Ввод приходит от PlayerInput (Behavior = Send Messages): он сам вызывает OnMove и OnJump.
 public class PlayerController : MonoBehaviour
 {
-    [Header("Движение")]
-    public float moveSpeed = 6f;
-    public float jumpForce = 12f;
-    public int maxJumps = 2;              // 2 = двойной прыжок
+    [Header("Баланс (скорость, прыжок, число прыжков)")]
+    [SerializeField] PlayerStats stats;
 
     [Header("Проверка земли")]
     public Transform groundCheck;         // пустой объект у ног
@@ -29,6 +27,11 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        if (stats == null)
+        {
+            Debug.LogError(name + ": не назначен ассет Player Stats", this);
+            enabled = false;
+        }
     }
 
     // Стик / A-D / стрелки
@@ -40,9 +43,9 @@ public class PlayerController : MonoBehaviour
     // Кнопка JUMP / Space
     void OnJump(InputValue value)
     {
-        if (jumpsLeft > 0)
+        if (enabled && jumpsLeft > 0)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, stats.jumpForce);
             jumpsLeft--;
         }
     }
@@ -54,11 +57,11 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded && rb.linearVelocity.y <= 0.01f)
         {
-            jumpsLeft = maxJumps;         // стоим на земле: прыжки восстановились
+            jumpsLeft = stats.maxJumps;   // стоим на земле: прыжки восстановились
         }
-        else if (!isGrounded && jumpsLeft == maxJumps)
+        else if (!isGrounded && jumpsLeft == stats.maxJumps)
         {
-            jumpsLeft = maxJumps - 1;     // упала с края без прыжка: остаётся только второй
+            jumpsLeft = stats.maxJumps - 1;   // упала с края без прыжка: остаётся только второй
         }
 
         // Поворот лицом в сторону движения: спрайт нарисован вправо, влево отражаем flipX
@@ -74,7 +77,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         // Физику двигаем в FixedUpdate: меняем только X, Y оставляем гравитации
-        rb.linearVelocity = new Vector2(moveX * moveSpeed, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(moveX * stats.moveSpeed, rb.linearVelocity.y);
     }
 
     // Рисует круг проверки земли в окне Scene (только для редактора)

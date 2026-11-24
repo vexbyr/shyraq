@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 // Фонарь Ай: луч (удержание LIGHT), Жарқыл (FIRE), масло.
+// Максимум и расход масла, цена и пауза Жарқыла — в ассете Player_Stats.
 // Висит на Player рядом с PlayerController: PlayerInput присылает OnMove/OnLight/OnFire всем скриптам объекта.
 public class Lantern : MonoBehaviour
 {
@@ -12,13 +13,11 @@ public class Lantern : MonoBehaviour
     public GameObject flashPrefab;   // префаб Жарқыла
     public Image oilBar;             // полоска масла в HUD (Image Type = Filled)
 
-    [Header("Масло")]
-    public float maxOil = 100f;
-    public float startOil = 100f;    // сколько масла в начале уровня (в «Сае» меньше)
-    public float beamCost = 10f;     // масла в секунду, пока горит луч
-    public float flashCost = 15f;    // масла за один Жарқыл
+    [Header("Баланс (масло, Жарқыл)")]
+    [SerializeField] PlayerStats stats;
 
-    [HideInInspector] public float oil;
+    [HideInInspector] public float oil;   // наливает LevelLoader из LevelData.startOil
+    float nextFlashTime;             // раньше этого времени Жарқыл не выстрелит (пауза flashCooldown)
 
     PlayerController player;
     Animator anim;
@@ -29,7 +28,12 @@ public class Lantern : MonoBehaviour
     {
         player = GetComponent<PlayerController>();
         anim = GetComponent<Animator>();
-        oil = startOil;
+        if (stats == null)
+        {
+            Debug.LogError(name + ": не назначен ассет Player Stats", this);
+            enabled = false;
+            return;
+        }
         beam.SetActive(false);
     }
 
@@ -46,8 +50,11 @@ public class Lantern : MonoBehaviour
 
     void OnFire(InputValue value)
     {
-        if (oil < flashCost) return;              // не хватает масла
-        oil -= flashCost;
+        if (!enabled) return;
+        if (oil < stats.flashOilCost) return;           // не хватает масла
+        if (Time.time < nextFlashTime) return;           // пауза после прошлого выстрела ещё идёт
+        oil -= stats.flashOilCost;
+        nextFlashTime = Time.time + stats.flashCooldown;
         Instantiate(flashPrefab, lanternPoint.position, lanternPoint.rotation);
     }
 
@@ -69,17 +76,22 @@ public class Lantern : MonoBehaviour
         anim.SetBool("Aiming", beamOn);  // поза «фонарь поднят», пока горит луч
         if (beamOn)
         {
-            oil -= beamCost * Time.deltaTime;
+            oil -= stats.beamOilPerSecond * Time.deltaTime;
             if (oil < 0f) oil = 0f;
         }
 
         // 4. Полоска масла: 1 = полная, 0 = пустая
-        if (oilBar != null) oilBar.fillAmount = oil / maxOil;
+        if (oilBar != null) oilBar.fillAmount = oil / stats.maxOil;
     }
 
-    // Подбор масла (бутылочки — на этапе 3)
+    public float MaxOil()
+    {
+        return stats.maxOil;
+    }
+
+    // Подбор масла
     public void AddOil(float amount)
     {
-        oil = Mathf.Min(oil + amount, maxOil);
+        oil = Mathf.Min(oil + amount, stats.maxOil);
     }
 }

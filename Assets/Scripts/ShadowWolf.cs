@@ -4,7 +4,7 @@ using UnityEngine;
 // Автомат состояний (enum State), переходы:
 //   Patrol  → Chase    : увидел Ай (Raycast до неё не упёрся в стену)
 //   Chase   → Patrol   : потерял Ай из виду
-//   Chase   → WindUp   : Ай ближе biteRange и волк в кадре камеры — замах (видно: волк меняет цвет/спрайт и стоит)
+//   Chase   → WindUp   : Ай ближе biteRange (числа — в ассете Wolf_Stats) и волк в кадре камеры — замах (видно: волк меняет цвет/спрайт и стоит)
 //   WindUp  → Chase    : волк ушёл за край экрана — замах сброшен (из-за экрана не нападает)
 //   WindUp  → Bite     : прошло windUpTime — рывок вперёд, кусает только сейчас
 //   Bite    → Cooldown : прошло biteTime — стоит и отдыхает
@@ -17,28 +17,16 @@ public class ShadowWolf : Enemy
 {
     enum State { Patrol, Chase, WindUp, Bite, Cooldown, Frozen }
 
+    [Header("Баланс (скорости, зрение, замах, укус)")]
+    [SerializeField] ShadowWolfStats stats;
+
     [Header("Патруль")]
     [SerializeField] Transform[] waypoints;            // точки, между которыми ходит (по оси X)
-    [SerializeField] float patrolSpeed = 2f;           // единиц в секунду
-    [SerializeField] float waypointReachDistance = 0.1f;   // ближе этого к точке — дошёл, идёт к следующей
+    [SerializeField] float waypointReachDistance = 0.1f;   // ближе этого к точке — дошёл (точность, не баланс)
 
-    [Header("Зрение и погоня")]
-    [SerializeField] float sightRange = 7f;            // дальше не видит
-    [SerializeField] float viewAngle = 160f;           // угол обзора вперёд в градусах (по 80° вверх и вниз от морды), за спиной не видит
+    [Header("Тело (размеры спрайта, не баланс)")]
     [SerializeField] float eyeHeight = 0.5f;           // откуда «смотрит» (над ногами)
-    [SerializeField] float chaseSpeed = 7.2f;          // примерно в 1,2 раза быстрее бега Ай (moveSpeed 6)
-    [SerializeField] float biteRange = 1.5f;           // с какого расстояния начинает замах
     [SerializeField] LayerMask groundLayer;            // слой Ground: стены закрывают обзор
-    [SerializeField] float screenMargin = 0f;          // отступ от края кадра (доля экрана, 0 = сам край): ближе к краю — «вне кадра»
-
-    [Header("Укус")]
-    [SerializeField] float windUpTime = 0.5f;          // подготовка, секунды
-    [SerializeField] float biteTime = 0.25f;           // сколько длится рывок
-    [SerializeField] float biteSpeed = 9f;             // скорость рывка
-    [SerializeField] float cooldownTime = 1f;          // отдых после укуса
-    [SerializeField] int biteDamage = 1;
-
-    [Header("Проверки стены и края")]
     [SerializeField] float wallCheckDistance = 0.6f;   // стена ближе — дальше не идёт
     [SerializeField] float edgeCheckOffset = 0.6f;     // на сколько вперёд ищем землю под лапами
     [SerializeField] float groundCheckHeight = 0.1f;   // с какой высоты над лапами луч ищет землю
@@ -62,6 +50,16 @@ public class ShadowWolf : Enemy
     Transform player;
     Collider2D playerCollider;   // в центр её коллайдера и смотрим
     Camera cam;
+
+    protected override EnemyStats Stats() { return stats; }
+
+    // Маршрут от LevelLoader (вызывается до Start): двигаем две точки патруля (дети волка)
+    public override void SetRoute(Vector2 start, Vector2 end)
+    {
+        if (waypoints.Length < 2) return;
+        waypoints[0].localPosition = start;
+        waypoints[1].localPosition = end;
+    }
 
     void Start()
     {
@@ -108,8 +106,8 @@ public class ShadowWolf : Enemy
                 }
                 float dx = player.position.x - transform.position.x;
                 facingRight = dx > 0f;                              // поворачивается к Ай
-                if (Mathf.Abs(dx) <= biteRange && IsOnScreen()) ChangeState(State.WindUp);   // из-за экрана не нападает
-                else Move(chaseSpeed);                              // у края или стены просто стоит
+                if (Mathf.Abs(dx) <= stats.biteRange && IsOnScreen()) ChangeState(State.WindUp);   // из-за экрана не нападает
+                else Move(stats.chaseSpeed);                              // у края или стены просто стоит
                 break;
 
             case State.WindUp:
@@ -119,7 +117,7 @@ public class ShadowWolf : Enemy
                 break;
 
             case State.Bite:
-                Move(biteSpeed);
+                Move(stats.biteSpeed);
                 if (timer <= 0f) ChangeState(State.Cooldown);
                 break;
 
@@ -133,9 +131,9 @@ public class ShadowWolf : Enemy
     void ChangeState(State newState)
     {
         state = newState;
-        if (newState == State.WindUp) timer = windUpTime;
-        if (newState == State.Bite) timer = biteTime;
-        if (newState == State.Cooldown) timer = cooldownTime;
+        if (newState == State.WindUp) timer = stats.windUpTime;
+        if (newState == State.Bite) timer = stats.biteTime;
+        if (newState == State.Cooldown) timer = stats.cooldownTime;
     }
 
     // Патруль: идём к точке по X; дошли или упёрлись — к следующей
@@ -150,7 +148,7 @@ public class ShadowWolf : Enemy
             return;
         }
         facingRight = dx > 0f;
-        if (!Move(patrolSpeed)) pointIndex = (pointIndex + 1) % pointsX.Length;
+        if (!Move(stats.moveSpeed)) pointIndex = (pointIndex + 1) % pointsX.Length;
     }
 
     // Шаг вперёд. Возвращает false, если впереди стена или обрыв (тогда не идёт)
@@ -178,10 +176,10 @@ public class ShadowWolf : Enemy
         Vector2 eye = (Vector2)transform.position + Vector2.up * eyeHeight;
         Vector2 toPlayer = (Vector2)playerCollider.bounds.center - eye;
 
-        if (toPlayer.magnitude > sightRange) return false;
+        if (toPlayer.magnitude > stats.visionRange) return false;
         // В патруле видит только в угле обзора перед мордой. В погоне волк сам поворачивается к Ай, угол не нужен
         Vector2 forward = facingRight ? Vector2.right : Vector2.left;
-        if (state == State.Patrol && Vector2.Angle(forward, toPlayer) > viewAngle / 2f) return false;
+        if (state == State.Patrol && Vector2.Angle(forward, toPlayer) > stats.viewAngle / 2f) return false;
 
         // Raycast 3: луч от глаз к Ай только по слою Ground. Попал во что-то — значит, стена мешает
         RaycastHit2D hit = Physics2D.Raycast(eye, toPlayer.normalized, toPlayer.magnitude, groundLayer);
@@ -192,16 +190,17 @@ public class ShadowWolf : Enemy
     bool IsOnScreen()
     {
         Vector3 p = cam.WorldToViewportPoint(transform.position);
-        return p.x > screenMargin && p.x < 1f - screenMargin && p.y > screenMargin && p.y < 1f - screenMargin;
+        float m = stats.screenMargin;
+        return p.x > m && p.x < 1f - m && p.y > m && p.y < 1f - m;
     }
 
     // Кусает только во время рывка — честно: перед этим всегда есть замах
     void OnTriggerStay2D(Collider2D other)
     {
-        if (state != State.Bite) return;
+        if (!enabled || state != State.Bite) return;
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerHealth>().TakeDamage(biteDamage);
+            other.GetComponent<PlayerHealth>().TakeDamage(stats.damage);
         }
     }
 
@@ -223,10 +222,11 @@ public class ShadowWolf : Enemy
     // В редакторе (волк выделен): жёлтый круг — дальность зрения, красный — дальность замаха
     void OnDrawGizmosSelected()
     {
+        if (stats == null) return;
         Vector3 eye = transform.position + Vector3.up * eyeHeight;
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(eye, sightRange);
+        Gizmos.DrawWireSphere(eye, stats.visionRange);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, biteRange);
+        Gizmos.DrawWireSphere(transform.position, stats.biteRange);
     }
 }

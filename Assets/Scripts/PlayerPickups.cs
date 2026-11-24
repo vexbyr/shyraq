@@ -27,10 +27,10 @@ public class PlayerPickups : MonoBehaviour
     // бутылка останется и подберётся, как только масло начнёт тратиться
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Oil") && lantern.oil < lantern.maxOil)
+        if (other.CompareTag("Oil") && lantern.oil < lantern.MaxOil())
         {
             OilBottle bottle = other.GetComponent<OilBottle>();
-            lantern.AddOil(bottle.amount);
+            lantern.AddOil(bottle.Amount());
             bottle.PickUp();
         }
     }

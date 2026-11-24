@@ -33,3 +33,20 @@ I tested the updated build again with the same tester who had played the previou
 - Level 3: 2 attempts.
 
 The results showed improvement compared with the first playtest. However, the tester had already played the game before, so familiarity with the levels may also have influenced the results.
+
+## Week 11 - Assignment 11: Data and Saves
+
+**2026-11-23**
+I asked the agent to move all balance numbers out of the scripts into ScriptableObject assets. Now the player, the four enemies (Wolf, Albasty, Bura, Boss) and the pickups read their values from assets in Assets/Data/Stats. Shared enemy values are in EnemyStats, and each enemy has its own subclass for its special numbers. I checked that the game plays the same as before, and that changing the wolf's speed in the asset during Play changes the game immediately.
+
+**2026-11-23**
+The three levels are now built from LevelData assets: enemies, spawn points, stars needed, start oil and a target time. One LevelLoader script loads any level. Two problems came up: the boss summon points were objects in the scene, so the boss could not be spawned from data. They became offsets inside the boss prefab. The heroine is not spawned again; she is moved to the start point, because the HUD, pause and camera already reference her. The GDD did not have a target time or a score, but the brief asks for time and best score, so I added a score based on stars and time.
+
+**2026-11-23**
+Progress, best score, unlocked levels and volume settings are saved to save.json in persistentDataPath. The game saves after a level, when settings change and when the app is paused. The file is written to a temporary file first and then replaces save.json. If save.json is broken, the game copies it to save_broken.json and starts with default values instead of crashing. I added a Reset Progress button with a confirm panel and a level select that shows locked levels.
+
+**2026-11-24 - UI fixes**
+The agent hid the star on the menu logo with an Image "Filled" trick. It worked, but it was hard to explain and easy to break, so I replaced it with a separate logo sprite without the star. I also stopped the menu background from stretching, swapped the pause buttons (Continue at the bottom, Settings as a gear icon), put Play, Settings and Quit in one row, and made the main menu hide behind the settings window.
+
+**2026-11-24 - Phone test**
+I built the APK and tested it on an Android phone. I finished Level 1, changed the music and SFX volume, closed the app completely and opened it again. Level 2 was still unlocked and the volume settings were restored.

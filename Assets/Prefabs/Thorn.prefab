@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9210568373781175607}
   - component: {fileID: 4854247213567054279}
   - component: {fileID: 6573090955081753616}
-  - component: {fileID: 8073646299316841319}
+  - component: {fileID: 1743982410597442981}
   m_Layer: 0
   m_Name: Thorn
   m_TagString: Untagged
@@ -140,7 +140,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.9, y: 0.35}
   m_EdgeRadius: 0
---- !u!114 &8073646299316841319
+--- !u!114 &1743982410597442981
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8852794202133139420}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aca3947cc7f3c64b9e9885cc5d341dd, type: 3}
+  m_Script: {fileID: 11500000, guid: fb61bad189305d1449ed0fa32f22574a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DamageZone
-  damage: 1
+  m_EditorClassIdentifier: Assembly-CSharp::Thorn
+  itemValues: {fileID: 11400000, guid: 1595c237bea753547b407ac1a9d76d2e, type: 2}

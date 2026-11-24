@@ -2,7 +2,7 @@ using UnityEngine;
 
 // Снаряд Албасты (сгусток тьмы). Летит прямо в направлении, которое выбрала Албасты.
 // Исчезает: попал в Ай (урон один раз), ударился о землю/стену или кончилось время жизни.
-// Скорость, время жизни и урон задаёт Албасты через Launch — числа хранятся в её префабе.
+// Скорость, время жизни и урон задаёт Албасты через Launch — числа хранятся в ассете Albasty_Stats.
 // На префабе: SpriteRenderer, Rigidbody2D (Dynamic, Gravity Scale 0), CircleCollider2D (Is Trigger) — как у Жарқыла.
 public class AlbastyProjectile : MonoBehaviour
 {

@@ -182,26 +182,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c921cca68b8d9f84f91d0f64d11f081c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowWolf
-  hp: 2
   drop: {fileID: 0}
+  stats: {fileID: 11400000, guid: f36132aae46c68747b328e65a299e716, type: 2}
   waypoints:
   - {fileID: 6991895659736771618}
   - {fileID: 1695774942650003772}
-  patrolSpeed: 2
-  sightRange: 7
+  waypointReachDistance: 0.1
   eyeHeight: 0.5
-  chaseSpeed: 7.2
-  biteRange: 1.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  windUpTime: 0.5
-  biteTime: 0.25
-  biteSpeed: 9
-  cooldownTime: 1
-  biteDamage: 1
   wallCheckDistance: 0.6
   edgeCheckOffset: 0.6
+  groundCheckHeight: 0.1
+  groundCheckDepth: 0.5
   windUpSprite: {fileID: 21300000, guid: f3cb8c0fde4cf03a53e2851f3f2ea23e, type: 3}
   biteSprite: {fileID: 21300000, guid: ea7d79e8ff2835a3a7c1375a3d1ecac2, type: 3}
   frozenSprite: {fileID: 21300000, guid: 5cde5a583f32f1341a0eb8486b79f196, type: 3}
