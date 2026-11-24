@@ -66,3 +66,37 @@
 - Первое окно настроек: ручки ползунков были вытянутыми овалами (Slider растягивает ручку на всю высоту). Исправлено.
 - Первый поиск шрифта в скрипте сборки UI взял «LiberationSans SDF - Fallback». Заменён на основной шрифт.
 - Первый вариант LevelSelect открывал окно из Start на выключенном объекте, а Start на выключенном объекте не вызывается. Скрипт перенесён на Canvas.
+
+Задание 12 — Sound Pass (25.11.2026)
+
+Что я просил у ИИ
+- Сделать звуковой проход по шагам в ветке feature/a12-sound, коммит после каждого шага, код на уровне курса.
+- Микшер ShyraqMixer (Master → Music → MusicPlay, Master → SFX), параметры MusicVol и SfxVol, Lowpass на MusicPlay, снапшоты Normal и Paused, Update Mode = Unscaled Time.
+- SfxPlayer (случайный клип, высота 0,92..1,08) и звуки 8 событий: прыжок, урон, звезда, замах врагов и босса, смерть, клик кнопок, победа, проигрыш.
+- Смерть: звук смерти и выключение управления, через 0,4 с звук проигрыша, через 2 с перезапуск уровня (Invoke), чтобы звуки не обрывались.
+- MusicPlayer между сценами (тег Music, без static), переход 1 с, без перезапуска того же трека.
+- Громкость в настройках через микшер в дБ с сохранением в save.json; снапшоты на паузе; отступ у ручек ползунков; README и этот лог.
+
+Что сделал ИИ
+- Создал ShyraqMixer через MCP (скрипт в редакторе), поставил импорт: музыка Vorbis + Streaming, SFX Decompress On Load.
+- Скрипты SfxPlayer, UiClick, MusicPlayer. Хуки звука в PlayerController, PlayerHealth, PlayerPickups, Enemy, ShadowWolf, Albasty, Bura, Boss, LevelManager, PauseMenu. AudioVolume, SettingsPanel, SaveOnPause и SaveSystem переведены с AudioListener.volume на микшер.
+- AudioSource (выход SFX) и SfxPlayer на префабах Player, ShadowWolf, Albasty, Bura, Boss, SettingsPanel, на LevelManager в Core и в сценах MainMenu/Win. UiClick.Click подключён в On Click всех кнопок. Объект MusicPlayer в MainMenu.
+- Ползунки: Min Value 0,0001; у Handle Slide Area и Fill Area отступ 60 px с каждой стороны.
+- Раздел Audio в README, эта запись.
+
+Проверено скриптом агента в Play через MCP (временный Debug.Log в SfxPlayer, удалён до коммита)
+- Клики кнопок в меню и на уровне играют через MusicPlayer (не обрываются при загрузке сцены).
+- Прыжок (через Input System, пробел), урон, звезда, замах волка, Албасты и Буры (вызов ChangeState), замах босса (ThrowLasso), победа на экране итогов и после босса.
+- Смерть: death, потом lose, управление выключено, уровень перезапускается.
+- Музыка: меню → Level1 переход на music_level; Level1 → Level2 (Next) и Restart — трек продолжает играть, не с начала; Win — music_menu; Win → MainMenu — MusicPlayer остаётся один.
+- Пауза: снапшот Paused, Continue — Normal, Pause → Menu — Normal.
+- Ползунки: 50% → −6,02 дБ, 0% → −80 дБ, подписи в процентах, значения в save.json; после выхода из Play и нового входа громкость применяется без открытия настроек.
+- save.json редактора перед тестом сохранён и после теста возвращён.
+
+Проверено руками
+- (to be filled by me)
+
+Где ИИ ошибся и что поправлено
+- Первый скрипт создания микшера упал на добавлении группы в вид окна (AddGroupToCurrentView). Группы созданы повторно без этого вызова, лишняя запись в списке детей Master убрана, структура микшера проверена скриптом.
+- Play mode в неактивном окне Unity стоял на первом кадре. Для теста кадры шли через временный вызов QueuePlayerLoopUpdate; поэтому паузы 0,4 с и 2 с проверены по порядку событий, а не по секундам.
+- Удаление временного Debug.Log склеило две строки в SfxPlayer. Исправлено до коммита.
