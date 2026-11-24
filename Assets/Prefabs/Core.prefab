@@ -3273,6 +3273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8169edc9e52cc142ae0fed58d3920e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveOnPause
+  mixer: {fileID: 24100000, guid: ca5b85cbe6f4c424e9f0d74f4ed2983f, type: 2}
 --- !u!82 &2578249947337604433
 AudioSource:
   m_ObjectHideFlags: 0

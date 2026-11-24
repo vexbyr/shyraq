@@ -108,8 +108,8 @@ public static class SaveSystem
 
         data.Unlock(1);                                     // первый уровень открыт всегда
         data.UpdateTotalScore();                            // сумму пересчитываем, а не верим файлу
-        data.musicVolume = Mathf.Clamp01(data.musicVolume);
-        data.sfxVolume = Mathf.Clamp01(data.sfxVolume);
+        data.musicVolume = Mathf.Clamp(data.musicVolume, AudioVolume.MinVolume, 1f);   // как у ползунка: 0,0001..1
+        data.sfxVolume = Mathf.Clamp(data.sfxVolume, AudioVolume.MinVolume, 1f);
         return data;
     }
 
