@@ -171,6 +171,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spirit
   drop: {fileID: 0}
+  sfx: {fileID: 0}
+  windUpClips: []
+  hitClips:
+  - {fileID: 8300000, guid: ad28c8c097b7be5439f1979b94caa9ef, type: 3}
+  dispelClips:
+  - {fileID: 8300000, guid: acaca25bc47815e49b4e3cb97b472dd6, type: 3}
   stats: {fileID: 11400000, guid: f5d6beca211c1374780c3e744d30ec9c, type: 2}
   direction: {x: 1, y: 0}
   distance: 4

@@ -491,6 +491,11 @@ MonoBehaviour:
   flashPrefab: {fileID: 6740912259189952210, guid: 9b5f5f67b530a864d83a398e653c6027, type: 3}
   oilBar: {fileID: 0}
   stats: {fileID: 11400000, guid: 271b041815fd1904785beacc8255607d, type: 2}
+  sfx: {fileID: 9105768297818156755}
+  beamOnClips:
+  - {fileID: 8300000, guid: eb209cf3a35fe204eaf2753eb0cd3903, type: 3}
+  flashClips:
+  - {fileID: 8300000, guid: 85761818368c52240a79f94eede56abe, type: 3}
   oil: 0
 --- !u!114 &8747102831599682310
 MonoBehaviour:
@@ -540,6 +545,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 78f3ab8d89a81ab4db50bf989c0a8439, type: 3}
   - {fileID: 8300000, guid: 7f818a102b3a3bd4ea29ee54f7dcefba, type: 3}
   - {fileID: 8300000, guid: d2c9f2cb80366b64db35170997fcc47e, type: 3}
+  oilClips:
+  - {fileID: 8300000, guid: 4c7f57b275f4dd3458f627f2dd284ca9, type: 3}
 --- !u!95 &6285262005891856413
 Animator:
   serializedVersion: 7

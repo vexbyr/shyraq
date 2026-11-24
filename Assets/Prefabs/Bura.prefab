@@ -186,6 +186,10 @@ MonoBehaviour:
   sfx: {fileID: 2457258577332051051}
   windUpClips:
   - {fileID: 8300000, guid: e2c598bdff7d1544081581bf49295af3, type: 3}
+  hitClips:
+  - {fileID: 8300000, guid: ad28c8c097b7be5439f1979b94caa9ef, type: 3}
+  dispelClips:
+  - {fileID: 8300000, guid: acaca25bc47815e49b4e3cb97b472dd6, type: 3}
   stats: {fileID: 11400000, guid: c319fb5288511d6499a27fd19d8ae6b4, type: 2}
   eyeHeight: 0.7
   groundLayer:

@@ -13,6 +13,10 @@ public abstract class Enemy : Lightable
     [SerializeField] protected SfxPlayer sfx;       // на этом же префабе, AudioSource → группа SFX
     [SerializeField] protected AudioClip[] windUpClips;
 
+    [Header("Звук попадания Жарқыла")]
+    [SerializeField] AudioClip[] hitClips;          // попал, враг ещё жив
+    [SerializeField] AudioClip[] dispelClips;       // враг побеждён и растворился
+
     protected int hp;                               // текущее здоровье (только во время игры, в ассет не пишем)
 
     // Каждый наследник возвращает свой ассет баланса
@@ -36,12 +40,20 @@ public abstract class Enemy : Lightable
     {
     }
 
-    // Попал Жарқыл (вызывает Flash)
+    // Попал Жарқыл (вызывает Flash).
+    // Звук играем через SfxPlayer Ай (тег Player): побеждённый враг сразу удаляется вместе со своим AudioSource,
+    // и звук на нём оборвался бы. У духов своего AudioSource нет совсем.
     public void TakeHit(int damage)
     {
         hp -= damage;
-        if (hp <= 0)
+        SfxPlayer playerSfx = GameObject.FindWithTag("Player").GetComponent<SfxPlayer>();
+        if (hp > 0)
         {
+            playerSfx.Play(hitClips);
+        }
+        else
+        {
+            playerSfx.Play(dispelClips);
             if (drop != null) Instantiate(drop, transform.position, Quaternion.identity);   // добыча на месте врага
             Destroy(gameObject);
         }

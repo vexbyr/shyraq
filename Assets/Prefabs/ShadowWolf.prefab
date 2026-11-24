@@ -188,6 +188,10 @@ MonoBehaviour:
   sfx: {fileID: 8274325500468447779}
   windUpClips:
   - {fileID: 8300000, guid: 53adb8b9b55c5034fbac0df0271646a5, type: 3}
+  hitClips:
+  - {fileID: 8300000, guid: ad28c8c097b7be5439f1979b94caa9ef, type: 3}
+  dispelClips:
+  - {fileID: 8300000, guid: acaca25bc47815e49b4e3cb97b472dd6, type: 3}
   stats: {fileID: 11400000, guid: f36132aae46c68747b328e65a299e716, type: 2}
   waypoints:
   - {fileID: 6991895659736771618}

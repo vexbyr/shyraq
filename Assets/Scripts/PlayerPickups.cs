@@ -5,6 +5,7 @@ public class PlayerPickups : MonoBehaviour
 {
     [SerializeField] SfxPlayer sfx;
     [SerializeField] AudioClip[] starClips;
+    [SerializeField] AudioClip[] oilClips;
 
     Lantern lantern;
 
@@ -36,6 +37,7 @@ public class PlayerPickups : MonoBehaviour
             OilBottle bottle = other.GetComponent<OilBottle>();
             lantern.AddOil(bottle.Amount());
             bottle.PickUp();
+            sfx.Play(oilClips);
         }
     }
 }

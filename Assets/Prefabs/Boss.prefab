@@ -318,6 +318,8 @@ MonoBehaviour:
   sfx: {fileID: 2780020415022336025}
   windUpClips:
   - {fileID: 8300000, guid: 0136d31883cfc3549b873f792beebbf5, type: 3}
+  lassoSnapClips:
+  - {fileID: 8300000, guid: 34ae707601d77ce448866249279705ce, type: 3}
   shadowSprite: {fileID: 21300000, guid: d264a5a5badc6a448a8293c21a96ab94, type: 3}
   idleSprite: {fileID: 21300000, guid: 14e5ad2e4b3388c47ba0d00a0b0f43b2, type: 3}
   idleSprite1: {fileID: 21300000, guid: 867c0604e57e57645a77aa592ae09cce, type: 3}

@@ -11,9 +11,14 @@ public class SecretPath : Lightable
     public Sprite dimSprite;           // тропа в темноте (еле видна)
     public Sprite litSprite;           // тропа в свете
 
+    [Header("Звук")]
+    [SerializeField] SfxPlayer sfx;
+    [SerializeField] AudioClip[] appearClips;   // тропа появилась
+
     SpriteRenderer sr;
     BoxCollider2D trigger;
     float timer;
+    bool wasVisible;                   // была ли тропа видна в прошлом кадре
 
     void Awake()
     {
@@ -39,6 +44,8 @@ public class SecretPath : Lightable
         else timer -= Time.deltaTime;      // не светим — таймер тикает вниз
 
         bool visible = timer > 0f;
+        if (visible && !wasVisible) sfx.Play(appearClips);   // только в момент появления
+        wasVisible = visible;
         solid.enabled = visible;           // твёрдая только пока таймер > 0
         sr.sprite = visible ? litSprite : dimSprite;
     }

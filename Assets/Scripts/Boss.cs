@@ -21,6 +21,7 @@ public class Boss : Lightable
     [Header("Звук")]
     [SerializeField] SfxPlayer sfx;
     [SerializeField] AudioClip[] windUpClips;
+    [SerializeField] AudioClip[] lassoSnapClips;   // аркан брошен
 
     [Header("Спрайты")]
     public Sprite shadowSprite;            // в тени — неуязвим
@@ -171,6 +172,7 @@ public class Boss : Lightable
 
         attackFrame = attackSprite1;
         lassoZone.SetActive(true);
+        sfx.Play(lassoSnapClips);
         yield return new WaitForSeconds(stats.lassoActiveTime);
 
         lassoZone.SetActive(false);

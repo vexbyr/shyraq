@@ -16,6 +16,11 @@ public class Lantern : MonoBehaviour
     [Header("Баланс (масло, Жарқыл)")]
     [SerializeField] PlayerStats stats;
 
+    [Header("Звук")]
+    [SerializeField] SfxPlayer sfx;
+    [SerializeField] AudioClip[] beamOnClips;   // луч включился
+    [SerializeField] AudioClip[] flashClips;    // выстрел Жарқылом
+
     [HideInInspector] public float oil;   // наливает LevelLoader из LevelData.startOil
     float nextFlashTime;             // раньше этого времени Жарқыл не выстрелит (пауза flashCooldown)
 
@@ -23,6 +28,7 @@ public class Lantern : MonoBehaviour
     Animator anim;
     Vector2 aim;                     // направление стика
     bool lightHeld;                  // держим ли кнопку LIGHT
+    bool beamWasOn;                  // горел ли луч в прошлом кадре (звук — только в момент включения)
 
     void Awake()
     {
@@ -56,6 +62,7 @@ public class Lantern : MonoBehaviour
         oil -= stats.flashOilCost;
         nextFlashTime = Time.time + stats.flashCooldown;
         Instantiate(flashPrefab, lanternPoint.position, lanternPoint.rotation);
+        sfx.Play(flashClips);
     }
 
     void Update()
@@ -73,6 +80,8 @@ public class Lantern : MonoBehaviour
         // 3. Луч горит, пока держим кнопку и есть масло
         bool beamOn = lightHeld && oil > 0f;
         beam.SetActive(beamOn);
+        if (beamOn && !beamWasOn) sfx.Play(beamOnClips);   // был выключен, стал включён
+        beamWasOn = beamOn;
         anim.SetBool("Aiming", beamOn);  // поза «фонарь поднят», пока горит луч
         if (beamOn)
         {
