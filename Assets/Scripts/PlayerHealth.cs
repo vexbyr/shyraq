@@ -20,7 +20,7 @@ public class PlayerHealth : MonoBehaviour
     [Header("Звук")]
     [SerializeField] SfxPlayer sfx;
     [SerializeField] AudioClip[] hitClips;
-    [SerializeField] AudioClip[] deathClips;   // фонарь гаснет + тихий вздох
+    [SerializeField] AudioClip[] deathClips;   // мемный bruh
     [SerializeField] AudioClip[] loseClips;    // грустная фраза домбры
     [SerializeField] float loseSoundDelay = 0.4f;   // через сколько после смерти звучит проигрыш
     [SerializeField] float restartDelay = 2f;       // через сколько уровень начинается заново

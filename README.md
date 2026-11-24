@@ -144,7 +144,7 @@
 ## Audio
 **Как устроен звук.** Микшер `Assets/Audio/ShyraqMixer.mixer`: Master → Music → MusicPlay и Master → SFX. Громкость Music и SFX в настройках — параметры `MusicVol` и `SfxVol` (ползунок 0,0001..1, в микшер идёт `Log10(v) * 20` дБ), сохраняются в `save.json`. На паузе снапшот Paused (музыка −10 дБ и Lowpass 800 Гц), после паузы — Normal. Музыку играет `MusicPlayer` (сцена MainMenu, живёт между сценами): меню и Win — `music_menu`, уровни — `music_level`, переход 1 с; на следующем уровне и после перезапуска трек не начинается заново. Звуки играет `SfxPlayer`: случайный клип из списка и высота 0,92..1,08.
 
-**Звуки:** ElevenLabs Sound Effects (тариф Free, 25.11.2026), обработаны скриптом Python: моно, обрезка, фейды, пик −1 dBFS, WAV 24 кГц. **Sound effects: ElevenLabs (elevenlabs.io).** На бесплатном тарифе — только некоммерческое использование, учебный проект подходит. **Музыка:** своя, синтезирована скриптом Python.
+**Звуки:** ElevenLabs Sound Effects (тариф Free, 25.11.2026), обработаны скриптом Python: моно, обрезка, фейды, пик −1 dBFS, WAV 24 кГц. **Sound effects: ElevenLabs (elevenlabs.io).** На бесплатном тарифе — только некоммерческое использование, учебный проект подходит. **Музыка:** ElevenLabs Music v2.5 через Higgsfield (тариф Ultra, 25.11.2026), по 30 с, MP3. **Music: ElevenLabs Music via Higgsfield (higgsfield.ai).**
 
 | Файл (`Assets/Audio/`) | Для чего | Источник | Лицензия |
 |---|---|---|---|
@@ -156,12 +156,12 @@
 | `SFX/windup_bura.wav` | Замах Қара бура | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/windup_boss.wav` | Замах аркана босса | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/windup_spirit.wav` | Не используется: дух не замахивается, кусает касанием | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
-| `SFX/death.wav` | Смерть Ай | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
+| `SFX/death.wav` | Смерть Ай — мемный "bruh" | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/lose.wav` | Проигрыш (через 0,4 с после смерти) | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/win.wav` | Уровень пройден, босс побеждён | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/ui_click.wav` | Нажатие любой кнопки | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
-| `Music/music_menu.wav` | Музыка меню и экрана Win (петля) | original, synthesized with a Python script written with an AI agent | own work, CC0 |
-| `Music/music_level.wav` | Музыка уровней (петля) | original, synthesized with a Python script written with an AI agent | own work, CC0 |
+| `Music/music_menu.mp3` | Музыка меню и экрана Win (петля) | ElevenLabs Music v2.5 via Higgsfield (higgsfield.ai), generated from my text prompt | Higgsfield Terms of Use §4.4: no ownership claimed, commercial use not restricted; credited anyway |
+| `Music/music_level.mp3` | Музыка уровней (петля) | ElevenLabs Music v2.5 via Higgsfield (higgsfield.ai), generated from my text prompt | Higgsfield Terms of Use §4.4: no ownership claimed, commercial use not restricted; credited anyway |
 
 ## Процесс разработки с ИИ-ассистентом
 Каждая сессия записана в [`AI_LOG.txt`](AI_LOG.txt): что я просил, что сделал ИИ, что проверено и что поправлено.

@@ -2862,8 +2862,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicPlayer
   sourceA: {fileID: 1152749654}
   sourceB: {fileID: 1152749653}
-  menuMusic: {fileID: 8300000, guid: 34867067f10056549942d442b82ff4e2, type: 3}
-  levelMusic: {fileID: 8300000, guid: e68fada9bd53dc94084a8a448d6a0f89, type: 3}
+  menuMusic: {fileID: 8300000, guid: 836668c5bfd0e254ebb1527b9f7c574b, type: 3}
+  levelMusic: {fileID: 8300000, guid: ba491c6cd0b659644be373b6bd03c67e, type: 3}
   fadeTime: 1
 --- !u!82 &1152749652
 AudioSource:

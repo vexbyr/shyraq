@@ -50,3 +50,6 @@ The agent hid the star on the menu logo with an Image "Filled" trick. It worked,
 
 **2026-11-24 - Phone test**
 I built the APK and tested it on an Android phone. I finished Level 1, changed the music and SFX volume, closed the app completely and opened it again. Level 2 was still unlocked and the volume settings were restored.
+
+**2026-11-25 - Sound**
+The first music and sounds were synthesized with a Python script, and they sounded bad. I moved the sound effects to ElevenLabs Sound Effects and the music to ElevenLabs Music via Higgsfield. The music tracks are 30 seconds long instead of 60, because that is what my credits allowed. The sound effects are on the ElevenLabs Free plan, so they can only be used for non-commercial projects, which is fine for a course project.
