@@ -45,3 +45,6 @@ crashlytics-build.properties
 .DS_Store
 Thumbs.db
 /[Bb]uilds/
+
+/.utmp/
+/[Bb]uilds/
