@@ -5,7 +5,7 @@ using UnityEngine;
 // Наследники: Spirit, Көлеңке-қасқыр, Албасты, Қара бура.
 // Числа баланса лежат в ассете EnemyStats (или его наследнике). Ссылку на ассет хранит
 // сам наследник (у волка — ShadowWolfStats и т.д.) и отдаёт её через Stats().
-public abstract class Enemy : Lightable
+public class Enemy : Lightable
 {
     [SerializeField] protected GameObject drop;     // что выронить после смерти (малый дух — бутылочку), пусто — ничего
 
@@ -20,8 +20,12 @@ public abstract class Enemy : Lightable
     protected int hp;                               // текущее здоровье (только во время игры, в ассет не пишем)
     SfxPlayer playerSfx;                            // SfxPlayer Ару: находим один раз в Awake
 
-    // Каждый наследник возвращает свой ассет баланса
-    protected abstract EnemyStats Stats();
+    // Каждый наследник переопределяет и возвращает свой ассет баланса.
+    // Сам Enemy ассета не имеет: null — и Awake покажет понятную ошибку
+    protected virtual EnemyStats Stats()
+    {
+        return null;
+    }
 
     protected virtual void Awake()
     {
