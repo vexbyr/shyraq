@@ -1862,7 +1862,7 @@ GameObject:
   - component: {fileID: 2320198031891048801}
   - component: {fileID: 5208601853677148083}
   - component: {fileID: 1703952815698853306}
-  - component: {fileID: 4570429507077436529}
+  - component: {fileID: 5872981401706422211}
   m_Layer: 0
   m_Name: Stick_Knob
   m_TagString: Untagged
@@ -1927,7 +1927,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4570429507077436529
+--- !u!114 &5872981401706422211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1936,11 +1936,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 3461712888415355819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1462e4d2cc688349829f144174bcf23, type: 3}
+  m_Script: {fileID: 11500000, guid: e9d677f1681015749b15c436eec6d880, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TouchStick
-  stickControlPath: <Gamepad>/leftStick
-  movementRange: 100
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.OnScreen.OnScreenStick
+  m_MovementRange: 100
+  m_DynamicOriginRange: 100
+  m_ControlPath: <Gamepad>/leftStick
+  m_Behaviour: 0
+  m_UseIsolatedInputActions: 0
+  m_PointerDownAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 53170338-878c-44ab-8159-ebf65799993f
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+    m_Priority: 0
+  m_PointerMoveAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 936344e0-326e-4d7a-a7c1-f3180919b57e
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+    m_Priority: 0
 --- !u!1 &3474705450944919538
 GameObject:
   m_ObjectHideFlags: 0
