@@ -90,7 +90,11 @@ public class Albasty : Enemy
     void ChangeState(State newState)
     {
         state = newState;
-        if (newState == State.Aim) timer = stats.windUpTime;
+        if (newState == State.Aim)
+        {
+            timer = stats.windUpTime;
+            sfx.Play(windUpClips);       // первый кадр прицела
+        }
         if (newState == State.Cooldown) timer = stats.cooldownTime;
     }
 

@@ -18,6 +18,11 @@ public class Boss : Lightable
     [Tooltip("Где появляются малые духи: смещения от стартовой точки босса")]
     [SerializeField] Vector2[] summonOffsets;
 
+    [Header("Звук")]
+    [SerializeField] SfxPlayer sfx;
+    [SerializeField] AudioClip[] windUpClips;
+    [SerializeField] AudioClip[] lassoSnapClips;   // аркан брошен
+
     [Header("Спрайты")]
     public Sprite shadowSprite;            // в тени — неуязвим
     public Sprite idleSprite;              // проявлен, фаза 1 (кадр 0)
@@ -162,10 +167,12 @@ public class Boss : Lightable
         lassoSide = (int)Mathf.Sign(player.position.x - transform.position.x);
         PlaceLassoZone();
         attackFrame = attackSprite0;
+        sfx.Play(windUpClips);           // первый кадр замаха
         yield return new WaitForSeconds(stats.windUpTime);
 
         attackFrame = attackSprite1;
         lassoZone.SetActive(true);
+        sfx.Play(lassoSnapClips);
         yield return new WaitForSeconds(stats.lassoActiveTime);
 
         lassoZone.SetActive(false);

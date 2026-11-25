@@ -66,3 +66,102 @@
 - Первое окно настроек: ручки ползунков были вытянутыми овалами (Slider растягивает ручку на всю высоту). Исправлено.
 - Первый поиск шрифта в скрипте сборки UI взял «LiberationSans SDF - Fallback». Заменён на основной шрифт.
 - Первый вариант LevelSelect открывал окно из Start на выключенном объекте, а Start на выключенном объекте не вызывается. Скрипт перенесён на Canvas.
+
+Задание 12 — Sound Pass (25.11.2026)
+
+Что я просил у ИИ
+- Сделать звуковой проход по шагам в ветке feature/a12-sound, коммит после каждого шага, код на уровне курса.
+- Микшер ShyraqMixer (Master → Music → MusicPlay, Master → SFX), параметры MusicVol и SfxVol, Lowpass на MusicPlay, снапшоты Normal и Paused, Update Mode = Unscaled Time.
+- SfxPlayer (случайный клип, высота 0,92..1,08) и звуки 8 событий: прыжок, урон, звезда, замах врагов и босса, смерть, клик кнопок, победа, проигрыш.
+- Смерть: звук смерти и выключение управления, через 0,4 с звук проигрыша, через 2 с перезапуск уровня (Invoke), чтобы звуки не обрывались. (Позже изменено: при смерти только death_bruh, без проигрыша — см. последнюю запись A12.)
+- MusicPlayer между сценами (тег Music, без static), переход 1 с, без перезапуска того же трека.
+- Громкость в настройках через микшер в дБ с сохранением в save.json; снапшоты на паузе; отступ у ручек ползунков; README и этот лог.
+
+Что сделал ИИ
+- Создал ShyraqMixer через MCP (скрипт в редакторе), поставил импорт: музыка Vorbis + Streaming, SFX Decompress On Load.
+- Скрипты SfxPlayer, UiClick, MusicPlayer. Хуки звука в PlayerController, PlayerHealth, PlayerPickups, Enemy, ShadowWolf, Albasty, Bura, Boss, LevelManager, PauseMenu. AudioVolume, SettingsPanel, SaveOnPause и SaveSystem переведены с AudioListener.volume на микшер.
+- AudioSource (выход SFX) и SfxPlayer на префабах Player, ShadowWolf, Albasty, Bura, Boss, SettingsPanel, на LevelManager в Core и в сценах MainMenu/Win. UiClick.Click подключён в On Click всех кнопок. Объект MusicPlayer в MainMenu.
+- Ползунки: Min Value 0,0001; у Handle Slide Area и Fill Area отступ 60 px с каждой стороны.
+- Раздел Audio в README, эта запись.
+
+Проверено скриптом агента в Play через MCP (временный Debug.Log в SfxPlayer, удалён до коммита)
+- Клики кнопок в меню и на уровне играют через MusicPlayer (не обрываются при загрузке сцены).
+- Прыжок (через Input System, пробел), урон, звезда, замах волка, Албасты и Буры (вызов ChangeState), замах босса (ThrowLasso), победа на экране итогов и после босса.
+- Смерть: death, потом lose, управление выключено, уровень перезапускается. (Тогдашний вариант, позже lose убран.)
+- Музыка: меню → Level1 переход на music_level; Level1 → Level2 (Next) и Restart — трек продолжает играть, не с начала; Win — music_menu; Win → MainMenu — MusicPlayer остаётся один.
+- Пауза: снапшот Paused, Continue — Normal, Pause → Menu — Normal.
+- Ползунки: 50% → −6,02 дБ, 0% → −80 дБ, подписи в процентах, значения в save.json; после выхода из Play и нового входа громкость применяется без открытия настроек.
+- save.json редактора перед тестом сохранён и после теста возвращён.
+
+Проверено руками
+- (to be filled by me)
+
+Где ИИ ошибся и что поправлено
+- Первый скрипт создания микшера упал на добавлении группы в вид окна (AddGroupToCurrentView). Группы созданы повторно без этого вызова, лишняя запись в списке детей Master убрана, структура микшера проверена скриптом.
+- Play mode в неактивном окне Unity стоял на первом кадре. Для теста кадры шли через временный вызов QueuePlayerLoopUpdate; поэтому паузы 0,4 с и 2 с проверены по порядку событий, а не по секундам.
+- Удаление временного Debug.Log склеило две строки в SfxPlayer. Исправлено до коммита.
+
+Задание 12 — замена музыки (25.11.2026)
+
+Что я просил у ИИ
+- Заменить музыку: синтез скриптом Python звучал плохо. Сгенерировать музыку меню и уровня через Higgsfield (ElevenLabs Music v2.5) и переподключить её в игре.
+
+Что сделал ИИ
+- Музыка сгенерирована ElevenLabs Music v2.5 через Higgsfield (Claude Code, MCP), по 30 с, MP3 44.1 kHz стерео, instrumental: music_menu.mp3 и music_level.mp3.
+- Старая синтезированная музыка (music_menu.wav, music_level.wav) и скрипт синтеза KOK_notes/audio_gen/make_audio.py удалены.
+- В MainMenu на MusicPlayer переназначены ссылки menuMusic и levelMusic на новые mp3 (старые ссылки указывали на удалённые файлы, музыка не играла). Импорт mp3: Streaming + Vorbis.
+- README (раздел Audio) и комментарий у deathClips в PlayerHealth обновлены: death.wav — намеренно мемный «bruh». (Позже death.wav заменён на death_bruh.mp3 и удалён.)
+
+Проверено скриптом агента в Play через MCP (я сам не повторял)
+- Ссылок на старые файлы музыки (поиск по GUID) в Assets/ нет. У sourceA и sourceB включён Loop, Output = MusicPlay.
+- MainMenu → Level1: кроссфейд на music_level (пойман посередине: 0,81 / 0,19). Пауза → Menu: обратный переход, MusicPlayer один. В Console нет ошибок.
+
+Проверено руками
+- (to be filled by me)
+
+Где ИИ ошибся и что поправлено
+- После замены файлов музыки ссылки в MainMenu сами не обновились (новые mp3 получили новые GUID), музыка молчала. Ссылки назначены заново.
+
+Задание 12 — анимация смерти и новые звуки (25.11.2026)
+
+Что я просил у ИИ
+- Анимация смерти Ай из новых кадров (6 fps): Die() выключает управление, играет звук смерти, запускает анимацию, через 0,4 с — звук проигрыша; уровень начинается заново по Animation Event на последнем кадре, а не по таймеру.
+- Подключить новые звуки: луч включился, Жарқыл, попадание Жарқыла (враг жив), враг побеждён, тайная тропа появилась, масло, бросок аркана босса.
+
+Что сделал ИИ
+- Импорт 7 новых SFX (Decompress On Load), коммиты звука и кадров Ai_death_0..9 отдельно.
+- Клип Assets/Animations/Ai_Death.anim (10 кадров, 6 fps, последний кадр держится 1/6 с, в конце событие RestartLevel). В Ai.controller: trigger Die и переход Any State → Die без выхода.
+- PlayerHealth: таймер перезапуска на 2 с убран, RestartLevel — public (его вызывает событие анимации). При смерти останавливается мигание, гаснет фонарь и сбрасывается Aiming: иначе переход Any State → Aim выбил бы Ай из анимации смерти.
+- Хуки: Lantern (луч включился, Жарқыл), PlayerPickups (масло), SecretPath (тропа появилась, на префаб добавлены AudioSource и SfxPlayer), Enemy.TakeHit (beam_attack, если враг жив, enemy_dispel, если побеждён — оба через SfxPlayer Ай по тегу Player, потому что враг удаляется вместе со своим AudioSource), Boss (бросок аркана).
+- windup_boss.wav и lose.wav заменены на месте (тот же файл), ссылки не менялись.
+- В README добавлены 7 строк в таблицу звуков.
+
+Проверено скриптом агента в Play через MCP (временный Debug.Log в SfxPlayer, удалён до коммита; save.json сохранён и возвращён)
+- Level2: луч включился → beam_glow один раз; Жарқыл → zharqyl_flash; попадание по Буре (жива) → beam_attack; волк побеждён → enemy_dispel; масло → oil_pickup; тропа в свете → platform_appear один раз за всё время подсветки.
+- Смерть с включённым лучом: фонарь гаснет, Aiming = false, анимация Die идёт с кадра Ai_death_0, death, через 0,4 с lose, уровень перезапустился событием анимации (через 1,67 с после входа в Die).
+- Level3: замах босса → windup_boss, бросок → boss_lasso_snap.
+- Animator и PlayerHealth на одном объекте (корень Player), Culling Mode = Always Animate (событие сработает, даже если Ай упала за экран). В Console нет ошибок.
+
+Проверено руками
+- (to be filled by me)
+
+Где ИИ ошибся и что поправлено
+- В тесте тропа сначала не появилась: одиночный вызов Lit() из скрипта действует 0,1 с, а в фоне кадры шли с большими паузами. Это ошибка теста, не кода: при подсветке каждый кадр (как делает луч) звук сработал.
+
+Задание 12 — звук смерти (25.11.2026), исправление записи выше
+
+Что я просил у ИИ
+- Звук смерти — моя запись «bruh» (death_bruh.mp3) без изменения высоты. Звук проигрыша при смерти убрать: в моей игре проигрыш и смерть — один и тот же момент.
+
+Что сделал ИИ
+- 29-bruh.mp3 переименован в death_bruh.mp3 (через Unity, .meta и GUID сохранены), Decompress On Load, выход SFX.
+- SfxPlayer: метод PlayClip(clip) — один клип с высотой 1 (без случайной высоты).
+- PlayerHealth.Die(): управление выключено, фонарь гаснет, играет только death_bruh, анимация Die. Invoke со звуком проигрыша, метод PlayLoseSound и поле loseClips удалены.
+- Сначала по моей просьбе lose играл после bruh (Invoke на длину bruh), и последний кадр смерти держался до 2,17 с. Потом lose убран совсем, последний кадр снова до 1,67 с: bruh (0,89 с) короче анимации.
+- death.wav и lose.wav нигде не использовались (поиск по GUID в сценах, префабах, скриптах) и удалены вместе с .meta. В README строка death_bruh.mp3 (моя запись, CC0), строки death.wav и lose.wav убраны.
+
+Итог: при смерти звучит только death_bruh, звука проигрыша нет; уровень начинается заново событием RestartLevel на последнем кадре анимации смерти.
+
+
+
+Checked by hand: sound events on the phone (jump, pickup, hit, enemy wind-up, death, UI click, win); music crossfade menu to level; ears test; pause snapshot; volume sliders saved after a full app restart; death animation and level restart.

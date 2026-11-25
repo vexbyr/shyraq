@@ -1,9 +1,10 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 // Окно настроек: ползунки громкости Music и SFX (в меню и в паузе — один и тот же префаб).
-// Ползунок двигается — громкость меняется сразу (в памяти). В файл пишем, когда палец отпустил
+// Ползунок (Min Value 0,0001, Max 1) двигается — громкость в микшере ShyraqMixer меняется сразу (в памяти). В файл пишем, когда палец отпустил
 // ползунок (EventTrigger → PointerUp → SaveSettings) и когда окно закрывают.
 // Рядом с ползунком подпись показывает значение в процентах: "Music 20%".
 public class SettingsPanel : MonoBehaviour
@@ -12,6 +13,7 @@ public class SettingsPanel : MonoBehaviour
     [SerializeField] Slider sfxSlider;
     [SerializeField] TMP_Text musicLabel;
     [SerializeField] TMP_Text sfxLabel;
+    [SerializeField] AudioMixer mixer;
     // Что спрятать, пока открыты настройки. В главном меню — логотип и кнопки, в паузе — пусто.
     [SerializeField] GameObject hideWhileOpen;
 
@@ -43,14 +45,14 @@ public class SettingsPanel : MonoBehaviour
     public void OnMusicChanged(float value)
     {
         SaveSystem.Current.musicVolume = value;
-        AudioVolume.Apply(SaveSystem.Current);
+        AudioVolume.Apply(SaveSystem.Current, mixer);
         UpdateLabels();
     }
 
     public void OnSfxChanged(float value)
     {
         SaveSystem.Current.sfxVolume = value;
-        AudioVolume.Apply(SaveSystem.Current);
+        AudioVolume.Apply(SaveSystem.Current, mixer);
         UpdateLabels();
     }
 

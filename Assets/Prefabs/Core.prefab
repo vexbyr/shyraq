@@ -222,6 +222,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7077253651749756382}
+        m_TargetAssemblyTypeName: UiClick, Assembly-CSharp
+        m_MethodName: Click
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &660373805377138762
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,6 +322,7 @@ GameObject:
   - component: {fileID: 1086472108082952460}
   - component: {fileID: 2177635083039373522}
   - component: {fileID: 4569630987799183492}
+  - component: {fileID: 7077253651749756382}
   m_Layer: 0
   m_Name: HUD
   m_TagString: Untagged
@@ -418,6 +431,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
   pausePanel: {fileID: 7831822749881567962}
   playerInput: {fileID: 7647854972270222015}
+  normalSnapshot: {fileID: 24500006, guid: ca5b85cbe6f4c424e9f0d74f4ed2983f, type: 2}
+  pausedSnapshot: {fileID: -3009903586473042078, guid: ca5b85cbe6f4c424e9f0d74f4ed2983f, type: 2}
+  snapshotTime: 0.2
+--- !u!114 &7077253651749756382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713103833325689373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3acf297986c3d044ca34b755bdec00dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UiClick
+  localSfx: {fileID: 7273687961898445380}
+  clips:
+  - {fileID: 8300000, guid: dece3dad4201f22448cdcab907991ed7, type: 3}
 --- !u!1 &744926766010212931
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +649,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: LevelResults, Assembly-CSharp
         m_MethodName: ToLevelSelect
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7077253651749756382}
+        m_TargetAssemblyTypeName: UiClick, Assembly-CSharp
+        m_MethodName: Click
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: 
@@ -2333,6 +2376,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7077253651749756382}
+        m_TargetAssemblyTypeName: UiClick, Assembly-CSharp
+        m_MethodName: Click
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4335929803579517374
 GameObject:
   m_ObjectHideFlags: 0
@@ -2906,6 +2961,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7077253651749756382}
+        m_TargetAssemblyTypeName: UiClick, Assembly-CSharp
+        m_MethodName: Click
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5087114363432541218
 GameObject:
   m_ObjectHideFlags: 0
@@ -3039,6 +3106,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7077253651749756382}
+        m_TargetAssemblyTypeName: UiClick, Assembly-CSharp
+        m_MethodName: Click
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5504984710526169688
 GameObject:
   m_ObjectHideFlags: 0
@@ -3139,6 +3218,8 @@ GameObject:
   - component: {fileID: 3323885316210187964}
   - component: {fileID: 18974671386509955}
   - component: {fileID: 4495854716017130112}
+  - component: {fileID: 2578249947337604433}
+  - component: {fileID: 7273687961898445380}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -3180,6 +3261,9 @@ MonoBehaviour:
   winScene: Win
   scoreSettings: {fileID: 11400000, guid: 8ffa0fe9fb86d2c4a8e5ae45016ac425, type: 2}
   results: {fileID: 3846940200762912471}
+  sfx: {fileID: 7273687961898445380}
+  winClips:
+  - {fileID: 8300000, guid: d5453ba3753fa614bbeaf0af62fedc17, type: 3}
 --- !u!114 &4495854716017130112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3192,6 +3276,117 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8169edc9e52cc142ae0fed58d3920e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveOnPause
+  mixer: {fileID: 24100000, guid: ca5b85cbe6f4c424e9f0d74f4ed2983f, type: 2}
+--- !u!82 &2578249947337604433
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5776241587459250725}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 8474552199671394716, guid: ca5b85cbe6f4c424e9f0d74f4ed2983f, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &7273687961898445380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5776241587459250725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb76f7621d9e3f4293f4fa6e722f7f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SfxPlayer
+  source: {fileID: 2578249947337604433}
 --- !u!1 &6140638505308848467
 GameObject:
   m_ObjectHideFlags: 0
@@ -3317,6 +3512,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: LevelResults, Assembly-CSharp
         m_MethodName: NextLevel
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7077253651749756382}
+        m_TargetAssemblyTypeName: UiClick, Assembly-CSharp
+        m_MethodName: Click
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: 
@@ -3507,6 +3714,18 @@ MonoBehaviour:
       - m_Target: {fileID: 4569630987799183492}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
         m_MethodName: Pause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7077253651749756382}
+        m_TargetAssemblyTypeName: UiClick, Assembly-CSharp
+        m_MethodName: Click
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
