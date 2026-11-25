@@ -9,9 +9,15 @@ public class UiClick : MonoBehaviour
     [SerializeField] SfxPlayer localSfx;
     [SerializeField] AudioClip[] clips;
 
+    GameObject music;   // MusicPlayer между сценами: находим один раз в Start (лишний MusicPlayer к этому времени уже выключен)
+
+    void Start()
+    {
+        music = GameObject.FindGameObjectWithTag("Music");
+    }
+
     public void Click()
     {
-        GameObject music = GameObject.FindGameObjectWithTag("Music");
         if (music != null) music.GetComponent<SfxPlayer>().Play(clips);
         else localSfx.Play(clips);
     }

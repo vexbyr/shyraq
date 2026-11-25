@@ -18,12 +18,16 @@ public abstract class Enemy : Lightable
     [SerializeField] AudioClip[] dispelClips;       // враг побеждён и растворился
 
     protected int hp;                               // текущее здоровье (только во время игры, в ассет не пишем)
+    SfxPlayer playerSfx;                            // SfxPlayer Ару: находим один раз в Awake
 
     // Каждый наследник возвращает свой ассет баланса
     protected abstract EnemyStats Stats();
 
     protected virtual void Awake()
     {
+        GameObject playerObject = GameObject.FindWithTag("Player");
+        if (playerObject != null) playerSfx = playerObject.GetComponent<SfxPlayer>();
+
         // Нет ассета — сразу понятная ошибка вместо NullReferenceException в Update
         if (Stats() == null)
         {
@@ -46,7 +50,6 @@ public abstract class Enemy : Lightable
     public void TakeHit(int damage)
     {
         hp -= damage;
-        SfxPlayer playerSfx = GameObject.FindWithTag("Player").GetComponent<SfxPlayer>();
         if (hp > 0)
         {
             playerSfx.Play(hitClips);
