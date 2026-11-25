@@ -166,7 +166,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ai_sheet_idle_0
+      name: Aru_sheet_idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -188,7 +188,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ai_sheet_idle_1
+      name: Aru_sheet_idle_1
       rect:
         serializedVersion: 2
         x: 48
@@ -210,7 +210,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ai_sheet_walk_0
+      name: Aru_sheet_walk_0
       rect:
         serializedVersion: 2
         x: 96
@@ -232,7 +232,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ai_sheet_walk_1
+      name: Aru_sheet_walk_1
       rect:
         serializedVersion: 2
         x: 144
@@ -254,7 +254,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ai_sheet_walk_2
+      name: Aru_sheet_walk_2
       rect:
         serializedVersion: 2
         x: 192
@@ -276,7 +276,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ai_sheet_walk_3
+      name: Aru_sheet_walk_3
       rect:
         serializedVersion: 2
         x: 240
@@ -298,7 +298,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ai_sheet_jump_0
+      name: Aru_sheet_jump_0
       rect:
         serializedVersion: 2
         x: 288
@@ -320,7 +320,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ai_sheet_fall_0
+      name: Aru_sheet_fall_0
       rect:
         serializedVersion: 2
         x: 336
@@ -342,7 +342,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ai_sheet_hurt_0
+      name: Aru_sheet_hurt_0
       rect:
         serializedVersion: 2
         x: 384
@@ -367,7 +367,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 98db2932b6bd781439674f058d1423bf
     internalID: 0
     vertices: []
     indices: 
@@ -395,6 +395,15 @@ TextureImporter:
       Ai_sheet_walk_1: 3217661264940923322
       Ai_sheet_walk_2: -4139829525012540399
       Ai_sheet_walk_3: 3743742220954424422
+      Aru_sheet_fall_0: -8219716752193149285
+      Aru_sheet_hurt_0: -2839456134197859282
+      Aru_sheet_idle_0: 4618564493888299621
+      Aru_sheet_idle_1: 7754543160766199684
+      Aru_sheet_jump_0: -5183921218566597871
+      Aru_sheet_walk_0: -3933599902504415413
+      Aru_sheet_walk_1: 3217661264940923322
+      Aru_sheet_walk_2: -4139829525012540399
+      Aru_sheet_walk_3: 3743742220954424422
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
