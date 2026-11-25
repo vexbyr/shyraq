@@ -5,11 +5,10 @@ using TMPro;
 
 // Один на сцену: считает звёзды, открывает ворота, в конце уровня сохраняет результат и показывает итоги.
 // Сколько звёзд нужно и какой уровень следующий — из LevelData (GameSession.CurrentLevel, ставит LevelLoader).
+// Объект с этим скриптом помечен тегом GameController: так его находят PlayerPickups и Boss.
 public class LevelManager : MonoBehaviour
 {
-    public static LevelManager instance;   // «сам себя» — чтобы другие скрипты нашли его как LevelManager.instance
-
-    public Gate gate;                      // ворота этого уровня
+    public Gate gate;                     // ворота этого уровня
     public TMP_Text starText;              // счётчик звёзд в HUD
     public SpriteRenderer sky;             // картинка неба; ночью она затемнена цветом, в конце светлеет
     public GameObject starsInSky;          // уровень с боссом: звёзды на небе (выключены до победы)
@@ -24,11 +23,6 @@ public class LevelManager : MonoBehaviour
     int starsTotal;
     int starsCollected;
     bool finished;                         // уровень уже пройден — ворота второй раз не срабатывают
-
-    void Awake()
-    {
-        instance = this;
-    }
 
     void Start()
     {

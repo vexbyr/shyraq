@@ -8,23 +8,29 @@ public class PlayerPickups : MonoBehaviour
     [SerializeField] AudioClip[] oilClips;
 
     Lantern lantern;
+    LevelManager levelManager;                    // находим один раз в Start по тегу GameController
 
     void Awake()
     {
         lantern = GetComponent<Lantern>();
     }
 
+    void Start()
+    {
+        levelManager = GameObject.FindWithTag("GameController").GetComponent<LevelManager>();
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Coin"))              // звезда
         {
-            LevelManager.instance.AddStar();
+            levelManager.AddStar();
             sfx.Play(starClips);
             Destroy(other.gameObject);
         }
         else if (other.CompareTag("Exit"))         // проход ворот
         {
-            LevelManager.instance.ReachExit();
+            levelManager.ReachExit();
         }
     }
 

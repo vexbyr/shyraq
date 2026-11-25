@@ -50,6 +50,7 @@ public class Boss : Lightable
     BoxCollider2D beamCollider;            // луч Ару: от его длины считается длина аркана
     int lassoSide = -1;                    // куда бросок: -1 влево, 1 вправо (выбирается в начале замаха)
     Camera cam;
+    LevelManager levelManager;             // ему сообщаем о победе; находим в Start по тегу GameController
 
     void Awake()
     {
@@ -67,6 +68,7 @@ public class Boss : Lightable
         player = GameObject.FindWithTag("Player").transform;
         beamCollider = player.GetComponentInChildren<LightBeam>(true).GetComponent<BoxCollider2D>();
         cam = Camera.main;
+        levelManager = GameObject.FindWithTag("GameController").GetComponent<LevelManager>();
         pointA = transform.position;
         hp = stats.maxHP;
         attackTimer = stats.cooldownTime;
@@ -153,7 +155,7 @@ public class Boss : Lightable
 
         if (hp <= 0)
         {
-            LevelManager.instance.BossDefeated();
+            levelManager.BossDefeated();
             gameObject.SetActive(false);   // босс исчезает
         }
         return true;
