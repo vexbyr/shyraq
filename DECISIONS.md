@@ -51,5 +51,22 @@ The agent hid the star on the menu logo with an Image "Filled" trick. It worked,
 **2026-11-24 - Phone test**
 I built the APK and tested it on an Android phone. I finished Level 1, changed the music and SFX volume, closed the app completely and opened it again. Level 2 was still unlocked and the volume settings were restored.
 
-**2026-11-25 - Sound**
-The first music and sounds were synthesized with a Python script, and they sounded bad. I moved the sound effects to ElevenLabs Sound Effects and the music to ElevenLabs Music via Higgsfield. The music tracks are 30 seconds long instead of 60, because that is what my credits allowed. The sound effects are on the ElevenLabs Free plan, so they can only be used for non-commercial projects, which is fine for a course project.
+## Week 12: Sound Pass (A12)
+
+**2026-11-24**
+I asked the agent to make all sounds with a Python script, with no downloads. I listened to them and they sounded fake and cheap, nothing like the steppe mood of the game. I switched to the ElevenLabs tool and regenerated every sound from text prompts (wolf growl, camel snort, crystal chime for the star, dombra for the music). I also chose the sound style myself: game-like, not realistic.
+
+**2026-11-24**
+For the boss I asked for a lasso sound, but the first version was a sword being drawn. I changed the prompt to a cartoon-style whirling lasso and a separate snap sound for the throw, because the boss attacks with a lasso, not a sword.
+
+**2026-11-24**
+The agent wanted to skip the beam attack sound, because the lantern beam only freezes enemies and does not damage them. I did not want to lose the sound, so I told it to play it when a Zharqyl hit lands on an enemy that survives. When the enemy dies, a separate dispel sound plays.
+
+**2026-11-24**
+The agent suggested playing the enemy dispel sound on the enemy itself. The sound was cut off when the enemy was destroyed. The other option, PlayClipAtPoint, creates a source without a mixer group, which breaks the requirement that every source goes through the mixer. I told the agent to play it through the player's SfxPlayer instead.
+
+**2026-11-25**
+The level restarted after death with a fixed timer, and the death animation could be cut in the middle. I asked the agent to remove the timer and call RestartLevel from an Animation Event on the last frame of the death animation. Now the restart always comes after the animation.
+
+**2026-11-25**
+On death I heard two sounds at once: the death sound and the lose jingle. I replaced the death sound with my own voice recording and removed the separate lose jingle. In my game death restarts the level at once, so death and lose are the same moment and one sound is clearer. I also replaced the win sound with a simpler, shorter one, because the first version was too long.
