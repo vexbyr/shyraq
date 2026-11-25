@@ -44,8 +44,9 @@ public class LevelLoader : MonoBehaviour
 
     void SpawnEnemies(LevelData level)
     {
-        foreach (EnemySpawn spawn in level.enemies)
+        for (int i = 0; i < level.enemies.Count; i++)
         {
+            EnemySpawn spawn = level.enemies[i];
             GameObject enemy = Instantiate(spawn.prefab, spawn.position, Quaternion.identity, transform);
 
             // Свой маршрут патруля (если задан): Enemy сам решает, что с ним делать
@@ -57,8 +58,9 @@ public class LevelLoader : MonoBehaviour
     void SpawnPickups(LevelData level)
     {
         int stars = 0;
-        foreach (PickupSpawn spawn in level.pickups)
+        for (int i = 0; i < level.pickups.Count; i++)
         {
+            PickupSpawn spawn = level.pickups[i];
             GameObject pickup = Instantiate(spawn.prefab, spawn.position, Quaternion.identity, transform);
             if (pickup.CompareTag("Coin")) stars++;
         }

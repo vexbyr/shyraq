@@ -42,9 +42,9 @@ public class SaveData
     // Рекорд уровня или null, если уровень ещё ни разу не пройден
     public LevelRecord GetRecord(int levelNumber)
     {
-        foreach (LevelRecord record in levelRecords)
+        for (int i = 0; i < levelRecords.Count; i++)
         {
-            if (record.levelNumber == levelNumber) return record;
+            if (levelRecords[i].levelNumber == levelNumber) return levelRecords[i];
         }
         return null;
     }
@@ -82,7 +82,7 @@ public class SaveData
     public void UpdateTotalScore()
     {
         totalBestScore = 0;
-        foreach (LevelRecord record in levelRecords) totalBestScore += record.bestScore;
+        for (int i = 0; i < levelRecords.Count; i++) totalBestScore += levelRecords[i].bestScore;
     }
 }
 
