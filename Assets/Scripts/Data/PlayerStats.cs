@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Баланс Ай: движение, здоровье, фонарь и Жарқыл.
+// Баланс Ару: движение, здоровье, фонарь и Жарқыл.
 // Масло в начале уровня задаёт уровень (LevelData), здесь — только максимум и расход.
 [CreateAssetMenu(fileName = "Player_Stats", menuName = "Shyraq/Player Stats")]
 public class PlayerStats : ScriptableObject
@@ -18,7 +18,7 @@ public class PlayerStats : ScriptableObject
     [Min(1)] public int maxHP = 3;
     [Tooltip("Неуязвимость после удара, секунд")]
     [Min(0f)] public float invincibleTime = 1.5f;
-    [Tooltip("Скорость вверх, с которой Ай подбрасывает от удара")]
+    [Tooltip("Скорость вверх, с которой Ару подбрасывает от удара")]
     [Min(0f)] public float hurtBounce = 8f;
 
     [Header("Фонарь и масло")]

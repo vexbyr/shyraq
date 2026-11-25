@@ -1,9 +1,9 @@
 using UnityEngine;
 
-// Албасты — дух-стрелок. Стоит на месте, целится в Ай и стреляет сгустком тьмы.
+// Албасты — дух-стрелок. Стоит на месте, целится в Ару и стреляет сгустком тьмы.
 // Автомат состояний (enum State), переходы:
-//   Idle     → Aim      : видит Ай (близко, нет стены, сама в кадре камеры)
-//   Aim      → Idle     : Ай пропала из виду — прицел сброшен
+//   Idle     → Aim      : видит Ару (близко, нет стены, сама в кадре камеры)
+//   Aim      → Idle     : Ару пропала из виду — прицел сброшен
 //   Aim      → Shoot    : прошло windUpTime (числа — в ассете Albasty_Stats) (всё это время Албасты светится — видно, что сейчас выстрелит)
 //   Shoot    → Cooldown : снаряд создан (в Shoot она бывает ровно один кадр)
 //   Cooldown → Idle     : прошло cooldownTime
@@ -36,7 +36,7 @@ public class Albasty : Enemy
     Sprite normalSprite;         // спрайт из префаба
     Color normalColor;           // цвет из префаба
     Camera cam;
-    Collider2D playerCollider;   // целимся в центр коллайдера Ай
+    Collider2D playerCollider;   // целимся в центр коллайдера Ару
 
     protected override EnemyStats Stats() { return stats; }
 
@@ -98,7 +98,7 @@ public class Albasty : Enemy
         if (newState == State.Cooldown) timer = stats.cooldownTime;
     }
 
-    // Видит ли Ай: Албасты в кадре, Ай близко и между ними нет стены
+    // Видит ли Ару: Албасты в кадре, Ару близко и между ними нет стены
     bool CanSeePlayer()
     {
         if (playerCollider == null) return false;
@@ -108,7 +108,7 @@ public class Albasty : Enemy
         Vector2 toPlayer = (Vector2)playerCollider.bounds.center - eye;
         if (toPlayer.magnitude > stats.visionRange) return false;
 
-        facingRight = toPlayer.x > 0f;                      // поворачивается к Ай
+        facingRight = toPlayer.x > 0f;                      // поворачивается к Ару
 
         // Raycast только по слою Ground: попал во что-то — стена мешает
         RaycastHit2D hit = Physics2D.Raycast(eye, toPlayer.normalized, toPlayer.magnitude, groundLayer);

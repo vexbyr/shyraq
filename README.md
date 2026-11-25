@@ -1,6 +1,6 @@
 # Шырақ (Shyraq)
 
-2D-платформер для мобильных (landscape) на Unity 6. Девочка **Ай** с фонарём деда идёт через ночную казахскую степь, чтобы вернуть на небо звёзды, которые сорвали семь разбойников **Жеті қарақшы**. Сюжет основан на легенде о Темірқазық (Полярной звезде) и небесных конях Ақбозат и Көкбозат.
+2D-платформер для мобильных (landscape) на Unity 6. Девочка **Ару** с фонарём деда идёт через ночную казахскую степь, чтобы вернуть на небо звёзды, которые сорвали семь разбойников **Жеті қарақшы**. Сюжет основан на легенде о Темірқазық (Полярной звезде) и небесных конях Ақбозат и Көкбозат.
 
 - **Жанр:** 2D-платформер с механикой света.
 - **Платформа:** мобильные устройства (Android / iOS), только альбомная ориентация. В редакторе можно играть с клавиатуры или геймпада.
@@ -13,7 +13,7 @@
   - **Жарқыл** (FIRE) — снаряд света;
   - на луч и Жарқыл тратится **масло**; бутылки масла можно подбирать на уровне.
 - Цель уровня — собрать все **звёзды**, тогда открываются ворота на следующий уровень.
-- У Ай 3 HP, после урона она мигает. Двойной прыжок.
+- У Ару 3 HP, после урона она мигает. Двойной прыжок.
 - Уровни: Main Menu → Level 1 «Дала» (степь) → Level 2 «Сай» (ущелье и мазар) → Level 3 «Темірқазық» (босс — вожак Жеті қарақшы) → Win.
 - Босс прячется в тени: сначала сними тень лучом, потом бей Жарқылом. Во второй фазе он зовёт малых духов.
 
@@ -50,7 +50,7 @@
 | `Data/Stats/Spirit_Stats` | `EnemyStats` | HP, скорость и урон духа и малого духа |
 | `Data/Stats/Item_Values` | `ItemValues` | Масло из бутылочки и из малого духа, возрождение бутылочки на арене, урон шипов, сколько держится тайная тропа |
 | `Data/Stats/Score_Settings` | `ScoreSettings` | Очки за звезду, бонус за время, сколько бонуса теряется за секунду сверх целевого времени |
-| `Data/Levels/Level_01..03` | `LevelData` | Номер, название, сцена, следующий уровень, сколько звёзд нужно для ворот, масло на старте, целевое время, точка старта Ай, враги (префаб, позиция, маршрут) и предметы (звёзды, масло) |
+| `Data/Levels/Level_01..03` | `LevelData` | Номер, название, сцена, следующий уровень, сколько звёзд нужно для ворот, масло на старте, целевое время, точка старта Ару, враги (префаб, позиция, маршрут) и предметы (звёзды, масло) |
 
 `EnemyStats` содержит общие числа врагов. `ShadowWolfStats`, `AlbastyStats`, `BuraStats` и `BossStats` — его наследники и добавляют только свои числа.
 
@@ -115,26 +115,26 @@
 
 | Что | Файлы | Источник | Доработка |
 |---|---|---|---|
-| Ай: idle, ходьба, прыжок, падение, урон, поза с фонарём | `Assets/Art/Hero/Ai_*`, `Ai_sheet.png` | PixelLab (Create Image Pro, animate_image_pixminimax, edit_image_pixen) | Pillow: только сдвиг, нарезка, сборка листа; пиксели не перерисовывались |
-| Босс: idle, замах, бросок аркана | `Assets/Art/Boss/Boss_idle_0..1`, `Boss_attack_0..1` | PixelLab: дизайн — create_image_pixen, кадры — animate_image_pixminimax (один клип, 8 кадров) | Pillow: перекраска палитры, контур как у Ай, сдвиг ступнями вниз, 1 px ауры замаха |
+| Ару: idle, ходьба, прыжок, падение, урон, поза с фонарём | `Assets/Art/Hero/Aru_*`, `Aru_sheet.png` | PixelLab (Create Image Pro, animate_image_pixminimax, edit_image_pixen) | Pillow: только сдвиг, нарезка, сборка листа; пиксели не перерисовывались |
+| Босс: idle, замах, бросок аркана | `Assets/Art/Boss/Boss_idle_0..1`, `Boss_attack_0..1` | PixelLab: дизайн — create_image_pixen, кадры — animate_image_pixminimax (один клип, 8 кадров) | Pillow: перекраска палитры, контур как у Ару, сдвиг ступнями вниз, 1 px ауры замаха |
 | Босс: урон, тень, вторая фаза | `Assets/Art/Boss/Boss_hurt_0`, `Boss_shadow`, `Boss_phase2` | Перекраска `Boss_idle_0` скриптом Pillow | Урон и тень — только цвет; фаза 2 — красные глаза и звёзды, осколки-звёзды вокруг (Pillow) |
-| Көлеңке-қасқыр: обычный, замах, укус, заморожен | `Assets/Art/Enemies/ShadowWolf_*` | PixelLab: дизайн — create_image_pixen, замах и укус — animate_image_pixminimax | Pillow: перекраска, контур как у Ай, аура замаха, сдвиг; заморозка — перекраска обычного кадра |
+| Көлеңке-қасқыр: обычный, замах, укус, заморожен | `Assets/Art/Enemies/ShadowWolf_*` | PixelLab: дизайн — create_image_pixen, замах и укус — animate_image_pixminimax | Pillow: перекраска, контур как у Ару, аура замаха, сдвиг; заморозка — перекраска обычного кадра |
 | Албасты: обычная, прицел, заморожена | `Assets/Art/Enemies/Albasty_*` | PixelLab: дизайн — create_image_pixen, прицел — animate_image_pixminimax | Pillow: перекраска глаз и свечения, аура прицела; заморозка — перекраска обычного кадра |
 | Қара бура: обычный, подготовка, разбег, оглушён, заморожен | `Assets/Art/Enemies/Bura_*` | PixelLab: дизайн — create_image_pixen, подготовка и разбег — animate_image_pixminimax | Pillow: перекраска глаза, аура, полосы скорости; оглушён и заморожен — Pillow поверх обычного кадра |
 | Снаряд Албасты (2 кадра) | `Assets/Art/Enemies/AlbastyProjectile_0..1` | Свой код Python + Pillow, без генеративных моделей | — |
 | Духи: обычный, малый, заморожены | `Assets/Art/Enemies/Spirit_normal`, `Spirit_frozen`, `Spirit_small`, `Spirit_small_frozen` | PixelLab: дух — create_image_pixen, малый дух — edit_image_pixen (перерисован в 32x32) | Pillow: полупрозрачный низ, багровая палитра малого духа, заморозка — перекраска |
-| Иконка приложения | `Assets/Art/UI/AppIcon_512` | Свой код Python + Pillow; фигура Ай — кадр `Ai_aim_0` (PixelLab) | — |
+| Иконка приложения | `Assets/Art/UI/AppIcon_512` | Свой код Python + Pillow; фигура Ару — кадр `Aru_aim_0` (PixelLab) | — |
 | Тайлы всех уровней, фоны, декор (юрта, балбал, кулпытас, мазар, кол Темірқазық, кони) | `Assets/Art/Tiles`, `Backgrounds`, `Props` | Свой код Python + Pillow, без генеративных моделей | — |
 | Звёзды, масло, ворота, луч, Жарқыл, эффекты | `Assets/Art/Props`, `Light`, `FX` | Свой код Python + Pillow, без генеративных моделей | — |
 | UI: кнопки, стик, полоски масла и HP босса, панель паузы, логотип, свой пиксельный шрифт 5x7 | `Assets/Art/UI` | Свой код Python + Pillow, без генеративных моделей | — |
-| Общий стилевой проход врагов, духов и босса | `Assets/Art/Enemies`, `Assets/Art/Boss` | Скрипт Pillow | Контур как у Ай, одна палитра на персонажа (median cut, без дизеринга) |
+| Общий стилевой проход врагов, духов и босса | `Assets/Art/Enemies`, `Assets/Art/Boss` | Скрипт Pillow | Контур как у Ару, одна палитра на персонажа (median cut, без дизеринга) |
 | Лодка Level2 | `Assets/Art/Props/Boat` | Свой код Python + Pillow, без генеративных моделей (PixelLab не использовался) | — |
 | Вода реки Level2 (2 кадра) | `Assets/Art/Tiles/River_Water`, `River_Water_1` | Свой код Python + Pillow, без генеративных моделей | Второй кадр — тот же рисунок, сдвинутый по кругу на 16 px |
 | Шипы | `Assets/Art/Props/Thorn` | Свой код Python + Pillow, без генеративных моделей | Трава из палитры `Ground_top` |
-| Greybox: физический материал `NoFriction` (на Ай) и старые спрайты-заглушки | `Assets/Greybox/` | Созданы в проекте (см. `AI_LOG.txt`) | Заглушки в игре больше не используются (кроме `Square` — красная подсветка зоны аркана босса); папка оставлена из-за физического материала |
+| Greybox: физический материал `NoFriction` (на Ару) и старые спрайты-заглушки | `Assets/Greybox/` | Созданы в проекте (см. `AI_LOG.txt`) | Заглушки в игре больше не используются (кроме `Square` — красная подсветка зоны аркана босса); папка оставлена из-за физического материала |
 | `circle.png`, `square.png` | `Assets/Art/` | Из шаблона Unity (Universal 2D), мной не менялись | — |
 
-- Для эскизов Ай в PixelLab использовался референс `Assets/Art/Reference/Ai_reference.png` (в репозиторий не входит, папка в `.gitignore`). Референс сгенерирован в Gemini c ChatGPT и использован только как ориентир при создании эскизов, в игре его нет.
+- Для эскизов Ару в PixelLab использовался референс `Assets/Art/Reference/Aru_reference.png` (в репозиторий не входит, папка в `.gitignore`). Референс сгенерирован в Gemini c ChatGPT и использован только как ориентир при создании эскизов, в игре его нет.
 - Папка Assets/TextMesh Pro импортирована из Unity (Import TMP Essentials), шейдеры оттуда не мои.
 
 **Шрифт.** LiberationSans из TextMesh Pro Essentials, лицензия SIL OFL 1.1 (`Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt`).
@@ -148,15 +148,15 @@
 
 | Файл (`Assets/Audio/`) | Для чего | Источник | Лицензия |
 |---|---|---|---|
-| `SFX/jump_01.wav, jump_02.wav, jump_03.wav` | Прыжок Ай (случайный из трёх) | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
-| `SFX/hit_01.wav, hit_02.wav` | Урон по Ай (без вскрика) | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
+| `SFX/jump_01.wav, jump_02.wav, jump_03.wav` | Прыжок Ару (случайный из трёх) | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
+| `SFX/hit_01.wav, hit_02.wav` | Урон по Ару (без вскрика) | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/pickup_star_01.wav … pickup_star_03.wav` | Звезда собрана | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/windup_wolf.wav` | Замах Көлеңке-қасқыр | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/windup_albasty.wav` | Прицел Албасты | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/windup_bura.wav` | Замах Қара бура | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/windup_boss.wav` | Замах аркана босса | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/windup_spirit.wav` | Не используется: дух не замахивается, кусает касанием | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
-| `SFX/death_bruh.mp3` | Смерть Ай — «bruh» (без изменения высоты) | own voice recording by Almasbek | own work, CC0 |
+| `SFX/death_bruh.mp3` | Смерть Ару — «bruh» (без изменения высоты) | own voice recording by Almasbek | own work, CC0 |
 | `SFX/win.wav` | Уровень пройден, босс побеждён | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/ui_click.wav` | Нажатие любой кнопки | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |
 | `SFX/beam_glow.wav` | Луч фонаря включился | [ElevenLabs](https://elevenlabs.io) Sound Effects, generated from my text prompt | ElevenLabs Free plan: non-commercial use only ([Terms of Use](https://elevenlabs.io/terms-of-use) §1(c)); credited anyway |

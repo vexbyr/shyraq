@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pausePanel;        // затемнение + окно с кнопками
-    public PlayerInput playerInput;      // на паузе выключаем управление Ай
+    public PlayerInput playerInput;      // на паузе выключаем управление Ару
     [SerializeField] AudioMixerSnapshot normalSnapshot;
     [SerializeField] AudioMixerSnapshot pausedSnapshot;
     [SerializeField] float snapshotTime = 0.2f;   // за сколько секунд меняется звук

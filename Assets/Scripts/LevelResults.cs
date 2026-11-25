@@ -5,7 +5,7 @@ using TMPro;
 
 // Экран «уровень пройден» (в HUD каждого уровня). Показывает звёзды, время, очки и «New best!».
 // Кнопки: Next level — следующий уровень из LevelData, Level select — главное меню с окном выбора уровня.
-// Пока экран открыт, игра стоит (Time.timeScale = 0) и управление Ай выключено, как в паузе.
+// Пока экран открыт, игра стоит (Time.timeScale = 0) и управление Ару выключено, как в паузе.
 public class LevelResults : MonoBehaviour
 {
     [SerializeField] TMP_Text statsText;       // звёзды, время, очки

@@ -94,20 +94,20 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        if (dead) return;                 // Update вызывает Die каждый кадр, пока Ай ниже fallY
+        if (dead) return;                 // Update вызывает Die каждый кадр, пока Ару ниже fallY
         dead = true;
 
         playerInput.DeactivateInput();    // кнопки больше не работают
         StopAllCoroutines();              // мигание после удара больше не нужно
-        sr.enabled = true;                // а то Ай может остаться невидимой
+        sr.enabled = true;                // а то Ару может остаться невидимой
         lantern.enabled = false;          // фонарь гаснет: луч выключаем сами, Update фонаря больше не идёт
         lantern.beam.SetActive(false);
-        anim.SetBool("Aiming", false);    // иначе переход Any State → Aim выбьет Ай из анимации смерти
+        anim.SetBool("Aiming", false);    // иначе переход Any State → Aim выбьет Ару из анимации смерти
         sfx.PlayClip(deathClip);
         anim.SetTrigger("Die");           // Any State → Die, обратно не выходит
     }
 
-    // Вызывает Animation Event на последнем кадре клипа Ai_Death
+    // Вызывает Animation Event на последнем кадре клипа Aru_Death
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);   // начать уровень заново

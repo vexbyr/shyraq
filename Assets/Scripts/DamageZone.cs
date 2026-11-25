@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Зона урона аркана босса. Пока Ай внутри — получает урон (stats.damage из Boss_Stats).
+// Зона урона аркана босса. Пока Ару внутри — получает урон (stats.damage из Boss_Stats).
 // Повторные удары гасит неуязвимость в PlayerHealth.
 public class DamageZone : MonoBehaviour
 {

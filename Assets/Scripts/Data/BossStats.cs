@@ -23,7 +23,7 @@ public class BossStats : EnemyStats
     [Min(0f)] public float lassoActiveTime = 0.5f;
     [Tooltip("Ближний край зоны удара от центра босса, единиц")]
     [Min(0f)] public float lassoInnerEdge = 1.5f;
-    [Tooltip("Длина аркана = эта доля от длины луча Ай")]
+    [Tooltip("Длина аркана = эта доля от длины луча Ару")]
     [Range(0f, 2f)] public float lassoBeamFraction = 0.85f;
 
     [Header("Малые духи (фаза 2)")]
