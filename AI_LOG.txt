@@ -162,8 +162,6 @@
 
 Итог: при смерти звучит только death_bruh, звука проигрыша нет; уровень начинается заново событием RestartLevel на последнем кадре анимации смерти.
 
-Проверено скриптом агента в Play через MCP (я сам не повторял)
-- Level1: смерть → death_bruh с высотой 1, другого звука нет, уровень перезапустился через 1,67 с, ошибок в Console нет.
 
-Проверено руками
-- (to be filled by me)
+
+Checked by hand: sound events on the phone (jump, pickup, hit, enemy wind-up, death, UI click, win); music crossfade menu to level; ears test; pause snapshot; volume sliders saved after a full app restart; death animation and level restart.
