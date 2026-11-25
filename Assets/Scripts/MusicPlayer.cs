@@ -41,7 +41,7 @@ public class MusicPlayer : MonoBehaviour
 
         if (fadeTimer > 0f)
         {
-            fadeTimer -= Time.unscaledDeltaTime;          // unscaled: на паузе (timeScale = 0) переход не замирает
+            fadeTimer -= Time.deltaTime;                  // музыка меняется только при смене сцены, а перед LoadScene timeScale всегда 1
             float t = 1f - fadeTimer / fadeTime;          // 0 → 1 за fadeTime секунд
             if (t > 1f) t = 1f;
             current.volume = t;
