@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 // HP, мигание после урона, смерть = перезапуск уровня.
 // Смерть: управление выключено, звук смерти («bruh»), анимация Die.
-// Уровень начинается заново, когда анимация смерти доиграет: на её последнем кадре стоит
-// Animation Event → RestartLevel (метод на этом же объекте, где Animator).
+// Уровень начинается заново, когда анимация смерти доиграет: Die() через Invoke
+// вызывает RestartLevel спустя deathClipLength секунд.
 // HP, неуязвимость и отскок от удара — в ассете Player_Stats.
 public class PlayerHealth : MonoBehaviour
 {
@@ -18,6 +18,7 @@ public class PlayerHealth : MonoBehaviour
     public Sprite heartEmpty;             // пустое сердце
     [SerializeField] PlayerInput playerInput;   // после смерти выключаем управление
     [SerializeField] Lantern lantern;           // после смерти фонарь гаснет
+    [SerializeField] float deathClipLength = 1.6667f;   // через сколько секунд после смерти перезапуск: Aru_Death доходит до последнего кадра (10 кадров / 6 fps)
 
     [Header("Звук")]
     [SerializeField] SfxPlayer sfx;
@@ -104,11 +105,12 @@ public class PlayerHealth : MonoBehaviour
         lantern.beam.SetActive(false);
         anim.SetBool("Aiming", false);    // иначе переход Any State → Aim выбьет Ару из анимации смерти
         sfx.PlayClip(deathClip);
-        anim.SetTrigger("Die");           // Any State → Die, обратно не выходит
+        anim.SetBool("Dead", true);       // Any State → Die, обратно не выходит (Dead больше не сбрасываем)
+        Invoke(nameof(RestartLevel), deathClipLength);   // перезапуск, когда анимация смерти доиграет
     }
 
-    // Вызывает Animation Event на последнем кадре клипа Aru_Death
-    public void RestartLevel()
+    // Вызывает Invoke из Die
+    void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);   // начать уровень заново
     }
