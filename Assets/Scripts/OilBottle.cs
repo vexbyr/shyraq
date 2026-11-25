@@ -31,7 +31,7 @@ public class OilBottle : MonoBehaviour
             // Не удаляем объект, а прячем: выключаем картинку и коллайдер
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
-            Invoke("Respawn", itemValues.oilRespawnTime);   // через oilRespawnTime секунд Unity вызовет Respawn()
+            Invoke(nameof(Respawn), itemValues.oilRespawnTime);   // через oilRespawnTime секунд Unity вызовет Respawn()
         }
         else
         {

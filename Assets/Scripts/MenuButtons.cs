@@ -6,8 +6,11 @@ public class MenuButtons : MonoBehaviour
 {
     public void Quit()
     {
+#if UNITY_EDITOR
         Debug.Log("Quit");               // в редакторе Quit ничего не делает, поэтому пишем в Console
+#else
         Application.Quit();              // на телефоне закрывает игру
+#endif
     }
 
     public void ToMenu()
