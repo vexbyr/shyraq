@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Шипы. Пока Ай касается их — урон (itemValues.thornDamage).
+// Шипы. Пока Ару касается их — урон (itemValues.thornDamage).
 // Повторные удары гасит неуязвимость в PlayerHealth.
 // На объекте: SpriteRenderer + Collider2D (Is Trigger).
 public class Thorn : MonoBehaviour

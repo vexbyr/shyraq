@@ -5,7 +5,7 @@ using UnityEngine;
 public class BuraStats : EnemyStats
 {
     [Header("Разбег")]
-    [Tooltip("Ай выше или ниже этого — не начинает замах")]
+    [Tooltip("Ару выше или ниже этого — не начинает замах")]
     [Min(0f)] public float maxHeightDifference = 3f;
     [Tooltip("Скорость разбега, единиц в секунду")]
     [Min(0f)] public float chargeSpeed = 10f;

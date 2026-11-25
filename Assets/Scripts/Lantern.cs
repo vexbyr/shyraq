@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-// Фонарь Ай: луч (удержание LIGHT), Жарқыл (FIRE), масло.
+// Фонарь Ару: луч (удержание LIGHT), Жарқыл (FIRE), масло.
 // Максимум и расход масла, цена и пауза Жарқыла — в ассете Player_Stats.
 // Висит на Player рядом с PlayerController: PlayerInput присылает OnMove/OnLight/OnFire всем скриптам объекта.
 public class Lantern : MonoBehaviour
@@ -67,7 +67,7 @@ public class Lantern : MonoBehaviour
 
     void Update()
     {
-        // 1. Точка фонаря всегда с той стороны, куда смотрит Ай
+        // 1. Точка фонаря всегда с той стороны, куда смотрит Ару
         float side = player.facingRight ? 1f : -1f;
         lanternPoint.localPosition = new Vector3(0.6f * side, 1f, 0f);
 

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // Один и тот же скрипт во всех сценах уровней. В Awake (до всех Start) читает LevelData и:
-// ставит Ай на точку старта, наливает масло, создаёт врагов и предметы.
+// ставит Ару на точку старта, наливает масло, создаёт врагов и предметы.
 // Какой уровень — берёт из GameSession.CurrentLevel (выбран в меню).
 // Если сцену запустили прямо в редакторе — берёт свой уровень sceneLevel.
 // Объект LevelLoader должен стоять в (0, 0, 0): созданные объекты — его дети.
@@ -34,7 +34,7 @@ public class LevelLoader : MonoBehaviour
         return sceneLevel;
     }
 
-    // Ай уже есть в сцене (внутри Core вместе с HUD) — переносим её на старт и наливаем масло
+    // Ару уже есть в сцене (внутри Core вместе с HUD) — переносим её на старт и наливаем масло
     void PlacePlayer(LevelData level)
     {
         GameObject player = GameObject.FindWithTag("Player");

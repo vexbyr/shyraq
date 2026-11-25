@@ -1,10 +1,10 @@
 using UnityEngine;
 
-// Көлеңке-қасқыр — волк-тень. Ходит по земле, видит Ай, подкрадывается и кусает.
+// Көлеңке-қасқыр — волк-тень. Ходит по земле, видит Ару, подкрадывается и кусает.
 // Автомат состояний (enum State), переходы:
-//   Patrol  → Chase    : увидел Ай (Raycast до неё не упёрся в стену)
-//   Chase   → Patrol   : потерял Ай из виду
-//   Chase   → WindUp   : Ай ближе biteRange (числа — в ассете Wolf_Stats) и волк в кадре камеры — замах (видно: волк меняет цвет/спрайт и стоит)
+//   Patrol  → Chase    : увидел Ару (Raycast до неё не упёрся в стену)
+//   Chase   → Patrol   : потерял Ару из виду
+//   Chase   → WindUp   : Ару ближе biteRange (числа — в ассете Wolf_Stats) и волк в кадре камеры — замах (видно: волк меняет цвет/спрайт и стоит)
 //   WindUp  → Chase    : волк ушёл за край экрана — замах сброшен (из-за экрана не нападает)
 //   WindUp  → Bite     : прошло windUpTime — рывок вперёд, кусает только сейчас
 //   Bite    → Cooldown : прошло biteTime — стоит и отдыхает
@@ -105,7 +105,7 @@ public class ShadowWolf : Enemy
                     break;
                 }
                 float dx = player.position.x - transform.position.x;
-                facingRight = dx > 0f;                              // поворачивается к Ай
+                facingRight = dx > 0f;                              // поворачивается к Ару
                 if (Mathf.Abs(dx) <= stats.biteRange && IsOnScreen()) ChangeState(State.WindUp);   // из-за экрана не нападает
                 else Move(stats.chaseSpeed);                              // у края или стены просто стоит
                 break;
@@ -172,7 +172,7 @@ public class ShadowWolf : Enemy
         return true;
     }
 
-    // Видит ли волк Ай: близко, (в патруле — только в угле обзора впереди) и между ними нет стены
+    // Видит ли волк Ару: близко, (в патруле — только в угле обзора впереди) и между ними нет стены
     bool CanSeePlayer()
     {
         if (player == null) return false;
@@ -181,11 +181,11 @@ public class ShadowWolf : Enemy
         Vector2 toPlayer = (Vector2)playerCollider.bounds.center - eye;
 
         if (toPlayer.magnitude > stats.visionRange) return false;
-        // В патруле видит только в угле обзора перед мордой. В погоне волк сам поворачивается к Ай, угол не нужен
+        // В патруле видит только в угле обзора перед мордой. В погоне волк сам поворачивается к Ару, угол не нужен
         Vector2 forward = facingRight ? Vector2.right : Vector2.left;
         if (state == State.Patrol && Vector2.Angle(forward, toPlayer) > stats.viewAngle / 2f) return false;
 
-        // Raycast 3: луч от глаз к Ай только по слою Ground. Попал во что-то — значит, стена мешает
+        // Raycast 3: луч от глаз к Ару только по слою Ground. Попал во что-то — значит, стена мешает
         RaycastHit2D hit = Physics2D.Raycast(eye, toPlayer.normalized, toPlayer.magnitude, groundLayer);
         return hit.collider == null;
     }

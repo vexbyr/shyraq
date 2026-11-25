@@ -46,8 +46,8 @@ public class Boss : Lightable
     Rigidbody2D rb;
     Vector2 pointA;                        // правый конец патруля (старт)
     float patrolTimer;                     // идёт только в тени
-    Transform player;                      // Ай — к ней поворачивается аркан
-    BoxCollider2D beamCollider;            // луч Ай: от его длины считается длина аркана
+    Transform player;                      // Ару — к ней поворачивается аркан
+    BoxCollider2D beamCollider;            // луч Ару: от его длины считается длина аркана
     int lassoSide = -1;                    // куда бросок: -1 влево, 1 вправо (выбирается в начале замаха)
     Camera cam;
 
@@ -75,7 +75,7 @@ public class Boss : Lightable
         lassoZone.SetActive(false);
     }
 
-    // Ставим зону аркана на сторону lassoSide. Длина = доля от длины луча Ай (size.x коллайдера луча).
+    // Ставим зону аркана на сторону lassoSide. Длина = доля от длины луча Ару (size.x коллайдера луча).
     // Красная подсветка — на самой зоне, того же размера, переезжает вместе с ней
     void PlaceLassoZone()
     {
@@ -163,7 +163,7 @@ public class Boss : Lightable
     IEnumerator ThrowLasso()
     {
         attacking = true;
-        // Направление выбираем один раз — знак разницы X между Ай и боссом. До конца удара оно не меняется
+        // Направление выбираем один раз — знак разницы X между Ару и боссом. До конца удара оно не меняется
         lassoSide = (int)Mathf.Sign(player.position.x - transform.position.x);
         PlaceLassoZone();
         attackFrame = attackSprite0;

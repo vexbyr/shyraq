@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Ай подбирает предметы и заходит в ворота. Всё различаем по тегам.
+// Ару подбирает предметы и заходит в ворота. Всё различаем по тегам.
 public class PlayerPickups : MonoBehaviour
 {
     [SerializeField] SfxPlayer sfx;
@@ -28,7 +28,7 @@ public class PlayerPickups : MonoBehaviour
         }
     }
 
-    // Масло — в Stay, а не в Enter: если Ай стоит на бутылке с полным фонарём,
+    // Масло — в Stay, а не в Enter: если Ару стоит на бутылке с полным фонарём,
     // бутылка останется и подберётся, как только масло начнёт тратиться
     void OnTriggerStay2D(Collider2D other)
     {

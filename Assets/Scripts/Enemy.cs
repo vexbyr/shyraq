@@ -41,7 +41,7 @@ public abstract class Enemy : Lightable
     }
 
     // Попал Жарқыл (вызывает Flash).
-    // Звук играем через SfxPlayer Ай (тег Player): побеждённый враг сразу удаляется вместе со своим AudioSource,
+    // Звук играем через SfxPlayer Ару (тег Player): побеждённый враг сразу удаляется вместе со своим AudioSource,
     // и звук на нём оборвался бы. У духов своего AudioSource нет совсем.
     public void TakeHit(int damage)
     {

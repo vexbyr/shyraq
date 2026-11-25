@@ -49,7 +49,7 @@ public class Spirit : Enemy
         sr.sprite = IsLit() ? frozenSprite : normalSprite;   // ? : — «если в свете, то замёрзший, иначе обычный»
     }
 
-    // Пока Ай касается духа — урон (неуязвимость после удара делает PlayerHealth)
+    // Пока Ару касается духа — урон (неуязвимость после удара делает PlayerHealth)
     void OnTriggerStay2D(Collider2D other)
     {
         if (!enabled || IsLit()) return;                     // выключен (нет ассета) или замёрз — безопасен

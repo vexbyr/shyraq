@@ -2,14 +2,14 @@ using UnityEngine;
 
 // Қара бура — дух чёрного верблюда. Стоит, роет копытом и бросается в разбег по прямой.
 // Автомат состояний (enum State), переходы:
-//   Idle    → WindUp  : видит Ай (близко, не выше maxHeightDifference, нет стены, сам в кадре камеры)
-//   WindUp  → Idle    : Ай ушла за стену или Бура ушёл за экран (дальность и прыжок замах НЕ сбрасывают)
+//   Idle    → WindUp  : видит Ару (близко, не выше maxHeightDifference, нет стены, сам в кадре камеры)
+//   WindUp  → Idle    : Ару ушла за стену или Бура ушёл за экран (дальность и прыжок замах НЕ сбрасывают)
 //   WindUp  → Charge  : прошло windUpTime (всё это время он «роет копытом»: цвет/спрайт)
 //   Charge  → Stunned : Raycast нашёл стену или обрыв впереди, или прошло chargeMaxTime
 //   Stunned → Idle    : прошло cooldownTime (оглушение = перезарядка; числа — в ассете Bura_Stats)
 //   любое   → Frozen  : в луче фонаря (подготовка и разбег сброшены)
 //   Frozen  → Idle    : луч ушёл
-// Во время WindUp Бура поворачивается к Ай, направление разбега фиксируется в конце замаха
+// Во время WindUp Бура поворачивается к Ару, направление разбега фиксируется в конце замаха
 // и в разбеге уже не меняется — от него можно уйти или перепрыгнуть.
 // На объекте: SpriteRenderer, Rigidbody2D (Kinematic), BoxCollider2D (Is Trigger).
 public class Bura : Enemy
@@ -43,7 +43,7 @@ public class Bura : Enemy
     Sprite normalSprite;         // спрайт из префаба
     Color normalColor;           // цвет из префаба
     Camera cam;
-    Collider2D playerCollider;   // смотрим в центр коллайдера Ай
+    Collider2D playerCollider;   // смотрим в центр коллайдера Ару
 
     protected override EnemyStats Stats() { return stats; }
 
@@ -81,7 +81,7 @@ public class Bura : Enemy
                 if (!ClearView()) ChangeState(State.Idle);
                 else
                 {
-                    facingRight = PlayerIsRight();                      // смотрит на Ай, пока роет копытом
+                    facingRight = PlayerIsRight();                      // смотрит на Ару, пока роет копытом
                     if (timer <= 0f) ChangeState(State.Charge);         // в конце замаха направление зафиксировано
                 }
                 break;
@@ -130,7 +130,7 @@ public class Bura : Enemy
         return playerCollider.bounds.center.x > transform.position.x;
     }
 
-    // Начать замах: ничто не мешает, Ай близко и не слишком высоко над / под Бурой
+    // Начать замах: ничто не мешает, Ару близко и не слишком высоко над / под Бурой
     bool CanSeePlayer()
     {
         if (!ClearView()) return false;
@@ -139,7 +139,7 @@ public class Bura : Enemy
         return Mathf.Abs(toPlayer.y) <= stats.maxHeightDifference;
     }
 
-    // Ничто не мешает: Бура в кадре и между его глазами и Ай нет стены (дальность и высота не важны)
+    // Ничто не мешает: Бура в кадре и между его глазами и Ару нет стены (дальность и высота не важны)
     bool ClearView()
     {
         if (playerCollider == null) return false;
@@ -156,7 +156,7 @@ public class Bura : Enemy
         return (Vector2)transform.position + Vector2.up * eyeHeight;
     }
 
-    // Вектор от глаз Буры к центру коллайдера Ай
+    // Вектор от глаз Буры к центру коллайдера Ару
     Vector2 ToPlayer()
     {
         return (Vector2)playerCollider.bounds.center - Eye();

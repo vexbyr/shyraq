@@ -3,8 +3,8 @@ using UnityEngine;
 // Камера плавно едет за игроком и не выходит за края уровня.
 public class CameraFollow : MonoBehaviour
 {
-    public Transform target;                          // Ай
-    public Vector3 offset = new Vector3(0f, 2f, -10f);   // позиция Ай = ноги, поэтому камеру поднимаем на 2; z = -10, чтобы камера видела сцену
+    public Transform target;                          // Ару
+    public Vector3 offset = new Vector3(0f, 2f, -10f);   // позиция Ару = ноги, поэтому камеру поднимаем на 2; z = -10, чтобы камера видела сцену
     public float smooth = 5f;                         // больше = быстрее догоняет
 
     [Header("Края уровня по X (левый и правый край земли)")]

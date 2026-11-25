@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Ай: ходьба, двойной прыжок, проверка земли.
+// Ару: ходьба, двойной прыжок, проверка земли.
 // Ввод приходит от PlayerInput (Behavior = Send Messages): он сам вызывает OnMove и OnJump.
 public class PlayerController : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] SfxPlayer sfx;
     [SerializeField] AudioClip[] jumpClips;
 
-    [HideInInspector] public bool facingRight = true;   // куда смотрит Ай (читает фонарь)
+    [HideInInspector] public bool facingRight = true;   // куда смотрит Ару (читает фонарь)
 
     Rigidbody2D rb;
     SpriteRenderer sr;
